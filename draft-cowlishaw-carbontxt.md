@@ -19,35 +19,47 @@
 # Change the file extension to match the format (.xml for XML, etc...)
 #
 ###
-title: "TODO - Your title"
-abbrev: "TODO - Abbreviation"
+title: "carbon.txt: A transparency protocol for public sustainability data"
+abbrev: "carbon.txt"
 category: info
 
-docname: draft-todo-yourname-protocol-latest
+docname: draft-cowlishaw-carbontxt-latest
 submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
 number:
 date:
 consensus: true
 v: 3
-area: AREA
-workgroup: WG Working Group
+# area: AREA
+# workgroup: WG Working Group
 keyword:
- - next generation
- - unicorn
- - AI-native
-venue:
-  group: WG
-  type: Working Group
-  mail: WG@example.com
-  arch: https://example.com/WG
-  github: USER/REPO
-  latest: https://example.com/LATEST
+ - sustainability
+ - transparency
+ - web
+ venue:
+   github: thegreenwebfoundation/carbon-txt-internet-draft
+   latest: https://thegreenwebfoundation.github.io/carbon-txt-internet-draft/
+#   group: WG
+#   type: Working Group
+#   mail: WG@example.com
+#   arch: https://example.com/WG
 
 author:
  -
-    fullname: Your Name Here
-    organization: Your Organization Here
-    email: your.email@example.com
+    fullname: Tim Cowlishaw
+    organization: The Green Web Foundation
+    email: tim@greenweb.org
+ -
+    fullname: Chris Adams
+    organization: The Green Web Foundation
+    email: chris@greenweb.org
+ -
+    fullname: Hannah Smith
+    organization: The Green Web Foundation
+    email: hannah@greenweb.org
+ -
+    fullname: Fershad Irani
+    organization: The Green Web Foundation
+    email: fershad@greenweb.org
 
 normative:
 
