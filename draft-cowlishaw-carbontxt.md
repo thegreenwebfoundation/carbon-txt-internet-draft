@@ -35,7 +35,7 @@ keyword:
  - sustainability
  - transparency
  - web
- venue:
+venue:
    github: thegreenwebfoundation/carbon-txt-internet-draft
    latest: https://thegreenwebfoundation.github.io/carbon-txt-internet-draft/
 #   group: WG
