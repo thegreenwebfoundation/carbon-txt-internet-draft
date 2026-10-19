@@ -164,7 +164,9 @@ Table of Contents
 
 4.  File format
 
-   TODO file format
+   A carbon.txt file MUST be valid TOML as specified in [TOML].
+   Comments (lines beginning with #) are permitted and SHOULD be ignored
+   by parsers.
 
 5.  Schema
 
@@ -190,6 +192,10 @@ Table of Contents
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
+
+   [TOML]     Preston-Werner, T. and P. Gedam, "TOML: Tom's Obvious,
+              Minimal Language, Version 1.0.0", 1 November 2021,
+              <https://toml.io/en/v1.0.0>.
 
 8.2.  Informative References
 
