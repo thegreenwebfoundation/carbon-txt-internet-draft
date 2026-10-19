@@ -1158,12 +1158,15 @@ svg {
             <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1">
-                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-design-principles" class="internal xref">Design principles:</a></p>
+                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-relationship-to-other-work" class="internal xref">Relationship to other work</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.2">
+                <p id="section-toc.1-1.1.2.2.1" class="keepWithNext"><a href="#section-1.2" class="auto internal xref">1.2</a>.  <a href="#name-design-principles" class="internal xref">Design principles:</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
-            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-conventions-and-definitions" class="internal xref">Conventions and Definitions</a></p>
+            <p id="section-toc.1-1.2.1"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-conventions-and-definitions" class="internal xref">Conventions and Definitions</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
             <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-discovery-mechanism" class="internal xref">Discovery mechanism</a></p>
@@ -1200,23 +1203,31 @@ svg {
       </h2>
 <p id="section-1-1">Organisations increasingly publish sustainability information relevant to their digital operations — Impact reports, energy mix disclosures and guarantees of origin, regulatory filings under frameworks such as the EU Corporate Sustainability Reporting Directive (CSRD), and measurements of CO2 impact;  but this information is scattered across PDFs, web pages, and third-party registries with no standard way for a client to discover it programmatically.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">The carbon.txt convention addresses this by providing a single, predictable location on an origin where a machine-readable index of those disclosures can be found. It is analogous to robots.txt for crawler instructions or security.txt for security contact information: a small file at a well-known path that tells a client where to look for structured information about the origin.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<div id="design-principles">
+<div id="relationship-to-other-work">
 <section id="section-1.1">
+        <h3 id="name-relationship-to-other-work">
+<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-relationship-to-other-work" class="section-name selfRef">Relationship to other work</a>
+        </h3>
+<p id="section-1.1-1">This document is complemenatry to the sustainability-data well-known URI proposal made by [draft-besleaga-sustainability-wellknown]. The sustainability-data draft outlines a mechanism for declaring the energy consumption, carbon footprint, and related environmental and sustainability metrics of an origin for different reporting periods, while this proposal explicitly considers the sharing of such metrics to be out of scope, concentrating instead on providing a mechanism for indexing sustianability disclosures (such we a sustanability-data declaration) related to an origin at a predicatble location. The two proposals compose cleanly: An implementation of carbon.txt may link to their sustainability-data as a disclosure, and a sustainability-data file may link back to carbon-txt via the disclosure-uri field.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="design-principles">
+<section id="section-1.2">
         <h3 id="name-design-principles">
-<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-design-principles" class="section-name selfRef">Design principles:</a>
+<a href="#section-1.2" class="section-number selfRef">1.2. </a><a href="#name-design-principles" class="section-name selfRef">Design principles:</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="section-1.1-1.1">
-            <p id="section-1.1-1.1.1">carbon.txt is an index, not a data store. It links to documents; it does not embed specific claims or measurements.<a href="#section-1.1-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-1.2-1.1">
+            <p id="section-1.2-1.1.1">carbon.txt is an index, not a data store. It links to documents; it does not embed specific claims or measurements.<a href="#section-1.2-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-1.1-1.2">
-            <p id="section-1.1-1.2.1">It is human-readable (TOML with comments) as well as machine-parseable.<a href="#section-1.1-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-1.2-1.2">
+            <p id="section-1.2-1.2.1">It is human-readable (TOML with comments) as well as machine-parseable.<a href="#section-1.2-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-1.1-1.3">
-            <p id="section-1.1-1.3.1">It is designed for incremental deployment. A minimal valid file can be as simple as a link to a single disclosure.<a href="#section-1.1-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-1.2-1.3">
+            <p id="section-1.2-1.3.1">It is designed for incremental deployment. A minimal valid file can be as simple as a link to a single disclosure.<a href="#section-1.2-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-1.1-1.4">
-            <p id="section-1.1-1.4.1">It does not in itself verify or guarantee the veracity of claims or disclosures, but provides mechanisms for third-party validation.<a href="#section-1.1-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-1.2-1.4">
+            <p id="section-1.2-1.4.1">It does not in itself verify or guarantee the veracity of claims or disclosures, but provides mechanisms for third-party validation.<a href="#section-1.2-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
