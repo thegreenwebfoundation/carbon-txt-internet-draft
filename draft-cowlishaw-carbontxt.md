@@ -63,13 +63,13 @@ The carbon.txt convention addresses this by providing a single, predictable loca
 ## Design principles:
 
 - carbon.txt is an index, not a data store. It links to documents; it does not embed specific claims or measurements.
-- It is human-readable (TOML with comments) as well as machine-parseable.
+- It is human-readable (TOML with comments) as well as machine-parsable.
 - It is designed for incremental deployment. A minimal valid file can be as simple as a link to a single disclosure.
 - It does not in itself verify or guarantee the veracity of claims or disclosures, but provides mechanisms for third-party validation.
 
 ## Relationship to other work
 
-This document is complemenatry to the sustainability-data well-known URI proposal made by {{I-D.draft-besleaga-sustainability-wellknown-09}}. The sustainability-data draft outlines a mechanism for declaring the energy consumption, carbon footprint, and related environmental and sustainability metrics of an origin for different reporting periods, while this proposal explicitly considers the sharing of such metrics to be out of scope, concentrating instead on providing a mechanism for indexing sustianability disclosures (such we a sustanability-data declaration) related to an origin at a predicatble location. The two proposals compose cleanly: An implementation of carbon.txt may link to their sustainability-data as a disclosure, and a sustainability-data file may link back to carbon-txt via the disclosure-uri field.
+This document is complementary to the sustainability-data well-known URI proposal made by {{I-D.draft-besleaga-sustainability-wellknown}}. The sustainability-data draft outlines a mechanism for declaring the energy consumption, carbon footprint, and related environmental and sustainability metrics of an origin for different reporting periods, while this proposal explicitly considers the sharing of such metrics to be out of scope, concentrating instead on providing a mechanism for indexing sustainability disclosures (such we a sustainability-data declaration) related to an origin at a predictable location. The two proposals compose cleanly: An implementation of carbon.txt may link to their sustainability-data as a disclosure, and a sustainability-data file may link back to carbon-txt via the disclosure-uri field.
 
 
 # Conventions and Definitions
