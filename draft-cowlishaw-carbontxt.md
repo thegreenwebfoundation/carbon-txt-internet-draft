@@ -42,7 +42,15 @@ author:
    email: fershad@greenweb.org
 
 normative:
-
+    TOML:
+        title: "TOML: Tom's Obvious, Minimal Language, Version 1.0.0"
+        target: https://toml.io/en/v1.0.0
+        date: 2021-11-01
+        author:
+          - ins: T. Preston-Werner
+            name: Tom Preston-Werner
+          - ins: P. Gedam
+            name: Pradyun Gedam
 informative:
 
 ...
@@ -90,7 +98,7 @@ TODO discovery mechanism
 
 # File format
 
-TODO file format
+A carbon.txt file MUST be valid TOML as specified in {{TOML}}. Comments (lines beginning with #) are permitted and SHOULD be ignored by parsers.
 
 # Schema
 
