@@ -4,7 +4,7 @@ abbrev: "carbon.txt"
 category: info
 
 docname: draft-cowlishaw-carbontxt-latest
-submissiontype: IET. # also: "independent", "editorial", "IAB", or "IRTF"
+submissiontype: IETF. # also: "independent", "editorial", "IAB", or "IRTF"
 number:
 date:
 consensus: true
@@ -25,21 +25,21 @@ venue:
 
 author:
  -
-.  fullname: Tim Cowlishaw
-.  organization: The Green Web Foundation
-.  email: tim@greenweb.org
+   fullname: Tim Cowlishaw
+   organization: The Green Web Foundation
+   email: tim@greenweb.org
  -
-.  fullname: Chris Adams
-.  organization: The Green Web Foundation
-.  email: chris@greenweb.org
+   fullname: Chris Adams
+   organization: The Green Web Foundation
+   email: chris@greenweb.org
  -
-.  fullname: Hannah Smith
-.  organization: The Green Web Foundation
-.  email: hannah@greenweb.org
+   fullname: Hannah Smith
+   organization: The Green Web Foundation
+   email: hannah@greenweb.org
  -
-.  fullname: Fershad Irani
-.  organization: The Green Web Foundation
-.  email: fershad@greenweb.org
+   fullname: Fershad Irani
+   organization: The Green Web Foundation
+   email: fershad@greenweb.org
 
 normative:
 
