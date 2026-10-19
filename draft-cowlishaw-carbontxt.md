@@ -16,12 +16,12 @@ keyword:
  - transparency
  - web
 venue:
-   github: thegreenwebfoundation/carbon-txt-internet-draft
-   latest: https://thegreenwebfoundation.github.io/carbon-txt-internet-draft/
-#   group: WG
-#   type: Working Group
-#   mail: WG@example.com
-#   arch: https://example.com/WG
+  github: "thegreenwebfoundation/carbon-txt-internet-draft"
+  latest: "https://thegreenwebfoundation.github.io/carbon-txt-internet-draft/draft-cowlishaw-carbontxt.html"
+#  group: WG
+#  type: Working Group
+#  mail: WG@example.com
+#  arch: https://example.com/WG
 
 author:
  -
