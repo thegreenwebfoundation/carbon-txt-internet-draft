@@ -4,7 +4,7 @@ abbrev: "carbon.txt"
 category: info
 
 docname: draft-cowlishaw-carbontxt-latest
-submissiontype: IETF. # also: "independent", "editorial", "IAB", or "IRTF"
+submissiontype: IETF # also: "independent", "editorial", "IAB", or "IRTF"
 number:
 date:
 consensus: true
