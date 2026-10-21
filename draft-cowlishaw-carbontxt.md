@@ -53,6 +53,7 @@ normative:
             name: Pradyun Gedam
 informative:
 
+
 ...
 
 --- abstract
@@ -66,7 +67,7 @@ This document specifies the carbon.txt convention, a machine-readable format for
 
 Organisations increasingly publish sustainability information relevant to their digital operations — Impact reports, energy mix disclosures and guarantees of origin, regulatory filings under frameworks such as the EU Corporate Sustainability Reporting Directive (CSRD), and measurements of CO2 impact;  but this information is scattered across PDFs, web pages, and third-party registries with no standard way for a client to discover it programmatically.
 
-The carbon.txt convention addresses this by providing a single, predictable location on an origin where a machine-readable index of those disclosures can be found. It is analogous to robots.txt for crawler instructions or security.txt for security contact information: a small file at a well-known path that tells a client where to look for structured information about the origin.
+The carbon.txt convention addresses this by providing a single, predictable location on an origin where a machine-readable index of those disclosures can be found. It is analogous to robots.txt {{?RFC9309}} for crawler instructions or security.txt {{?RFC9116}} for security contact information: a small file at a well-known path that tells a client where to look for structured information about the origin.
 
 ## Design principles:
 
@@ -90,11 +91,24 @@ Disclosure: A published document or resource that contains sustainability-relate
 
 Upstream service: A third-party provider whose services are used by the origin and whose sustainability disclosures may be relevant to the origin's environmental impact (e.g., hosting, CDN, analytics).
 
-carbon.txt file: A TOML document conforming to the schema defined in Section 5 of this specification.
+carbon.txt file: A TOML {{TOML}} document conforming to the schema defined in Section 5 of this specification.
 
 # Discovery mechanism
 
-TODO discovery mechanism
+A client MUST attempt to locate a carbon.txt file using the following mechanisms, in order. The client MUST stop at the first location that returns an HTTP 200 response with a parsable TOML body.
+
+## DNS TXT Record
+
+An origin MAY advertise the location of its carbon.txt file via a DNS TXT record in the format `carbon-txt-location=<FQDN_OR_URL>` on the domain, pointing either to another fully-qualified domain name, or an HTTPS URL of a carbon.txt file.
+If the DNS TXT record points to a fully-qualified domain name, the client MUST repeat this discovery process recursively for the linked domain. If the TXT record points to an HTTPS url, the client MUST attempt to fetch the carbon.txt file at that URL before continuing with the discovery process.
+
+## carbon.txt file at the domain root
+
+An origin MAY serve its carbon.txt file at the root of its domain, at the path `/carbon.txt`. If this file is present, it MUST return a HTTP 200 response with a parsable TOML body.
+
+
+## Design considerations
+
 
 # File format
 
