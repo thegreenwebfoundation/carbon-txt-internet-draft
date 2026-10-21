@@ -5,9 +5,9 @@
 Network Working Group                                       T. Cowlishaw
 Internet-Draft                                                  C. Adams
 Intended status: Informational                                  H. Smith
-Expires: 22 April 2027                                          F. Irani
+Expires: 24 April 2027                                          F. Irani
                                                 The Green Web Foundation
-                                                         19 October 2026
+                                                         21 October 2026
 
 
    carbon.txt: A transparency protocol for public sustainability data
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 April 2027.
+   This Internet-Draft will expire on 24 April 2027.
 
 Copyright Notice
 
@@ -79,6 +79,9 @@ Table of Contents
      1.2.  Relationship to other work
    2.  Conventions and Definitions
    3.  Discovery mechanism
+     3.1.  DNS TXT Record
+     3.2.  carbon.txt file at the domain root
+     3.3.  Design considerations
    4.  File format
    5.  Schema
    6.  Security Considerations
@@ -102,10 +105,11 @@ Table of Contents
 
    The carbon.txt convention addresses this by providing a single,
    predictable location on an origin where a machine-readable index of
-   those disclosures can be found.  It is analogous to robots.txt for
-   crawler instructions or security.txt for security contact
-   information: a small file at a well-known path that tells a client
-   where to look for structured information about the origin.
+   those disclosures can be found.  It is analogous to robots.txt
+   [RFC9309] for crawler instructions or security.txt [RFC9116] for
+   security contact information: a small file at a well-known path that
+   tells a client where to look for structured information about the
+   origin.
 
 1.1.  Design principles:
 
@@ -155,12 +159,33 @@ Table of Contents
    the origin and whose sustainability disclosures may be relevant to
    the origin's environmental impact (e.g., hosting, CDN, analytics).
 
-   carbon.txt file: A TOML document conforming to the schema defined in
-   Section 5 of this specification.
+   carbon.txt file: A TOML [TOML] document conforming to the schema
+   defined in Section 5 of this specification.
 
 3.  Discovery mechanism
 
-   TODO discovery mechanism
+   A client MUST attempt to locate a carbon.txt file using the following
+   mechanisms, in order.  The client MUST stop at the first location
+   that returns an HTTP 200 response with a parsable TOML body.
+
+3.1.  DNS TXT Record
+
+   An origin MAY advertise the location of its carbon.txt file via a DNS
+   TXT record in the format carbon-txt-location=<FQDN_OR_URL> on the
+   domain, pointing either to another fully-qualified domain name, or an
+   HTTPS URL of a carbon.txt file.  If the DNS TXT record points to a
+   fully-qualified domain name, the client MUST repeat this discovery
+   process recursively for the linked domain.  If the TXT record points
+   to an HTTPS url, the client MUST attempt to fetch the carbon.txt file
+   at that URL before continuing with the discovery process.
+
+3.2.  carbon.txt file at the domain root
+
+   An origin MAY serve its carbon.txt file at the root of its domain, at
+   the path /carbon.txt.  If this file is present, it MUST return a HTTP
+   200 response with a parsable TOML body.
+
+3.3.  Design considerations
 
 4.  File format
 
@@ -205,6 +230,16 @@ Table of Contents
               sustainability-wellknown-09, 16 October 2026,
               <https://datatracker.ietf.org/doc/html/draft-besleaga-
               sustainability-wellknown-09>.
+
+   [RFC9116]  Foudil, E. and Y. Shafranovich, "A File Format to Aid in
+              Security Vulnerability Disclosure", RFC 9116,
+              DOI 10.17487/RFC9116, April 2022,
+              <https://www.rfc-editor.org/rfc/rfc9116>.
+
+   [RFC9309]  Koster, M., Illyes, G., Zeller, H., and L. Sassman,
+              "Robots Exclusion Protocol", RFC 9309,
+              DOI 10.17487/RFC9309, September 2022,
+              <https://www.rfc-editor.org/rfc/rfc9309>.
 
 Acknowledgments
 
