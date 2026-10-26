@@ -127,6 +127,11 @@ Table of Contents
    tells a client where to look for structured information about the
    origin.
 
+   The convention described in this document is already deployed and
+   implemented by the Green Web Foundation as an HTTP API
+   [CarbonTxtValidator], and python library [CarbonTxtPython], and
+   released as open source [CarbonTxtGithub] .
+
 1.1.  Design principles:
 
    *  carbon.txt is an index, not a repository.  It links to documents;
@@ -218,10 +223,10 @@ Table of Contents
    present, it MUST return an HTTP 200 response with a parsable TOML
    body.  If the TXT record is present and well-formed, the client MUST
    attempt to fetch the referenced carbon.txt file at that URL before
-   continuing with the discovery process.  This option allows an
-   organization which maintains hosts at multiple origins to maintain a
-   single carbon.txt file in a canonical location, and redirect to it
-   from
+   continuing with the discovery process.  The client MUST NOT
+   transitively perform a DNS TXT record lookup on this target domain -
+   if no file exists at the target URL, then the discovery process fails
+   and terminates.
 
 3.2.  Well-Known URI [RFC8615]
 
@@ -250,17 +255,22 @@ Table of Contents
 
 3.5.  Design considerations and rationale.
 
-   TODO
-
-   *  Rationale for welll-known refefencing RFC
-
-   *  RAtionale for root (widespread convention, existing deployed user
-      base)
-
-   *  Rationale for not following HTTP redirects (no impersonation)
-
-   *  Rationale for DNS (allowing for explicit, single step delegation.
-      from origin to file location.)
+   The primary mechanism for discovering a carbon.txt file is via the
+   Well-Known URI, in line with existing standards [RFC8615] on well-
+   known resource discovery.  In parallel, we fall back to the
+   carbon.txt location at the domain root, for reasons of backwards
+   compatability wtih our existing installed user base, and for
+   consistency with existing conventions such as robots.txt [RFC9309]and
+   security.txt [RFC9116].  The DNS TXT record alternative is provided
+   to allow organizations which operate more than one domain to maintain
+   a canonical carbon.txt file on a single domain, and to point to it
+   from other domains they control.  This approach allows for an explit,
+   single-step delegation from one domain to another, avoiding
+   transitive lookups of undetermined length.  We discallow the
+   following of standard HTTP redirects in order to ensure that only one
+   step of delegation is permitted, and to avoid the case where an
+   origin might fraudulently and transparently redirect to the
+   carbon.txt file of an unrelated organization.
 
 4.  File format
 
@@ -270,10 +280,13 @@ Table of Contents
 
 4.1.  Design considerations & rationale
 
-   *  TODO (for using TOML).  Easily convertible to JSON, JSON-LD, but
-      has comments, is human readable.  Is stable, widely adopted.
-
-   *  TODO, version, subset of features.
+   TOML was chosen as a serialization format for its combination of
+   human and machine readability, and its stability and wide adoption.
+   In addition, it allows for commenting, something not supported in eg.
+   JSON files, which aids with human-readability.  This spec makes use
+   of a subset of the TOML 1.0.0 specification, concretely the
+   constructs: "table", "array of tables", "inline table", "string", and
+   "local date".
 
 5.  Schema
 
@@ -603,16 +616,6 @@ Table of Contents
 
 8.1.  Normative References
 
-   [GHGProtocol]
-              "The GHG Protocol Corporate Accounting and Reporting
-              Standard", n.d.,
-              <https://ghgprotocol.org/corporate-standard>.
-
-   [KyotoProtocol]
-              "Kyoto Protocol to the United Nations Framework Convention
-              on Climate Change", 11 December 1997, <https://unfccc.int/
-              process-and-meetings/the-kyoto-protocol>.
-
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
@@ -650,12 +653,35 @@ Table of Contents
               "carbon.txt syntax reference", n.d.,
               <https://carbontxt.org/syntax>.
 
+   [CarbonTxtGithub]
+              "carbon.txt syntax reference", n.d.,
+              <https://github.com/thegreenwebfoundation/carbon-txt-
+              validator>.
+
+   [CarbonTxtPython]
+              "carbon.txt python package", n.d.,
+              <https://pypi.org/project/carbon-txt/>.
+
+   [CarbonTxtValidator]
+              "carbon.txt validator API", n.d.,
+              <https://carbon-txt-api.greenweb.org/api/docs>.
+
+   [GHGProtocol]
+              "The GHG Protocol Corporate Accounting and Reporting
+              Standard", n.d.,
+              <https://ghgprotocol.org/corporate-standard>.
+
    [I-D.besleaga-sustainability-wellknown]
               Besleaga, A. N., "The 'sustainability-data' Well-Known
               URI", Work in Progress, Internet-Draft, draft-besleaga-
               sustainability-wellknown-10, 24 October 2026,
               <https://datatracker.ietf.org/doc/html/draft-besleaga-
               sustainability-wellknown-10>.
+
+   [KyotoProtocol]
+              "Kyoto Protocol to the United Nations Framework Convention
+              on Climate Change", 11 December 1997, <https://unfccc.int/
+              process-and-meetings/the-kyoto-protocol>.
 
    [RFC9116]  Foudil, E. and Y. Shafranovich, "A File Format to Aid in
               Security Vulnerability Disclosure", RFC 9116,

@@ -1277,6 +1277,7 @@ svg {
       </h2>
 <p id="section-1-1">Organisations increasingly publish information about the greenhouse gas emissions of their digital operations — Impact reports, energy mix disclosures and guarantees of origin, regulatory filings under frameworks such as the EU Corporate Sustainability Reporting Directive (CSRD), and measurements of CO2 impact;  but this information is scattered across PDFs, web pages, and third-party registries with no standard way for a client to discover it programmatically.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">The carbon.txt convention addresses this by providing a single, predictable location on an origin where a machine-readable index of those disclosures can be found. It is analogous to robots.txt <span>[<a href="#RFC9309" class="cite xref">RFC9309</a>]</span> for crawler instructions or security.txt <span>[<a href="#RFC9116" class="cite xref">RFC9116</a>]</span> for security contact information: a small file at a well-known path that tells a client where to look for structured information about the origin.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">The convention described in this document is already deployed and implemented by the Green Web Foundation as an HTTP API <span>[<a href="#CarbonTxtValidator" class="cite xref">CarbonTxtValidator</a>]</span>, and python library <span>[<a href="#CarbonTxtPython" class="cite xref">CarbonTxtPython</a>]</span>, and released as open source <span>[<a href="#CarbonTxtGithub" class="cite xref">CarbonTxtGithub</a>]</span> .<a href="#section-1-3" class="pilcrow">¶</a></p>
 <div id="design-principles">
 <section id="section-1.1">
         <h3 id="name-design-principles">
@@ -1345,7 +1346,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
         <h3 id="name-dns-txt-record">
 <a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-dns-txt-record" class="section-name selfRef">DNS TXT Record</a>
         </h3>
-<p id="section-3.1-1">An origin <span class="bcp14">MAY</span> advertise the location of its carbon.txt file via a DNS TXT record in the format <code>carbon-txt-location=&lt;URL&gt;</code> on the domain, pointing to an HTTPS URL of a carbon.txt file. If this file is present, it <span class="bcp14">MUST</span> return an HTTP 200 response with a parsable TOML body. If the TXT record is present and well-formed, the client <span class="bcp14">MUST</span> attempt to fetch the referenced carbon.txt file at that URL before continuing with the discovery process. This option allows an organization which maintains hosts at multiple origins to maintain a single carbon.txt file in a canonical location, and redirect to it from<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.1-1">An origin <span class="bcp14">MAY</span> advertise the location of its carbon.txt file via a DNS TXT record in the format <code>carbon-txt-location=&lt;URL&gt;</code> on the domain, pointing to an HTTPS URL of a carbon.txt file. If this file is present, it <span class="bcp14">MUST</span> return an HTTP 200 response with a parsable TOML body. If the TXT record is present and well-formed, the client <span class="bcp14">MUST</span> attempt to fetch the referenced carbon.txt file at that URL before continuing with the discovery process. The client <span class="bcp14">MUST NOT</span> transitively perform a DNS TXT record lookup on this target domain - if no file exists at the target URL, then the discovery process fails and terminates.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="well-known-uri-rfc8615">
@@ -1377,21 +1378,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
         <h3 id="name-design-considerations-and-r">
 <a href="#section-3.5" class="section-number selfRef">3.5. </a><a href="#name-design-considerations-and-r" class="section-name selfRef">Design considerations and rationale.</a>
         </h3>
-<p id="section-3.5-1">TODO<a href="#section-3.5-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-3.5-2.1">
-            <p id="section-3.5-2.1.1">Rationale for welll-known refefencing RFC<a href="#section-3.5-2.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-3.5-2.2">
-            <p id="section-3.5-2.2.1">RAtionale for root (widespread convention, existing deployed user base)<a href="#section-3.5-2.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-3.5-2.3">
-            <p id="section-3.5-2.3.1">Rationale for not following HTTP redirects (no impersonation)<a href="#section-3.5-2.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-3.5-2.4">
-            <p id="section-3.5-2.4.1">Rationale for DNS (allowing for explicit, single step delegation. from origin to file location.)<a href="#section-3.5-2.4.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
+<p id="section-3.5-1">The primary mechanism for discovering a carbon.txt file is via the Well-Known URI, in line with existing standards [RFC8615] on well-known resource discovery. In parallel, we fall back to the carbon.txt location at the domain root, for reasons of backwards compatability wtih our existing installed user base, and for consistency with existing conventions such as robots.txt <span>[<a href="#RFC9309" class="cite xref">RFC9309</a>]</span>and security.txt <span>[<a href="#RFC9116" class="cite xref">RFC9116</a>]</span>. The DNS TXT record alternative is provided to allow organizations which operate more than one domain to maintain a canonical carbon.txt file on a single domain, and to point to it from other domains they control. This approach allows for an explit, single-step delegation from one domain to another, avoiding transitive lookups of undetermined length. We discallow the following of standard HTTP redirects in order to ensure that only one step of delegation is permitted, and to avoid the case where an origin might fraudulently and transparently redirect to the carbon.txt file of an unrelated organization.<a href="#section-3.5-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1407,14 +1394,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
         <h3 id="name-design-considerations-ratio">
 <a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-design-considerations-ratio" class="section-name selfRef">Design considerations &amp; rationale</a>
         </h3>
-<ul class="normal">
-<li class="normal" id="section-4.1-1.1">
-            <p id="section-4.1-1.1.1">TODO (for using TOML). Easily convertible to JSON, JSON-LD, but has comments, is human readable. Is stable, widely adopted.<a href="#section-4.1-1.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-4.1-1.2">
-            <p id="section-4.1-1.2.1">TODO, version, subset of features.<a href="#section-4.1-1.2.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
+<p id="section-4.1-1">TOML was chosen as a serialization format for its combination of human and machine readability, and its stability and wide adoption. In addition, it allows for commenting, something not supported in eg. JSON files, which aids with human-readability. This spec makes use of a subset of the TOML 1.0.0 specification, concretely the constructs: "table", "array of tables", "inline table", "string", and "local date".<a href="#section-4.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2080,14 +2060,6 @@ services = [
 <a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
-<dt id="GHGProtocol">[GHGProtocol]</dt>
-        <dd>
-<span class="refTitle">"The GHG Protocol Corporate Accounting and Reporting Standard"</span>, <span>n.d.</span>, <span>&lt;<a href="https://ghgprotocol.org/corporate-standard">https://ghgprotocol.org/corporate-standard</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="KyotoProtocol">[KyotoProtocol]</dt>
-        <dd>
-<span class="refTitle">"Kyoto Protocol to the United Nations Framework Convention on Climate Change"</span>, <time datetime="1997-12-11" class="refDate">11 December 1997</time>, <span>&lt;<a href="https://unfccc.int/process-and-meetings/the-kyoto-protocol">https://unfccc.int/process-and-meetings/the-kyoto-protocol</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
@@ -2129,9 +2101,29 @@ services = [
         <dd>
 <span class="refTitle">"carbon.txt syntax reference"</span>, <span>n.d.</span>, <span>&lt;<a href="https://carbontxt.org/syntax">https://carbontxt.org/syntax</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="CarbonTxtGithub">[CarbonTxtGithub]</dt>
+        <dd>
+<span class="refTitle">"carbon.txt syntax reference"</span>, <span>n.d.</span>, <span>&lt;<a href="https://github.com/thegreenwebfoundation/carbon-txt-validator">https://github.com/thegreenwebfoundation/carbon-txt-validator</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="CarbonTxtPython">[CarbonTxtPython]</dt>
+        <dd>
+<span class="refTitle">"carbon.txt python package"</span>, <span>n.d.</span>, <span>&lt;<a href="https://pypi.org/project/carbon-txt/">https://pypi.org/project/carbon-txt/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="CarbonTxtValidator">[CarbonTxtValidator]</dt>
+        <dd>
+<span class="refTitle">"carbon.txt validator API"</span>, <span>n.d.</span>, <span>&lt;<a href="https://carbon-txt-api.greenweb.org/api/docs">https://carbon-txt-api.greenweb.org/api/docs</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="GHGProtocol">[GHGProtocol]</dt>
+        <dd>
+<span class="refTitle">"The GHG Protocol Corporate Accounting and Reporting Standard"</span>, <span>n.d.</span>, <span>&lt;<a href="https://ghgprotocol.org/corporate-standard">https://ghgprotocol.org/corporate-standard</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="I-D.besleaga-sustainability-wellknown">[I-D.besleaga-sustainability-wellknown]</dt>
         <dd>
 <span class="refAuthor">Besleaga, A. N.</span>, <span class="refTitle">"The 'sustainability-data' Well-Known URI"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-besleaga-sustainability-wellknown-10</span>, <time datetime="2026-10-24" class="refDate">24 October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-besleaga-sustainability-wellknown-10">https://datatracker.ietf.org/doc/html/draft-besleaga-sustainability-wellknown-10</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="KyotoProtocol">[KyotoProtocol]</dt>
+        <dd>
+<span class="refTitle">"Kyoto Protocol to the United Nations Framework Convention on Climate Change"</span>, <time datetime="1997-12-11" class="refDate">11 December 1997</time>, <span>&lt;<a href="https://unfccc.int/process-and-meetings/the-kyoto-protocol">https://unfccc.int/process-and-meetings/the-kyoto-protocol</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9116">[RFC9116]</dt>
         <dd>
