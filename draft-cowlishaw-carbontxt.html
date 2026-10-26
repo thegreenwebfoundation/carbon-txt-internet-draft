@@ -10,7 +10,7 @@
 <meta content="Hannah Smith" name="author">
 <meta content="Fershad Irani" name="author">
 <meta content="
-       This document specifies the carbon.txt convention, a machine-readable format for publishing links to an origin's sustainability disclosures at a predictable location on the web. Carbon.txt is a TOML document that acts as an index: it declares where an origin's sustainability information lives (Annual reports, Sustainability policies, Third party certifications, Quantitative measurements or estimations) and optionally lists upstream service providers whose own disclosures may be relevant to the origin's environmental impact. Carbon.txt does not carry numeric impact metrics or specific sustainability claims itself; it links to documents that do. In addition it defines discovery mechanism by which certain origins may delegate their sustainability disclosures to another. 
+       This document specifies the carbon.txt convention, a machine-readable format for publishing links to disclosures concerning the environmental impact of an organization's digital / ICT operations at a predictable location on the web. Carbon.txt is a TOML document that acts as an index: it declares where an origin's impact disclosures (Annual reports, Sustainability policies, Third party certifications, Quantitative measurements or estimations) may be found, and optionally lists upstream service providers whose own disclosures may be relevant to the origin's environmental impact. Carbon.txt does not carry numeric impact metrics or specific claims about impacts itself; it links to documents that do. In addition it defines a discovery mechanism by which certain origins may delegate their carbon.txt implementation  to another. 
     " name="description">
 <meta content="xml2rfc 3.34.1" name="generator">
 <meta content="sustainability" name="keyword">
@@ -1050,7 +1050,7 @@ svg {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Cowlishaw, et al.</td>
-<td class="center">Expires 24 April 2027</td>
+<td class="center">Expires 29 April 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1063,12 +1063,12 @@ svg {
 <dd class="internet-draft">draft-cowlishaw-carbontxt-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-10-21" class="published">21 October 2026</time>
+<time datetime="2026-10-26" class="published">26 October 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-04-24">24 April 2027</time></dd>
+<dd class="expires"><time datetime="2027-04-29">29 April 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1093,7 +1093,7 @@ svg {
 <h1 id="title">carbon.txt: A transparency protocol for public sustainability data</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">This document specifies the carbon.txt convention, a machine-readable format for publishing links to an origin's sustainability disclosures at a predictable location on the web. Carbon.txt is a TOML document that acts as an index: it declares where an origin's sustainability information lives (Annual reports, Sustainability policies, Third party certifications, Quantitative measurements or estimations) and optionally lists upstream service providers whose own disclosures may be relevant to the origin's environmental impact. Carbon.txt does not carry numeric impact metrics or specific sustainability claims itself; it links to documents that do. In addition it defines discovery mechanism by which certain origins may delegate their sustainability disclosures to another.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">This document specifies the carbon.txt convention, a machine-readable format for publishing links to disclosures concerning the environmental impact of an organization's digital / ICT operations at a predictable location on the web. Carbon.txt is a TOML document that acts as an index: it declares where an origin's impact disclosures (Annual reports, Sustainability policies, Third party certifications, Quantitative measurements or estimations) may be found, and optionally lists upstream service providers whose own disclosures may be relevant to the origin's environmental impact. Carbon.txt does not carry numeric impact metrics or specific claims about impacts itself; it links to documents that do. In addition it defines a discovery mechanism by which certain origins may delegate their carbon.txt implementation  to another.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
       <h2 id="name-about-this-document">
@@ -1125,7 +1125,7 @@ svg {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 24 April 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 29 April 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1155,13 +1155,16 @@ svg {
         </h2>
 <nav class="toc"><ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
-            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
+            <p id="section-toc.1-1.1.1"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1">
                 <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-design-principles" class="internal xref">Design principles:</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.2">
                 <p id="section-toc.1-1.1.2.2.1" class="keepWithNext"><a href="#section-1.2" class="auto internal xref">1.2</a>.  <a href="#name-relationship-to-other-work" class="internal xref">Relationship to other work</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.3">
+                <p id="section-toc.1-1.1.2.3.1" class="keepWithNext"><a href="#section-1.3" class="auto internal xref">1.3</a>.  <a href="#name-compatibility-with-earlier-" class="internal xref">Compatibility with earlier versions.</a></p>
 </li>
             </ul>
 </li>
@@ -1175,18 +1178,70 @@ svg {
                 <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-dns-txt-record" class="internal xref">DNS TXT Record</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
-                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-carbontxt-file-at-the-domai" class="internal xref">carbon.txt file at the domain root</a></p>
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-well-known-uri-rfc8615" class="internal xref">Well-Known URI [RFC8615]</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
-                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-design-considerations" class="internal xref">Design considerations</a></p>
+                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-carbontxt-file-at-the-domai" class="internal xref">carbon.txt file at the domain root</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4">
+                <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-transport-requirements" class="internal xref">Transport Requirements</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.5">
+                <p id="section-toc.1-1.3.2.5.1"><a href="#section-3.5" class="auto internal xref">3.5</a>.  <a href="#name-design-considerations-and-r" class="internal xref">Design considerations and rationale.</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
             <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-file-format" class="internal xref">File format</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-design-considerations-ratio" class="internal xref">Design considerations &amp; rationale</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
             <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-schema" class="internal xref">Schema</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1">
+                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-common-value-types" class="internal xref">Common value types</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-top-level-keys" class="internal xref">Top-Level Keys</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2.2.1">
+                    <p id="section-toc.1-1.5.2.2.2.1.1"><a href="#section-5.2.1" class="auto internal xref">5.2.1</a>.  <a href="#name-version" class="internal xref">Version</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2.2.2">
+                    <p id="section-toc.1-1.5.2.2.2.2.1"><a href="#section-5.2.2" class="auto internal xref">5.2.2</a>.  <a href="#name-last-updated-date" class="internal xref">Last updated date</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3">
+                <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-the-org-table" class="internal xref">The <code>org</code> Table</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3.2.1">
+                    <p id="section-toc.1-1.5.2.3.2.1.1"><a href="#section-5.3.1" class="auto internal xref">5.3.1</a>.  <a href="#name-disclosures" class="internal xref">Disclosures</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3.2.2">
+                    <p id="section-toc.1-1.5.2.3.2.2.1"><a href="#section-5.3.2" class="auto internal xref">5.3.2</a>.  <a href="#name-certification-schemes" class="internal xref">Certification Schemes</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4">
+                <p id="section-toc.1-1.5.2.4.1"><a href="#section-5.4" class="auto internal xref">5.4</a>.  <a href="#name-the-upstream-table" class="internal xref">The <code>upstream</code> table</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4.2.1">
+                    <p id="section-toc.1-1.5.2.4.2.1.1"><a href="#section-5.4.1" class="auto internal xref">5.4.1</a>.  <a href="#name-services" class="internal xref">Services</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.5">
+                <p id="section-toc.1-1.5.2.5.1"><a href="#section-5.5" class="auto internal xref">5.5</a>.  <a href="#name-complete-example" class="internal xref">Complete Example</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.6">
+                <p id="section-toc.1-1.5.2.6.1"><a href="#section-5.6" class="auto internal xref">5.6</a>.  <a href="#name-design-considerations-and-ra" class="internal xref">Design considerations and rationale.</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
             <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
@@ -1220,7 +1275,7 @@ svg {
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">Organisations increasingly publish sustainability information relevant to their digital operations — Impact reports, energy mix disclosures and guarantees of origin, regulatory filings under frameworks such as the EU Corporate Sustainability Reporting Directive (CSRD), and measurements of CO2 impact;  but this information is scattered across PDFs, web pages, and third-party registries with no standard way for a client to discover it programmatically.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-1">Organisations increasingly publish information about the greenhouse gas emissions of their digital operations — Impact reports, energy mix disclosures and guarantees of origin, regulatory filings under frameworks such as the EU Corporate Sustainability Reporting Directive (CSRD), and measurements of CO2 impact;  but this information is scattered across PDFs, web pages, and third-party registries with no standard way for a client to discover it programmatically.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">The carbon.txt convention addresses this by providing a single, predictable location on an origin where a machine-readable index of those disclosures can be found. It is analogous to robots.txt <span>[<a href="#RFC9309" class="cite xref">RFC9309</a>]</span> for crawler instructions or security.txt <span>[<a href="#RFC9116" class="cite xref">RFC9116</a>]</span> for security contact information: a small file at a well-known path that tells a client where to look for structured information about the origin.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <div id="design-principles">
 <section id="section-1.1">
@@ -1229,10 +1284,10 @@ svg {
         </h3>
 <ul class="normal">
 <li class="normal" id="section-1.1-1.1">
-            <p id="section-1.1-1.1.1">carbon.txt is an index, not a data store. It links to documents; it does not embed specific claims or measurements.<a href="#section-1.1-1.1.1" class="pilcrow">¶</a></p>
+            <p id="section-1.1-1.1.1">carbon.txt is an index, not a repository. It links to documents; it does not itself contain any disclosures..<a href="#section-1.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-1.1-1.2">
-            <p id="section-1.1-1.2.1">It is human-readable (TOML with comments) as well as machine-parsable.<a href="#section-1.1-1.2.1" class="pilcrow">¶</a></p>
+            <p id="section-1.1-1.2.1">It is human-readable (TOML <span>[<a href="#TOML" class="cite xref">TOML</a>]</span> with comments) as well as machine-parsable.<a href="#section-1.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-1.1-1.3">
             <p id="section-1.1-1.3.1">It is designed for incremental deployment. A minimal valid file can be as simple as a link to a single disclosure.<a href="#section-1.1-1.3.1" class="pilcrow">¶</a></p>
@@ -1251,6 +1306,14 @@ svg {
 <p id="section-1.2-1">This document is complementary to the sustainability-data well-known URI proposal made by <span>[<a href="#I-D.besleaga-sustainability-wellknown" class="cite xref">I-D.besleaga-sustainability-wellknown</a>]</span>. The sustainability-data draft outlines a mechanism for declaring the energy consumption, carbon footprint, and related environmental and sustainability metrics of an origin for different reporting periods, while this proposal explicitly considers the sharing of such metrics to be out of scope, concentrating instead on providing a mechanism for indexing sustainability disclosures (such we a sustainability-data declaration) related to an origin at a predictable location. The two proposals compose cleanly: An implementation of carbon.txt may link to their sustainability-data as a disclosure, and a sustainability-data file may link back to carbon-txt via the disclosure-uri field.<a href="#section-1.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
+<div id="compatibility-with-earlier-versions">
+<section id="section-1.3">
+        <h3 id="name-compatibility-with-earlier-">
+<a href="#section-1.3" class="section-number selfRef">1.3. </a><a href="#name-compatibility-with-earlier-" class="section-name selfRef">Compatibility with earlier versions.</a>
+        </h3>
+<p id="section-1.3-1">This document describes version 1.0.0-RC1 of the carbon.txt syntax, the first which we have attempted to standardise as an Internet Draft. It builds upon earlier versions of the carbon.txt project <span>[<a href="#CarbonTxt" class="cite xref">CarbonTxt</a>]</span>, but radically simplifies various aspects, in particular the discovery mechanism outlined in section 3. As a result, this version does not maintain strict backwards compatibility with previous versions of carbon.txt.<a href="#section-1.3-1" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="conventions-and-definitions">
@@ -1263,9 +1326,12 @@ svg {
 described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they
 appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶</a></p>
 <p id="section-2-2">Origin: As defined in [RFC6454]. A tuple of scheme, host, and port.<a href="#section-2-2" class="pilcrow">¶</a></p>
-<p id="section-2-3">Disclosure: A published document or resource that contains sustainability-related information about an organisation.<a href="#section-2-3" class="pilcrow">¶</a></p>
-<p id="section-2-4">Upstream service: A third-party provider whose services are used by the origin and whose sustainability disclosures may be relevant to the origin's environmental impact (e.g., hosting, CDN, analytics).<a href="#section-2-4" class="pilcrow">¶</a></p>
-<p id="section-2-5">carbon.txt file: A TOML <span>[<a href="#TOML" class="cite xref">TOML</a>]</span> document conforming to the schema defined in Section 5 of this specification.<a href="#section-2-5" class="pilcrow">¶</a></p>
+<p id="section-2-3">Owner organization: The organization or other entity ultimately responsible for the content or services provided by the Origin.<a href="#section-2-3" class="pilcrow">¶</a></p>
+<p id="section-2-4">Digital operations: Any processes, systems or infrastructure used by the owner organization related to their use of digital technologies or platforms<a href="#section-2-4" class="pilcrow">¶</a></p>
+<p id="section-2-5">Greenhouse gas emissions: - Emissions of any of the greenhouse gases as defined in the Kyoto Protocol <span>[<a href="#KyotoProtocol" class="cite xref">KyotoProtocol</a>]</span> caused by the digital operations of the owner organization, over their entire lifecycle, emissions from purchased electricity (GHG Scope 2) <span>[<a href="#GHGProtocol" class="cite xref">GHGProtocol</a>]</span>, and upstream and downstream indirect emissions (GHG Scope 3) <span>[<a href="#GHGProtocol" class="cite xref">GHGProtocol</a>]</span><a href="#section-2-5" class="pilcrow">¶</a></p>
+<p id="section-2-6">Disclosure: A published document or resource that contains either: evidence about direct and indirect environmental impact of the digital operations of the owner organization, or organizational policy around reduction or mitigation of those impacts.<a href="#section-2-6" class="pilcrow">¶</a></p>
+<p id="section-2-7">Upstream service: A third-party provider of digital technology services used by the owner organization (e.g., hosting, CDN, analytics).<a href="#section-2-7" class="pilcrow">¶</a></p>
+<p id="section-2-8">carbon.txt file: A TOML <span>[<a href="#TOML" class="cite xref">TOML</a>]</span> document conforming to the schema defined in Section 5 of this specification.<a href="#section-2-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="discovery-mechanism">
@@ -1279,23 +1345,53 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
         <h3 id="name-dns-txt-record">
 <a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-dns-txt-record" class="section-name selfRef">DNS TXT Record</a>
         </h3>
-<p id="section-3.1-1">An origin <span class="bcp14">MAY</span> advertise the location of its carbon.txt file via a DNS TXT record in the format <code>carbon-txt-location=&lt;FQDN_OR_URL&gt;</code> on the domain, pointing either to another fully-qualified domain name, or an HTTPS URL of a carbon.txt file.
-If the DNS TXT record points to a fully-qualified domain name, the client <span class="bcp14">MUST</span> repeat this discovery process recursively for the linked domain. If the TXT record points to an HTTPS url, the client <span class="bcp14">MUST</span> attempt to fetch the carbon.txt file at that URL before continuing with the discovery process.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.1-1">An origin <span class="bcp14">MAY</span> advertise the location of its carbon.txt file via a DNS TXT record in the format <code>carbon-txt-location=&lt;URL&gt;</code> on the domain, pointing to an HTTPS URL of a carbon.txt file. If this file is present, it <span class="bcp14">MUST</span> return an HTTP 200 response with a parsable TOML body. If the TXT record is present and well-formed, the client <span class="bcp14">MUST</span> attempt to fetch the referenced carbon.txt file at that URL before continuing with the discovery process. This option allows an organization which maintains hosts at multiple origins to maintain a single carbon.txt file in a canonical location, and redirect to it from<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="well-known-uri-rfc8615">
+<section id="section-3.2">
+        <h3 id="name-well-known-uri-rfc8615">
+<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-well-known-uri-rfc8615" class="section-name selfRef">Well-Known URI [RFC8615]</a>
+        </h3>
+<p id="section-3.2-1">An origin <span class="bcp14">SHOULD</span> publish a carbon.txt file at: the path <code>/.well-known/carbon.txt</code> relative to the origin root. NOTE: This section requires an IANA registration request for the "carbon.txt" well-known URI. See <a href="#iana" class="auto internal xref">Section 7</a>. If this file is present, it <span class="bcp14">MUST</span> return an HTTP 200 response with a parsable TOML body.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="carbontxt-file-at-the-domain-root">
-<section id="section-3.2">
+<section id="section-3.3">
         <h3 id="name-carbontxt-file-at-the-domai">
-<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-carbontxt-file-at-the-domai" class="section-name selfRef">carbon.txt file at the domain root</a>
+<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-carbontxt-file-at-the-domai" class="section-name selfRef">carbon.txt file at the domain root</a>
         </h3>
-<p id="section-3.2-1">An origin <span class="bcp14">MAY</span> serve its carbon.txt file at the root of its domain, at the path <code>/carbon.txt</code>. If this file is present, it <span class="bcp14">MUST</span> return a HTTP 200 response with a parsable TOML body.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.3-1">An origin <span class="bcp14">MAY</span> serve its carbon.txt file at the root of its domain, at the path <code>/carbon.txt</code>, relative to the origin root. If this file is present, and it returns a HTTP 200 response with a parsable TOML body, it <span class="bcp14">SHOULD</span> be used as the canonical carbon.txt for the origin's owner organization. This path is retained for backwards compatibility with earlier deployments, the Well-Known URI in the following section is the preferred location.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="design-considerations">
-<section id="section-3.3">
-        <h3 id="name-design-considerations">
-<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-design-considerations" class="section-name selfRef">Design considerations</a>
-      </h3>
+<div id="transport-requirements">
+<section id="section-3.4">
+        <h3 id="name-transport-requirements">
+<a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-transport-requirements" class="section-name selfRef">Transport Requirements</a>
+        </h3>
+<p id="section-3.4-1">The carbon.txt file <span class="bcp14">MUST</span> be served over HTTPS. A client <span class="bcp14">MUST NOT</span> follow any HTTP redirects when requesting a carbon.txt file. The response body <span class="bcp14">MUST</span> be served with a Content-Type of application/toml or text/plain..<a href="#section-3.4-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="design-considerations-and-rationale">
+<section id="section-3.5">
+        <h3 id="name-design-considerations-and-r">
+<a href="#section-3.5" class="section-number selfRef">3.5. </a><a href="#name-design-considerations-and-r" class="section-name selfRef">Design considerations and rationale.</a>
+        </h3>
+<p id="section-3.5-1">TODO<a href="#section-3.5-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.5-2.1">
+            <p id="section-3.5-2.1.1">Rationale for welll-known refefencing RFC<a href="#section-3.5-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.5-2.2">
+            <p id="section-3.5-2.2.1">RAtionale for root (widespread convention, existing deployed user base)<a href="#section-3.5-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.5-2.3">
+            <p id="section-3.5-2.3.1">Rationale for not following HTTP redirects (no impersonation)<a href="#section-3.5-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.5-2.4">
+            <p id="section-3.5-2.4.1">Rationale for DNS (allowing for explicit, single step delegation. from origin to file location.)<a href="#section-3.5-2.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
 </section>
 </div>
 </section>
@@ -1305,7 +1401,22 @@ If the DNS TXT record points to a fully-qualified domain name, the client <span 
       <h2 id="name-file-format">
 <a href="#section-4" class="section-number selfRef">4. </a><a href="#name-file-format" class="section-name selfRef">File format</a>
       </h2>
-<p id="section-4-1">A carbon.txt file <span class="bcp14">MUST</span> be valid TOML as specified in <span>[<a href="#TOML" class="cite xref">TOML</a>]</span>. Comments (lines beginning with #) are permitted and <span class="bcp14">SHOULD</span> be ignored by parsers.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<p id="section-4-1">A carbon.txt file <span class="bcp14">MUST</span> be valid TOML as specified in <span>[<a href="#TOML" class="cite xref">TOML</a>]</span>, encoded as UTF-8 text. Comments (lines beginning with #) are permitted and <span class="bcp14">SHOULD</span> be ignored by parsers.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<div id="design-considerations-rationale">
+<section id="section-4.1">
+        <h3 id="name-design-considerations-ratio">
+<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-design-considerations-ratio" class="section-name selfRef">Design considerations &amp; rationale</a>
+        </h3>
+<ul class="normal">
+<li class="normal" id="section-4.1-1.1">
+            <p id="section-4.1-1.1.1">TODO (for using TOML). Easily convertible to JSON, JSON-LD, but has comments, is human readable. Is stable, widely adopted.<a href="#section-4.1-1.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-4.1-1.2">
+            <p id="section-4.1-1.2.1">TODO, version, subset of features.<a href="#section-4.1-1.2.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
 </section>
 </div>
 <div id="schema">
@@ -1313,7 +1424,622 @@ If the DNS TXT record points to a fully-qualified domain name, the client <span 
       <h2 id="name-schema">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-schema" class="section-name selfRef">Schema</a>
       </h2>
-<p id="section-5-1">TODO schema<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-1">This section defines version 1.0.0-RC1 of the carbon.txt syntax.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-2">The syntax is expressed in terms of TOML <span>[<a href="#TOML" class="cite xref">TOML</a>]</span>. The terms "table", "array of tables", "inline table", "string", and "local date" are used as defined by the TOML specification. In the field descriptions below, the notation <code>[table]</code> denotes a TOML table, <code>[[array]]</code> denotes an array of tables, and <code>[string]</code> denotes an array of strings.<a href="#section-5-2" class="pilcrow">¶</a></p>
+<p id="section-5-3">The document consists of the following top-level keys and tables:<a href="#section-5-3" class="pilcrow">¶</a></p>
+<table class="center" id="table-1">
+        <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
+<thead>
+          <tr>
+            <th class="text-left" rowspan="1" colspan="1">Key</th>
+            <th class="text-left" rowspan="1" colspan="1">Type</th>
+            <th class="text-left" rowspan="1" colspan="1">Presence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">
+              <code>version</code>
+</td>
+            <td class="text-left" rowspan="1" colspan="1">string</td>
+            <td class="text-left" rowspan="1" colspan="1">
+              <span class="bcp14">REQUIRED</span>
+</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">
+              <code>last_updated</code>
+</td>
+            <td class="text-left" rowspan="1" colspan="1">date</td>
+            <td class="text-left" rowspan="1" colspan="1">
+              <span class="bcp14">OPTIONAL</span>
+</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">
+              <code>org</code>
+</td>
+            <td class="text-left" rowspan="1" colspan="1">
+              <code>[table]</code>
+</td>
+            <td class="text-left" rowspan="1" colspan="1">
+              <span class="bcp14">REQUIRED</span>
+</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">
+              <code>upstream</code>
+</td>
+            <td class="text-left" rowspan="1" colspan="1">
+              <code>[table]</code>
+</td>
+            <td class="text-left" rowspan="1" colspan="1">
+              <span class="bcp14">OPTIONAL</span>
+</td>
+          </tr>
+        </tbody>
+      </table>
+<div id="types">
+<section id="section-5.1">
+        <h3 id="name-common-value-types">
+<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-common-value-types" class="section-name selfRef">Common value types</a>
+        </h3>
+<span class="break"></span><dl class="dlParallel" id="section-5.1-1">
+          <dt id="section-5.1-1.1">string:</dt>
+          <dd style="margin-left: 1.5em" id="section-5.1-1.2">
+            <p id="section-5.1-1.2.1">A TOML basic or literal string.<a href="#section-5.1-1.2.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-5.1-1.3">date:</dt>
+          <dd style="margin-left: 1.5em" id="section-5.1-1.4">
+            <p id="section-5.1-1.4.1">Either a TOML local date (for example, <code>2026-12-31</code>), or a string containing a <code>full-date</code> as defined in Section 5.6 of <span>[<a href="#RFC3339" class="cite xref">RFC3339</a>]</span> (for example, <code>"2026-12-31"</code>).<a href="#section-5.1-1.4.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-5.1-1.5">url:</dt>
+          <dd style="margin-left: 1.5em" id="section-5.1-1.6">
+            <p id="section-5.1-1.6.1">A string containing an absolute URI <span>[<a href="#RFC3986" class="cite xref">RFC3986</a>]</span> whose scheme is either <code>http</code> or <code>https</code>; that is, the string <span class="bcp14">MUST</span> begin with "http://" or "https://".<a href="#section-5.1-1.6.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-5.1-1.7">domain:</dt>
+          <dd style="margin-left: 1.5em" id="section-5.1-1.8">
+            <p id="section-5.1-1.8.1">A string containing a DNS domain name. A domain <span class="bcp14">MAY</span> include subdomains (for example, "www."). A domain <span class="bcp14">MUST NOT</span> include a protocol or scheme (such as "http://" or "https://") and <span class="bcp14">MUST NOT</span> include a path (such as "/news/", "/about", or "news-update-2025").<a href="#section-5.1-1.8.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-5.1-1.9">id:</dt>
+          <dd style="margin-left: 1.5em" id="section-5.1-1.10">
+            <p id="section-5.1-1.10.1">A string conforming to the following ABNF <span>[<a href="#RFC5234" class="cite xref">RFC5234</a>]</span>:<a href="#section-5.1-1.10.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+</dl>
+<div class="lang-abnf sourcecode" id="section-5.1-2">
+<pre>
+id = 1*( ALPHA / DIGIT / "-" / "_" )
+</pre><a href="#section-5.1-2" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="top-level-keys">
+<section id="section-5.2">
+        <h3 id="name-top-level-keys">
+<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-top-level-keys" class="section-name selfRef">Top-Level Keys</a>
+        </h3>
+<div id="version">
+<section id="section-5.2.1">
+          <h4 id="name-version">
+<a href="#section-5.2.1" class="section-number selfRef">5.2.1. </a><a href="#name-version" class="section-name selfRef">Version</a>
+          </h4>
+<p id="section-5.2.1-1">Type: string. <span class="bcp14">REQUIRED</span>.<a href="#section-5.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.2.1-2">The carbon.txt syntax version to which the file conforms. For this version
+of the syntax, the value <span class="bcp14">MUST</span> be <code>"1.0.0-RC1"</code>.
+Example:<a href="#section-5.2.1-2" class="pilcrow">¶</a></p>
+<div class="lang-toml sourcecode" id="section-5.2.1-3">
+<pre>
+version = "1.0.0-RC1"
+</pre><a href="#section-5.2.1-3" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="last-updated-date">
+<section id="section-5.2.2">
+          <h4 id="name-last-updated-date">
+<a href="#section-5.2.2" class="section-number selfRef">5.2.2. </a><a href="#name-last-updated-date" class="section-name selfRef">Last updated date</a>
+          </h4>
+<p id="section-5.2.2-1">Type: date. <span class="bcp14">OPTIONAL</span>.<a href="#section-5.2.2-1" class="pilcrow">¶</a></p>
+<p id="section-5.2.2-2">The date on which the file was last updated.<a href="#section-5.2.2-2" class="pilcrow">¶</a></p>
+<p id="section-5.2.2-3">Example:<a href="#section-5.2.2-3" class="pilcrow">¶</a></p>
+<div class="lang-toml sourcecode" id="section-5.2.2-4">
+<pre>
+last_updated = 2026-10-26
+</pre><a href="#section-5.2.2-4" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="the-org-table">
+<section id="section-5.3">
+        <h3 id="name-the-org-table">
+<a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-the-org-table" class="section-name selfRef">The <code>org</code> Table</a>
+        </h3>
+<p id="section-5.3-1">Type: <code>[table]</code>. <span class="bcp14">REQUIRED</span>.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
+<p id="section-5.3-2">The <code>org</code> table holds information about the organisation's sustainability disclosures and the certification schemes it adheres to. It contains the
+following keys:<a href="#section-5.3-2" class="pilcrow">¶</a></p>
+<table class="center" id="table-2">
+          <caption><a href="#table-2" class="selfRef">Table 2</a></caption>
+<thead>
+            <tr>
+              <th class="text-left" rowspan="1" colspan="1">Key</th>
+              <th class="text-left" rowspan="1" colspan="1">Type</th>
+              <th class="text-left" rowspan="1" colspan="1">Presence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">
+                <code>disclosures</code>
+</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <code>[[array]]</code>
+</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span class="bcp14">REQUIRED</span>
+</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">
+                <code>certification_schemes</code>
+</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <code>[[array]]</code>
+</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span class="bcp14">OPTIONAL</span>
+</td>
+            </tr>
+          </tbody>
+        </table>
+<div id="disclosures">
+<section id="section-5.3.1">
+          <h4 id="name-disclosures">
+<a href="#section-5.3.1" class="section-number selfRef">5.3.1. </a><a href="#name-disclosures" class="section-name selfRef">Disclosures</a>
+          </h4>
+<p id="section-5.3.1-1">Type: <code>[[array]]</code>. <span class="bcp14">REQUIRED</span>.<a href="#section-5.3.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.3.1-2">An array of tables, each linking to a document that shows the organisation's sustainability data disclosures. Each element has the following keys:<a href="#section-5.3.1-2" class="pilcrow">¶</a></p>
+<table class="center" id="table-3">
+            <caption><a href="#table-3" class="selfRef">Table 3</a></caption>
+<thead>
+              <tr>
+                <th class="text-left" rowspan="1" colspan="1">Key</th>
+                <th class="text-left" rowspan="1" colspan="1">Type</th>
+                <th class="text-left" rowspan="1" colspan="1">Presence</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <code>doc_type</code>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">string</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span class="bcp14">REQUIRED</span>
+</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <code>url</code>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">url</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span class="bcp14">REQUIRED</span>
+</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <code>title</code>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">string</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span class="bcp14">OPTIONAL</span>
+</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <code>description</code>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">string</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span class="bcp14">OPTIONAL</span>
+</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <code>valid_until</code>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">date</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span class="bcp14">OPTIONAL</span>
+</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <code>domain</code>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">domain</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span class="bcp14">OPTIONAL</span>
+</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <code>certification_schemes</code>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <code>[string]</code>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span class="bcp14">OPTIONAL</span>
+</td>
+              </tr>
+            </tbody>
+          </table>
+<span class="break"></span><dl class="dlParallel" id="section-5.3.1-4">
+            <dt id="section-5.3.1-4.1">
+<code>doc_type</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-5.3.1-4.2">
+              <p id="section-5.3.1-4.2.1">A string identifying the type of document being linked to. The value <span class="bcp14">MUST</span> be one of the following:<a href="#section-5.3.1-4.2.1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-5.3.1-4.2.2">
+                <dt id="section-5.3.1-4.2.2.1"><code>annual-report</code></dt>
+                <dd style="margin-left: 1.5em" id="section-5.3.1-4.2.2.2">
+                  <p id="section-5.3.1-4.2.2.2.1">An annual report.<a href="#section-5.3.1-4.2.2.2.1" class="pilcrow">¶</a></p>
+</dd>
+                <dd class="break"></dd>
+<dt id="section-5.3.1-4.2.2.3"><code>sustainability-page</code></dt>
+                <dd style="margin-left: 1.5em" id="section-5.3.1-4.2.2.4">
+                  <p id="section-5.3.1-4.2.2.4.1">A web page presenting the organisation's sustainability information.<a href="#section-5.3.1-4.2.2.4.1" class="pilcrow">¶</a></p>
+</dd>
+                <dd class="break"></dd>
+<dt id="section-5.3.1-4.2.2.5"><code>certificate</code></dt>
+                <dd style="margin-left: 1.5em" id="section-5.3.1-4.2.2.6">
+                  <p id="section-5.3.1-4.2.2.6.1">A certificate.<a href="#section-5.3.1-4.2.2.6.1" class="pilcrow">¶</a></p>
+</dd>
+                <dd class="break"></dd>
+<dt id="section-5.3.1-4.2.2.7"><code>csrd-report</code></dt>
+                <dd style="margin-left: 1.5em" id="section-5.3.1-4.2.2.8">
+                  <p id="section-5.3.1-4.2.2.8.1">A report prepared under the EU Corporate Sustainability Reporting
+Directive (CSRD).<a href="#section-5.3.1-4.2.2.8.1" class="pilcrow">¶</a></p>
+</dd>
+                <dd class="break"></dd>
+<dt id="section-5.3.1-4.2.2.9"><code>ai-model-card</code></dt>
+                <dd style="margin-left: 1.5em" id="section-5.3.1-4.2.2.10">
+                  <p id="section-5.3.1-4.2.2.10.1">A model card describing an AI model.<a href="#section-5.3.1-4.2.2.10.1" class="pilcrow">¶</a></p>
+</dd>
+                <dd class="break"></dd>
+<dt id="section-5.3.1-4.2.2.11"><code>measurement-data</code></dt>
+                <dd style="margin-left: 1.5em" id="section-5.3.1-4.2.2.12">
+                  <p id="section-5.3.1-4.2.2.12.1">A machine-readable document of measurement or estimate data.<a href="#section-5.3.1-4.2.2.12.1" class="pilcrow">¶</a></p>
+</dd>
+                <dd class="break"></dd>
+<dt id="section-5.3.1-4.2.2.13"><code>other</code></dt>
+                <dd style="margin-left: 1.5em" id="section-5.3.1-4.2.2.14">
+                  <p id="section-5.3.1-4.2.2.14.1">Any document not covered by another type.<a href="#section-5.3.1-4.2.2.14.1" class="pilcrow">¶</a></p>
+</dd>
+              <dd class="break"></dd>
+</dl>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-5.3.1-4.3">
+<code>url</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-5.3.1-4.4">
+              <p id="section-5.3.1-4.4.1">The URL of the document being linked to.<a href="#section-5.3.1-4.4.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-5.3.1-4.5">
+<code>title</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-5.3.1-4.6">
+              <p id="section-5.3.1-4.6.1">A meaningful title describing the disclosure, for example "Corporate sustainability report 2026".<a href="#section-5.3.1-4.6.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-5.3.1-4.7">
+<code>description</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-5.3.1-4.8">
+              <p id="section-5.3.1-4.8.1">A brief summary of the disclosure, or any additional information needed to understand it.<a href="#section-5.3.1-4.8.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-5.3.1-4.9">
+<code>valid_until</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-5.3.1-4.10">
+              <p id="section-5.3.1-4.10.1">The last date on which the disclosure is valid, if it is time-limited (for example, an annual report or a renewable energy certificate).<a href="#section-5.3.1-4.10.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-5.3.1-4.11">
+<code>certification_schemes</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-5.3.1-4.12">
+              <p id="section-5.3.1-4.12.1">An array of one or more <code>id</code> values, each of which <span class="bcp14">MUST</span> match the <code>id</code> of an element of <code>org.certification_schemes</code> (<a href="#certification-schemes" class="auto internal xref">Section 5.3.2</a>)
+in the same file. It identifies the certification schemes to which the disclosure relates.<a href="#section-5.3.1-4.12.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+</dl>
+<p id="section-5.3.1-5">Example:<a href="#section-5.3.1-5" class="pilcrow">¶</a></p>
+<div class="lang-toml sourcecode" id="section-5.3.1-6">
+<pre>
+[org]
+
+disclosures = [
+  { doc_type = "sustainability-page",
+    url = "https://mycompany.com/sustainability",
+    domain = "mycompany.com",
+    certification_schemes = ["blauer-engel"],
+    description = "This company's sustainability policy." },
+  { doc_type = "annual-report",
+    url = "https://mycompany.com/carbon-emissions-2025.pdf",
+    valid_until = 2025-12-31,
+    title = "Emissions Report 2025" },
+  { doc_type = "measurement-data",
+    url = "https://mycompany.com/dist.json",
+    title = "Quarterly emissions figures",
+    description = "Estimated carbon impact data for this company's digital operations, in DIST format" }
+]
+</pre><a href="#section-5.3.1-6" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="certification-schemes">
+<section id="section-5.3.2">
+          <h4 id="name-certification-schemes">
+<a href="#section-5.3.2" class="section-number selfRef">5.3.2. </a><a href="#name-certification-schemes" class="section-name selfRef">Certification Schemes</a>
+          </h4>
+<p id="section-5.3.2-1">Type: <code>[[array]]</code>. <span class="bcp14">OPTIONAL</span>.<a href="#section-5.3.2-1" class="pilcrow">¶</a></p>
+<p id="section-5.3.2-2">An array of tables, each linking to a certification scheme (such as a voluntary standard or ecolabel) to which the organisation adheres. Each
+element has the following keys:<a href="#section-5.3.2-2" class="pilcrow">¶</a></p>
+<table class="center" id="table-4">
+            <caption><a href="#table-4" class="selfRef">Table 4</a></caption>
+<thead>
+              <tr>
+                <th class="text-left" rowspan="1" colspan="1">Key</th>
+                <th class="text-left" rowspan="1" colspan="1">Type</th>
+                <th class="text-left" rowspan="1" colspan="1">Presence</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <code>id</code>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">id</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span class="bcp14">REQUIRED</span>
+</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <code>url</code>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">url</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span class="bcp14">REQUIRED</span>
+</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <code>title</code>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">string</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span class="bcp14">OPTIONAL</span>
+</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <code>description</code>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">string</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span class="bcp14">OPTIONAL</span>
+</td>
+              </tr>
+            </tbody>
+          </table>
+<span class="break"></span><dl class="dlParallel" id="section-5.3.2-4">
+            <dt id="section-5.3.2-4.1">
+<code>id</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-5.3.2-4.2">
+              <p id="section-5.3.2-4.2.1">An identifier used to refer to this certification scheme from elsewhere in the same file, in particular from the <code>certification_schemes</code> key of a disclosure (<a href="#disclosures" class="auto internal xref">Section 5.3.1</a>). The value <span class="bcp14">MUST</span> conform to the <code>id</code> production in <a href="#types" class="auto internal xref">Section 5.1</a> and <span class="bcp14">MUST</span> be unique among the <code>id</code> values of all certification schemes in the file.<a href="#section-5.3.2-4.2.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-5.3.2-4.3">
+<code>url</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-5.3.2-4.4">
+              <p id="section-5.3.2-4.4.1">The URL of the certification scheme.<a href="#section-5.3.2-4.4.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-5.3.2-4.5">
+<code>title</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-5.3.2-4.6">
+              <p id="section-5.3.2-4.6.1">A meaningful title describing the certification scheme, for example "B-corporation", "Blauer Engel", or "SCI for Web".<a href="#section-5.3.2-4.6.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-5.3.2-4.7">
+<code>description</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-5.3.2-4.8">
+              <p id="section-5.3.2-4.8.1">Any additional information useful for understanding the certification, such as a brief description of the commitments it represents or the guarantees it makes.<a href="#section-5.3.2-4.8.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+</dl>
+<p id="section-5.3.2-5">Example:<a href="#section-5.3.2-5" class="pilcrow">¶</a></p>
+<div class="lang-toml sourcecode" id="section-5.3.2-6">
+<pre>
+[org]
+
+certification_schemes = [
+  { id = "blauer-engel",
+    url = "https://www.blauer-engel.de/en/productworld/software",
+    title = "Blauer Engel Resource and Energy-Efficient Software Products",
+    description = "The aim of the environmental label for resource and energy-efficient software products is to reduce the total energy consumed by information and communication technology and improve resource efficiency." }
+]
+</pre><a href="#section-5.3.2-6" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="the-upstream-table">
+<section id="section-5.4">
+        <h3 id="name-the-upstream-table">
+<a href="#section-5.4" class="section-number selfRef">5.4. </a><a href="#name-the-upstream-table" class="section-name selfRef">The <code>upstream</code> table</a>
+        </h3>
+<p id="section-5.4-1">Type: <code>[table]</code>. <span class="bcp14">OPTIONAL</span>.<a href="#section-5.4-1" class="pilcrow">¶</a></p>
+<p id="section-5.4-2">The <code>upstream</code> table holds information linking the organisation to the
+upstream providers it uses. It contains the following key:<a href="#section-5.4-2" class="pilcrow">¶</a></p>
+<table class="center" id="table-5">
+          <caption><a href="#table-5" class="selfRef">Table 5</a></caption>
+<thead>
+            <tr>
+              <th class="text-left" rowspan="1" colspan="1">Key</th>
+              <th class="text-left" rowspan="1" colspan="1">Type</th>
+              <th class="text-left" rowspan="1" colspan="1">Presence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">
+                <code>services</code>
+</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <code>[[array]]</code>
+</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span class="bcp14">OPTIONAL</span>
+</td>
+            </tr>
+          </tbody>
+        </table>
+<div id="services">
+<section id="section-5.4.1">
+          <h4 id="name-services">
+<a href="#section-5.4.1" class="section-number selfRef">5.4.1. </a><a href="#name-services" class="section-name selfRef">Services</a>
+          </h4>
+<p id="section-5.4.1-1">Type: <code>[[array]]</code>. <span class="bcp14">OPTIONAL</span>.<a href="#section-5.4.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.4.1-2">An array of tables, each describing an upstream provider used by the
+organisation. Each element has the following keys:<a href="#section-5.4.1-2" class="pilcrow">¶</a></p>
+<table class="center" id="table-6">
+            <caption><a href="#table-6" class="selfRef">Table 6</a></caption>
+<thead>
+              <tr>
+                <th class="text-left" rowspan="1" colspan="1">Key</th>
+                <th class="text-left" rowspan="1" colspan="1">Type</th>
+                <th class="text-left" rowspan="1" colspan="1">Presence</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <code>domain</code>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">domain</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span class="bcp14">OPTIONAL</span>
+</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <code>service_type</code>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">string or <code>[string]</code>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span class="bcp14">OPTIONAL</span>
+</td>
+              </tr>
+            </tbody>
+          </table>
+<span class="break"></span><dl class="dlParallel" id="section-5.4.1-4">
+            <dt id="section-5.4.1-4.1">
+<code>domain</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-5.4.1-4.2">
+              <p id="section-5.4.1-4.2.1">The domain of the organisation providing the upstream service.<a href="#section-5.4.1-4.2.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-5.4.1-4.3">
+<code>service_type</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-5.4.1-4.4">
+              <p id="section-5.4.1-4.4.1">A slug representing the service provided by the upstream provider, or an
+array of such slugs where the provider supplies more than one type of
+service.<a href="#section-5.4.1-4.4.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+</dl>
+<p id="section-5.4.1-5">Example:<a href="#section-5.4.1-5" class="pilcrow">¶</a></p>
+<div class="lang-toml sourcecode" id="section-5.4.1-6">
+<pre>
+[upstream]
+services = [
+  { domain = "cloud.google.com", service_type = "shared-hosting" },
+  { domain = "aws.amazon.com" }
+]
+</pre><a href="#section-5.4.1-6" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="complete-example">
+<section id="section-5.5">
+        <h3 id="name-complete-example">
+<a href="#section-5.5" class="section-number selfRef">5.5. </a><a href="#name-complete-example" class="section-name selfRef">Complete Example</a>
+        </h3>
+<div class="lang-toml sourcecode" id="section-5.5-1">
+<pre>
+version = "1.0.0-RC1"
+last_updated = 2026-10-26
+
+[org]
+
+certification_schemes = [
+  { id = "blauer-engel",
+    url = "https://www.blauer-engel.de/en/productworld/software",
+    title = "Blauer Engel Resource and Energy-Efficient Software Products",
+    description = "The aim of the environmental label for resource and energy-efficient software products is to reduce the total energy consumed by information and communication technology and improve resource efficiency." }
+]
+
+disclosures = [
+  { doc_type = "sustainability-page",
+    url = "https://mycompany.com/sustainability",
+    domain = "mycompany.com",
+    certification_schemes = ["blauer-engel"],
+    description = "This company's sustainability policy." },
+  { doc_type = "annual-report",
+    url = "https://mycompany.com/carbon-emissions-2025.pdf",
+    valid_until = 2025-12-31,
+    title = "Emissions Report 2025" },
+  { doc_type = "measurement-data",
+    url = "https://mycompany.com/dist.json",
+    title = "Quarterly emissions figures",
+    description = "Estimated carbon impact data for this company's digital operations, in DIST format" }
+]
+
+[upstream]
+services = [
+  { domain = "cloud.google.com", service_type = "shared-hosting" },
+  { domain = "aws.amazon.com" }
+]
+
+</pre><a href="#section-5.5-1" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="design-considerations-and-rationale-1">
+<section id="section-5.6">
+        <h3 id="name-design-considerations-and-ra">
+<a href="#section-5.6" class="section-number selfRef">5.6. </a><a href="#name-design-considerations-and-ra" class="section-name selfRef">Design considerations and rationale.</a>
+        </h3>
+<p id="section-5.6-1">TODO
+- Inclusion of version number
+- Inclusion of last-updated date
+- Inclusion of disclosures
+- Inclusion of certification schemes
+- Inlucusion of upstreams<a href="#section-5.6-1" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="security">
@@ -1322,6 +2048,17 @@ If the DNS TXT record points to a fully-qualified domain name, the client <span 
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
 <p id="section-6-1">TODO Security<a href="#section-6-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-6-2.1">
+          <p id="section-6-2.1.1">HTTP redirects<a href="#section-6-2.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-6-2.2">
+          <p id="section-6-2.2.1">Body size<a href="#section-6-2.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-6-2.3">
+          <p id="section-6-2.3.1">What else?<a href="#section-6-2.3.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
 </section>
 </div>
 <div id="iana">
@@ -1329,7 +2066,7 @@ If the DNS TXT record points to a fully-qualified domain name, the client <span 
       <h2 id="name-iana-considerations">
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-7-1">TODO IANA considerations<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-1">TODO IANA considerations - well known URI.<a href="#section-7-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-combined-references">
@@ -1343,13 +2080,37 @@ If the DNS TXT record points to a fully-qualified domain name, the client <span 
 <a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
+<dt id="GHGProtocol">[GHGProtocol]</dt>
+        <dd>
+<span class="refTitle">"The GHG Protocol Corporate Accounting and Reporting Standard"</span>, <span>n.d.</span>, <span>&lt;<a href="https://ghgprotocol.org/corporate-standard">https://ghgprotocol.org/corporate-standard</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="KyotoProtocol">[KyotoProtocol]</dt>
+        <dd>
+<span class="refTitle">"Kyoto Protocol to the United Nations Framework Convention on Climate Change"</span>, <time datetime="1997-12-11" class="refDate">11 December 1997</time>, <span>&lt;<a href="https://unfccc.int/process-and-meetings/the-kyoto-protocol">https://unfccc.int/process-and-meetings/the-kyoto-protocol</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC3339">[RFC3339]</dt>
+        <dd>
+<span class="refAuthor">Klyne, G.</span> and <span class="refAuthor">C. Newman</span>, <span class="refTitle">"Date and Time on the Internet: Timestamps"</span>, <span class="seriesInfo">RFC 3339</span>, <span class="seriesInfo">DOI 10.17487/RFC3339</span>, <time datetime="2002-07" class="refDate">July 2002</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3339">https://www.rfc-editor.org/rfc/rfc3339</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC3986">[RFC3986]</dt>
+        <dd>
+<span class="refAuthor">Berners-Lee, T.</span>, <span class="refAuthor">Fielding, R.</span>, and <span class="refAuthor">L. Masinter</span>, <span class="refTitle">"Uniform Resource Identifier (URI): Generic Syntax"</span>, <span class="seriesInfo">STD 66</span>, <span class="seriesInfo">RFC 3986</span>, <span class="seriesInfo">DOI 10.17487/RFC3986</span>, <time datetime="2005-01" class="refDate">January 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3986">https://www.rfc-editor.org/rfc/rfc3986</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5234">[RFC5234]</dt>
+        <dd>
+<span class="refAuthor">Crocker, D., Ed.</span> and <span class="refAuthor">P. Overell</span>, <span class="refTitle">"Augmented BNF for Syntax Specifications: ABNF"</span>, <span class="seriesInfo">STD 68</span>, <span class="seriesInfo">RFC 5234</span>, <span class="seriesInfo">DOI 10.17487/RFC5234</span>, <time datetime="2008-01" class="refDate">January 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5234">https://www.rfc-editor.org/rfc/rfc5234</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC8174">[RFC8174]</dt>
         <dd>
 <span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="SemVer">[SemVer]</dt>
+        <dd>
+<span class="refTitle">"Semantic Versioning 2.0.0 (text from June 19, 2020)"</span>, <span>n.d.</span>, <span>&lt;<a href="https://github.com/semver/semver/blob/8b2e8eec394948632957639dfa99fc7ec6286911/semver.md">https://github.com/semver/semver/blob/8b2e8eec394948632957639dfa99fc7ec6286911/semver.md</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="TOML">[TOML]</dt>
       <dd>
@@ -1364,9 +2125,13 @@ If the DNS TXT record points to a fully-qualified domain name, the client <span 
 <a href="#section-8.2" class="section-number selfRef">8.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
+<dt id="CarbonTxt">[CarbonTxt]</dt>
+        <dd>
+<span class="refTitle">"carbon.txt syntax reference"</span>, <span>n.d.</span>, <span>&lt;<a href="https://carbontxt.org/syntax">https://carbontxt.org/syntax</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="I-D.besleaga-sustainability-wellknown">[I-D.besleaga-sustainability-wellknown]</dt>
         <dd>
-<span class="refAuthor">Besleaga, A. N.</span>, <span class="refTitle">"The 'sustainability-data' Well-Known URI"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-besleaga-sustainability-wellknown-09</span>, <time datetime="2026-10-16" class="refDate">16 October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-besleaga-sustainability-wellknown-09">https://datatracker.ietf.org/doc/html/draft-besleaga-sustainability-wellknown-09</a>&gt;</span>. </dd>
+<span class="refAuthor">Besleaga, A. N.</span>, <span class="refTitle">"The 'sustainability-data' Well-Known URI"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-besleaga-sustainability-wellknown-10</span>, <time datetime="2026-10-24" class="refDate">24 October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-besleaga-sustainability-wellknown-10">https://datatracker.ietf.org/doc/html/draft-besleaga-sustainability-wellknown-10</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9116">[RFC9116]</dt>
         <dd>
@@ -1386,7 +2151,7 @@ If the DNS TXT record points to a fully-qualified domain name, the client <span 
       <h2 id="name-acknowledgments">
 <a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
       </h2>
-<p id="appendix-A-1">TODO acknowledge.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+<p id="appendix-A-1">TODO acknowledge. - Owen, Tim, Participantsi in user testing. Cyberfusion. Siddhesh, NGI Search, ICANN, Mallory.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="authors-addresses">
