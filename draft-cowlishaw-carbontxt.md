@@ -56,7 +56,7 @@ normative:
             name: Tom Preston-Werner
           - ins: P. Gedam
             name: Pradyun Gedam
-   SemVer:
+    SemVer:
         title: "Semantic Versioning 2.0.0 (text from June 19, 2020)"
         target: https://github.com/semver/semver/blob/8b2e8eec394948632957639dfa99fc7ec6286911/semver.md
 
@@ -66,7 +66,7 @@ normative:
         date: 1997-12-11
 
     GHGProtocol:
-        title "The GHG Protocol Corporate Accounting and Reporting Standard"
+        title: "The GHG Protocol Corporate Accounting and Reporting Standard"
         target: https://ghgprotocol.org/corporate-standard
 
 informative:
