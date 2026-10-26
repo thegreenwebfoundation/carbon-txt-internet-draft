@@ -55,19 +55,28 @@ normative:
         title: "Semantic Versioning 2.0.0 (text from June 19, 2020)"
         target: https://github.com/semver/semver/blob/8b2e8eec394948632957639dfa99fc7ec6286911/semver.md
 
+informative:
+    CarbonTxt:
+        title: "carbon.txt syntax reference"
+        target: https://carbontxt.org/syntax
+    CarbonTxtValidator:
+        title: "carbon.txt validator API"
+        target: https://carbon-txt-api.greenweb.org/api/docs
+    CarbonTxtPython:
+        title: "carbon.txt python package"
+        target: https://pypi.org/project/carbon-txt/
+    CarbonTxtGithub:
+        title: "carbon.txt syntax reference"
+        target: https://github.com/thegreenwebfoundation/carbon-txt-validator
     KyotoProtocol:
         title: "Kyoto Protocol to the United Nations Framework Convention on Climate Change"
         target: https://unfccc.int/process-and-meetings/the-kyoto-protocol
         date: 1997-12-11
-
     GHGProtocol:
         title: "The GHG Protocol Corporate Accounting and Reporting Standard"
         target: https://ghgprotocol.org/corporate-standard
 
-informative:
-   CarbonTxt:
-        title: "carbon.txt syntax reference"
-        target: https://carbontxt.org/syntax
+
 ...
 
 --- abstract
@@ -83,6 +92,8 @@ This document specifies the carbon.txt convention, a machine-readable format for
 Organisations increasingly publish information about the greenhouse gas emissions of their digital operations — Impact reports, energy mix disclosures and guarantees of origin, regulatory filings under frameworks such as the EU Corporate Sustainability Reporting Directive (CSRD), and measurements of CO2 impact;  but this information is scattered across PDFs, web pages, and third-party registries with no standard way for a client to discover it programmatically.
 
 The carbon.txt convention addresses this by providing a single, predictable location on an origin where a machine-readable index of those disclosures can be found. It is analogous to robots.txt {{?RFC9309}} for crawler instructions or security.txt {{?RFC9116}} for security contact information: a small file at a well-known path that tells a client where to look for structured information about the origin.
+
+The convention described in this document is already deployed and implemented by the Green Web Foundation as an HTTP API {{CarbonTxtValidator}}, and python library {{CarbonTxtPython}}, and released as open source {{CarbonTxtGithub}} .
 
 ## Design principles:
 
@@ -123,7 +134,7 @@ A client MUST attempt to locate a carbon.txt file using the following mechanisms
 
 ## DNS TXT Record
 
-An origin MAY advertise the location of its carbon.txt file via a DNS TXT record in the format `carbon-txt-location=<URL>` on the domain, pointing to an HTTPS URL of a carbon.txt file. If this file is present, it MUST return an HTTP 200 response with a parsable TOML body. If the TXT record is present and well-formed, the client MUST attempt to fetch the referenced carbon.txt file at that URL before continuing with the discovery process. This option allows an organization which maintains hosts at multiple origins to maintain a single carbon.txt file in a canonical location, and redirect to it from
+An origin MAY advertise the location of its carbon.txt file via a DNS TXT record in the format `carbon-txt-location=<URL>` on the domain, pointing to an HTTPS URL of a carbon.txt file. If this file is present, it MUST return an HTTP 200 response with a parsable TOML body. If the TXT record is present and well-formed, the client MUST attempt to fetch the referenced carbon.txt file at that URL before continuing with the discovery process. The client MUST NOT transitively perform a DNS TXT record lookup on this target domain - if no file exists at the target URL, then the discovery process fails and terminates.
 
 ## Well-Known URI [RFC8615]
 
@@ -139,16 +150,7 @@ The carbon.txt file MUST be served over HTTPS. A client MUST NOT follow any HTTP
 
 ## Design considerations and rationale.
 
-TODO
-
-- Rationale for welll-known refefencing RFC
-
-- RAtionale for root (widespread convention, existing deployed user base)
-
-- Rationale for not following HTTP redirects (no impersonation)
-
-- Rationale for DNS (allowing for explicit, single step delegation. from origin to file location.)
-
+The primary mechanism for discovering a carbon.txt file is via the Well-Known URI, in line with existing standards [RFC8615] on well-known resource discovery. In parallel, we fall back to the carbon.txt location at the domain root, for reasons of backwards compatability wtih our existing installed user base, and for consistency with existing conventions such as robots.txt {{?RFC9309}}and security.txt {{?RFC9116}}. The DNS TXT record alternative is provided to allow organizations which operate more than one domain to maintain a canonical carbon.txt file on a single domain, and to point to it from other domains they control. This approach allows for an explit, single-step delegation from one domain to another, avoiding transitive lookups of undetermined length. We discallow the following of standard HTTP redirects in order to ensure that only one step of delegation is permitted, and to avoid the case where an origin might fraudulently and transparently redirect to the carbon.txt file of an unrelated organization.
 
 # File format
 
@@ -156,9 +158,7 @@ A carbon.txt file MUST be valid TOML as specified in {{TOML}}, encoded as UTF-8 
 
 ## Design considerations & rationale
 
-- TODO (for using TOML). Easily convertible to JSON, JSON-LD, but has comments, is human readable. Is stable, widely adopted.
-
-- TODO, version, subset of features.
+TOML was chosen as a serialization format for its combination of human and machine readability, and its stability and wide adoption. In addition, it allows for commenting, something not supported in eg. JSON files, which aids with human-readability. This spec makes use of a subset of the TOML 1.0.0 specification, concretely the constructs: "table", "array of tables", "inline table", "string", and "local date".
 
 # Schema
 
