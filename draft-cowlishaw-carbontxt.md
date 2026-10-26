@@ -42,11 +42,6 @@ author:
    email: fershad@greenweb.org
 
 normative:
-    RFC2119:
-    RFC8174:
-    RFC3339:
-    RFC3986:
-    RFC5234:
     TOML:
         title: "TOML: Tom's Obvious, Minimal Language, Version 1.0.0"
         target: https://toml.io/en/v1.0.0
@@ -92,7 +87,7 @@ The carbon.txt convention addresses this by providing a single, predictable loca
 ## Design principles:
 
 - carbon.txt is an index, not a repository. It links to documents; it does not itself contain any disclosures..
-- It is human-readable (TOML {{!TOML}} with comments) as well as machine-parsable.
+- It is human-readable (TOML {{TOML}} with comments) as well as machine-parsable.
 - It is designed for incremental deployment. A minimal valid file can be as simple as a link to a single disclosure.
 - It does not in itself verify or guarantee the veracity of claims or disclosures, but provides mechanisms for third-party validation.
 
@@ -120,7 +115,7 @@ Disclosure: A published document or resource that contains either: evidence abou
 
 Upstream service: A third-party provider of digital technology services used by the owner organization (e.g., hosting, CDN, analytics).
 
-carbon.txt file: A TOML {{!TOML}} document conforming to the schema defined in Section 5 of this specification.
+carbon.txt file: A TOML {{TOML}} document conforming to the schema defined in Section 5 of this specification.
 
 # Discovery mechanism
 
@@ -132,7 +127,7 @@ An origin MAY advertise the location of its carbon.txt file via a DNS TXT record
 
 ## Well-Known URI [RFC8615]
 
-An origin SHOULD publish a carbon.txt file at: the path `/.well-known/carbon.txt` relative to the origin root. [NOTE: This section requires an IANA registration request for the "carbon.txt" well-known URI. See Section 7.]. If this file is present, it MUST return an HTTP 200 response with a parsable TOML body.
+An origin SHOULD publish a carbon.txt file at: the path `/.well-known/carbon.txt` relative to the origin root. NOTE: This section requires an IANA registration request for the "carbon.txt" well-known URI. See {{iana}}. If this file is present, it MUST return an HTTP 200 response with a parsable TOML body.
 
 ## carbon.txt file at the domain root
 
@@ -157,7 +152,7 @@ TODO
 
 # File format
 
-A carbon.txt file MUST be valid TOML as specified in {{!TOML}}, encoded as UTF-8 text. Comments (lines beginning with #) are permitted and SHOULD be ignored by parsers.
+A carbon.txt file MUST be valid TOML as specified in {{TOML}}, encoded as UTF-8 text. Comments (lines beginning with #) are permitted and SHOULD be ignored by parsers.
 
 ## Design considerations & rationale
 
@@ -169,16 +164,16 @@ A carbon.txt file MUST be valid TOML as specified in {{!TOML}}, encoded as UTF-8
 
 This section defines version 1.0.0-RC1 of the carbon.txt syntax.
 
-The syntax is expressed in terms of TOML {{!TOML}}. The terms "table", "array of tables", "inline table", "string", and "local date" are used as defined by the TOML specification. In the field descriptions below, the notation `[table]` denotes a TOML table, `[[array]]` denotes an array of tables, and `[string]` denotes an array of strings.
+The syntax is expressed in terms of TOML {{TOML}}. The terms "table", "array of tables", "inline table", "string", and "local date" are used as defined by the TOML specification. In the field descriptions below, the notation `[table]` denotes a TOML table, `[[array]]` denotes an array of tables, and `[string]` denotes an array of strings.
 
 The document consists of the following top-level keys and tables:
 
-| Key            | Type      | Presence |
-|:---------------|:----------|:---------|
-| `version`      | string    | REQUIRED |
-| `last_updated` | date      | OPTIONAL |
-| `org`          | [table]   | REQUIRED |
-| `upstream`     | [table]   | OPTIONAL |
+| Key            | Type         | Presence |
+|:---------------|:-------------|:---------|
+| `version`      | string       | REQUIRED |
+| `last_updated` | date         | OPTIONAL |
+| `org`          | `[table]`    | REQUIRED |
+| `upstream`     | `[table]`    | OPTIONAL |
 
 ## Common value types {#types}
 
@@ -235,10 +230,10 @@ Type: `[table]`. REQUIRED.
 The `org` table holds information about the organisation's sustainability disclosures and the certification schemes it adheres to. It contains the
 following keys:
 
-| Key                     | Type      | Presence |
-|:------------------------|:----------|:---------|
-| `disclosures`           | [[array]] | REQUIRED |
-| `certification_schemes` | [[array]] | OPTIONAL |
+| Key                     | Type        | Presence |
+|:------------------------|:------------|:---------|
+| `disclosures`           | `[[array]]` | REQUIRED |
+| `certification_schemes` | `[[array]]` | OPTIONAL |
 
 ### Disclosures
 
@@ -246,15 +241,15 @@ Type: `[[array]]`. REQUIRED.
 
 An array of tables, each linking to a document that shows the organisation's sustainability data disclosures. Each element has the following keys:
 
-| Key                     | Type      | Presence |
-|:------------------------|:----------|:---------|
-| `doc_type`              | string    | REQUIRED |
-| `url`                   | url       | REQUIRED |
-| `title`                 | string    | OPTIONAL |
-| `description`           | string    | OPTIONAL |
-| `valid_until`           | date      | OPTIONAL |
-| `domain`                | domain    | OPTIONAL |
-| `certification_schemes` | [string]  | OPTIONAL |
+| Key                     | Type        | Presence |
+|:------------------------|:------------|:---------|
+| `doc_type`              | string      | REQUIRED |
+| `url`                   | url         | REQUIRED |
+| `title`                 | string      | OPTIONAL |
+| `description`           | string      | OPTIONAL |
+| `valid_until`           | date        | OPTIONAL |
+| `domain`                | domain      | OPTIONAL |
+| `certification_schemes` | `[string]`  | OPTIONAL |
 
 `doc_type`:
 : A string identifying the type of document being linked to. The value MUST be one of the following:
@@ -366,9 +361,9 @@ Type: `[table]`. OPTIONAL.
 The `upstream` table holds information linking the organisation to the
 upstream providers it uses. It contains the following key:
 
-| Key        | Type      | Presence |
-|:-----------|:----------|:---------|
-| `services` | [[array]] | OPTIONAL |
+| Key        | Type        | Presence |
+|:-----------|:------------|:---------|
+| `services` | `[[array]]` | OPTIONAL |
 
 ### Services
 
@@ -377,11 +372,10 @@ Type: `[[array]]`. OPTIONAL.
 An array of tables, each describing an upstream provider used by the
 organisation. Each element has the following keys:
 
-| Key            | Type                    | Presence |
-|:---------------|:------------------------|:---------|
-| `domain`       | domain                  | OPTIONAL |
-| `service_type` | string or [string]      | OPTIONAL |
-{: #service-keys title="Keys of an upstream service"}
+| Key            | Type                      | Presence |
+|:---------------|:--------------------------|:---------|
+| `domain`       | domain                    | OPTIONAL |
+| `service_type` | string or `[string]`      | OPTIONAL |
 
 `domain`:
 : The domain of the organisation providing the upstream service.
