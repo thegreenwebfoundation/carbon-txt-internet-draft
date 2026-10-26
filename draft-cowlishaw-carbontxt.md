@@ -92,7 +92,7 @@ The carbon.txt convention addresses this by providing a single, predictable loca
 ## Design principles:
 
 - carbon.txt is an index, not a repository. It links to documents; it does not itself contain any disclosures..
-- It is human-readable (TOML {{TOML}} with comments) as well as machine-parsable.
+- It is human-readable (TOML {{!TOML}} with comments) as well as machine-parsable.
 - It is designed for incremental deployment. A minimal valid file can be as simple as a link to a single disclosure.
 - It does not in itself verify or guarantee the veracity of claims or disclosures, but provides mechanisms for third-party validation.
 
@@ -120,7 +120,7 @@ Disclosure: A published document or resource that contains either: evidence abou
 
 Upstream service: A third-party provider of digital technology services used by the owner organization (e.g., hosting, CDN, analytics).
 
-carbon.txt file: A TOML {{TOML}} document conforming to the schema defined in Section 5 of this specification.
+carbon.txt file: A TOML {{!TOML}} document conforming to the schema defined in Section 5 of this specification.
 
 # Discovery mechanism
 
@@ -157,7 +157,7 @@ TODO
 
 # File format
 
-A carbon.txt file MUST be valid TOML as specified in {{TOML}}, encoded as UTF-8 text. Comments (lines beginning with #) are permitted and SHOULD be ignored by parsers.
+A carbon.txt file MUST be valid TOML as specified in {{!TOML}}, encoded as UTF-8 text. Comments (lines beginning with #) are permitted and SHOULD be ignored by parsers.
 
 ## Design considerations & rationale
 
@@ -180,7 +180,7 @@ The document consists of the following top-level keys and tables:
 | `org`          | [table]   | REQUIRED |
 | `upstream`     | [table]   | OPTIONAL |
 
-## Common value types
+## Common value types {#types}
 
 string:
 : A TOML basic or literal string.
