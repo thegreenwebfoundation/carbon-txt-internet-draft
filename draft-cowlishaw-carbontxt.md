@@ -123,21 +123,29 @@ This document describes version 1.0.0-RC1 of the carbon.txt syntax, the first wh
 
 {::boilerplate bcp14-tagged}
 
-Origin: As defined in [RFC6454]. A tuple of scheme, host, and port.
+Origin:
+:  As defined in [RFC6454]. A tuple of scheme, host, and port.
 
-Owner organization: The organization or other entity ultimately responsible for the content or services provided by the Origin.
+Owner organization:
+:  The organization or other entity ultimately responsible for the content or services provided by the Origin.
 
-Digital operations: Any processes, systems or infrastructure used by the owner organization related to their use of digital technologies or platforms
+Digital operations:
+:  Any processes, systems or infrastructure used by the owner organization related to their use of digital technologies or platforms
 
-Environmental impact: Any change to the environment, whether adverse or beneficial, resulting wholly or partly from the activities, products, or services of an organization or system. Adapted from {{ISO14001}}. This document uses the term to cover both direct impacts (e.g., energy use and the manufacture of devices) and indirect impacts (e.g., effects arising from how Internet technologies are used). See {{?RFC9547}} for discussion.
+Environmental impact:
+:  Any change to the environment, whether adverse or beneficial, resulting wholly or partly from the activities, products, or services of an organization or system. Adapted from {{ISO14001}}. This document uses the term to cover both direct impacts (e.g., energy use and the manufacture of devices) and indirect impacts (e.g., effects arising from how Internet technologies are used). See {{?RFC9547}} for discussion.
 
-Disclosure: A published document or resource that contains either: evidence about direct and indirect environmental impacts of the digital operations of the owner organization, or organizational policy around reduction or mitigation of adverse impacts.
+Disclosure:
+:  A published document or resource that contains either: evidence about direct and indirect environmental impacts of the digital operations of the owner organization, or organizational policy around reduction or mitigation of adverse impacts.
 
-Certification scheme: A set of specific commitments or standards around environmental impact or governance, set, and evaluated for compliance by a third-party organization.
+Certification scheme:
+:  A set of specific commitments or standards around environmental impact or governance, set, and evaluated for compliance by a third-party organization.
 
-Upstream service: A third-party provider of digital technology services used by the owner organization (e.g., hosting, CDN, analytics).
+Upstream service:
+:  A third-party provider of digital technology services used by the owner organization (e.g., hosting, CDN, analytics).
 
-carbon.txt file: A TOML {{TOML}} document conforming to the schema defined in Section 5 of this specification.
+carbon.txt file:
+:  A TOML {{TOML}} document conforming to the schema defined in Section 5 of this specification.
 
 # Discovery mechanism
 
@@ -161,7 +169,7 @@ The carbon.txt file MUST be served over HTTPS. A client MUST NOT follow any HTTP
 
 ## Design considerations and rationale.
 
-The primary mechanism for discovering a carbon.txt file is via the Well-Known URI, in line with existing standards [RFC8615] on well-known resource discovery. In parallel, we fall back to the carbon.txt location at the domain root, for reasons of backwards compatability wtih our existing installed user base, and for consistency with existing conventions such as robots.txt {{?RFC9309}}and security.txt {{?RFC9116}}. The DNS TXT record alternative is provided to allow organizations which operate more than one domain to maintain a canonical carbon.txt file on a single domain, and to point to it from other domains they control. This approach allows for an explit, single-step delegation from one domain to another, avoiding transitive lookups of undetermined length. We discallow the following of standard HTTP redirects in order to ensure that only one step of delegation is permitted, and to avoid the case where an origin might fraudulently and transparently redirect to the carbon.txt file of an unrelated organization.
+The primary mechanism for discovering a carbon.txt file is via the Well-Known URI, in line with existing standards [RFC8615] on well-known resource discovery. In parallel, we fall back to the carbon.txt location at the domain root, for reasons of backwards compatibility with our existing installed user base, and for consistency with existing conventions such as robots.txt {{?RFC9309}}and security.txt {{?RFC9116}}. The DNS TXT record alternative is provided to allow organizations which operate more than one domain to maintain a canonical carbon.txt file on a single domain, and to point to it from other domains they control. This approach allows for an explicit, single-step delegation from one domain to another, avoiding transitive lookups of undetermined length. We disallow the following of standard HTTP redirects in order to ensure that only one step of delegation is permitted, and to avoid the case where an origin might fraudulently and transparently redirect to the carbon.txt file of an unrelated organization.
 
 # File format
 
@@ -238,7 +246,7 @@ last_updated = 2026-10-26
 
 Type: `[table]`. REQUIRED.
 
-The `org` table holds information about the organisation's environmental impact disclosures and the certification schemes it adheres to. It contains the
+The `org` table holds information about the organization's environmental impact disclosures and the certification schemes it adheres to. It contains the
 following keys:
 
 | Key                     | Type        | Presence |
@@ -250,7 +258,7 @@ following keys:
 
 Type: `[[array]]`. REQUIRED.
 
-An array of tables, each linking to a document that shows the organisation's impact disclosures. Each element has the following keys:
+An array of tables, each linking to a document that shows the organization's impact disclosures. Each element has the following keys:
 
 | Key                     | Type        | Presence |
 |:------------------------|:------------|:---------|
@@ -269,7 +277,7 @@ An array of tables, each linking to a document that shows the organisation's imp
   : An annual report.
 
   `sustainability-page`
-  : A web page presenting the organisation's sustainability policy.
+  : A web page presenting the organization's sustainability policy.
 
   `certificate`
   : A certificate - for instance, of conformance to an Ecolabel, or a renewable energy certificate certifying provenance of energy supply.
@@ -329,7 +337,7 @@ disclosures = [
 
 Type: `[[array]]`. OPTIONAL.
 
-An array of tables, each linking to a certification scheme (such as a voluntary standard or ecolabel) to which the organisation adheres. Each
+An array of tables, each linking to a certification scheme (such as a voluntary standard or ecolabel) to which the organization adheres. Each
 element has the following keys:
 
 | Key           | Type   | Presence |
@@ -369,7 +377,7 @@ certification_schemes = [
 
 Type: `[table]`. OPTIONAL.
 
-The `upstream` table holds information linking the organisation to the
+The `upstream` table holds information linking the organization to the
 upstream providers it uses. It contains the following key:
 
 | Key        | Type        | Presence |
@@ -381,7 +389,7 @@ upstream providers it uses. It contains the following key:
 Type: `[[array]]`. OPTIONAL.
 
 An array of tables, each describing an upstream provider used by the
-organisation. Each element has the following keys:
+organization. Each element has the following keys:
 
 | Key            | Type                      | Presence |
 |:---------------|:--------------------------|:---------|
@@ -389,7 +397,7 @@ organisation. Each element has the following keys:
 | `service_type` | string or `[string]`      | OPTIONAL |
 
 `domain`:
-: The domain of the organisation providing the upstream service.
+: The domain of the organization providing the upstream service.
 
 `service_type`:
 : A slug representing the service provided by the upstream provider, or an
@@ -447,11 +455,11 @@ services = [
 
 ## Design considerations and rationale.
 
-The carbon.txt syntax is designed for simplicity and flexibility - A minimal carbon.txt file requires just a single disclosure, denoted by a document type and URL, along with the version number of the carbon.txt sytax, while the optional syntax allows for more complex or detailed disclosures to be made as required. We outline below the rationale behind each element in the syntax.
+The carbon.txt syntax is designed for simplicity and flexibility - A minimal carbon.txt file requires just a single disclosure, denoted by a document type and URL, along with the version number of the carbon.txt syntax, while the optional syntax allows for more complex or detailed disclosures to be made as required. We outline below the rationale behind each element in the syntax.
 
 ### Version number
 
-The inclusion of an explicit version number allows for flexibility in future updates to the syntax, withouth breaking backwards compatibility. For instance, if a future version makes a currently-optional field required, the version field ensures that the correct validation semantics are applied.
+The inclusion of an explicit version number allows for flexibility in future updates to the syntax, without breaking backwards compatibility. For instance, if a future version makes a currently-optional field required, the version field ensures that the correct validation semantics are applied.
 
 ### Last-updated date
 
@@ -459,7 +467,7 @@ The last-updated date allows clients to quickly verify if new information has be
 
 ### Disclosures
 
-Each disclosure, at  a minimum, must include a document type, and the URL where the document can be found, ensuring that a minimal valid carbon.txt file requires very little additional information about the disclosure itself. Additional optional descriptive fields (`title` and `description` are provided for convience for downstream users, or to provide carbon.txt publishers with the ability to provide additional context around why a given disclosure has been included. (For instance, in the case of an annual report, a section of which details emissions reduction efforts, the description field can be used to highlight the relevant section, or to give a summary of the relevance of the overall document). The optional `valid_until` field can be used to clearly signal the period of validity of a disclosure (in the case that it is time-limited, such as an annual report or a certificate) to downstream users. The `certification_schemes` property allows for a disclosure to be marked as relevant to a particular certification scheme, described in detail in the following section.
+Each disclosure, at  a minimum, must include a document type, and the URL where the document can be found, ensuring that a minimal valid carbon.txt file requires very little additional information about the disclosure itself. Additional optional descriptive fields (`title` and `description` are provided for convenience for downstream users, or to provide carbon.txt publishers with the ability to provide additional context around why a given disclosure has been included. (For instance, in the case of an annual report, a section of which details emissions reduction efforts, the description field can be used to highlight the relevant section, or to give a summary of the relevance of the overall document). The optional `valid_until` field can be used to clearly signal the period of validity of a disclosure (in the case that it is time-limited, such as an annual report or a certificate) to downstream users. The `certification_schemes` property allows for a disclosure to be marked as relevant to a particular certification scheme, described in detail in the following section.
 
 ### Certification schemes {#certification-schemes-rationale}
 
@@ -467,13 +475,13 @@ carbon.txt allows an organization to declare membership of certification schemes
 
 ### Upstreams
 
-The upstream service block allows an organization to optionally specificy the upstream providers of digital services and infrastructure on which they depend, allowing downstream users to transitively discover the carbon.txt disclosures made by these providers. Each upstream provider must include a `domain` representing the provider organisation, and an `service_type` string representing the particular service they provide.
+The upstream service block allows an organization to optionally specify the upstream providers of digital services and infrastructure on which they depend, allowing downstream users to transitively discover the carbon.txt disclosures made by these providers. Each upstream provider must include a `domain` representing the provider organization, and an `service_type` string representing the particular service they provide.
 
 # Security Considerations {#security}
 
 Because of the use of URIs and well-known resources, security considerations of [RFC3986] and [RFC8615] apply here, in addition to the considerations outlined below.
 
-To protect against attacks against their system, implementors of carbon.txt parsing and matching logic should take the following considerations into account:
+To protect against attacks against their system, implementers of carbon.txt parsing and matching logic should take the following considerations into account:
 
 Memory management:
 :    carbon.txt publishers MUST ensure that their carbon.txt files are less than 32MB in size, and implementers MUST ensure that  at least 32MB of memory is allocated to contain the contents of any carbon.txt file, in order to mitigate against buffer overflow attacks.
@@ -482,7 +490,7 @@ Invalid characters:
 :    carbon.txt publishers MUST only use valid UTF-8 characters in their carbon.txt files, and implementers MUST discard any byte sequence which does not correspond to a valid UTF-8 character, and reject the corresponding carbon.txt file as invalid.
 
 Untrusted content:
-:    Implementors should treat the content of a carbon.txt file as untrusted content, as defined by the specification of the application layer used. In the context of HTTP, implementors should follow the Security Considerations section of [RFC9110].
+:    Implementers should treat the content of a carbon.txt file as untrusted content, as defined by the specification of the application layer used. In the context of HTTP, implementers should follow the Security Considerations section of [RFC9110].
 
 
 # IANA Considerations {#iana}
@@ -511,6 +519,7 @@ Related information:
 {:numbered="false"}
 
 Many thanks to carbon.txt early adopters and user testing participants Andri Johnson, Owen Rogers, Tim Frick, Siddhesh Wagle, Tin Geber, Célien Camus, TJ Andrews, Frank Lämmer, Cyberfusion and The Ethical Agency, along with many others, whose expertise and feedback helped shape this convention. Thanks also to Andrei Nicolae Besleaga, author of the sustainability-data well-known URI Internet Draft {{?I-D.besleaga-sustainability-wellknown}}.
+
 The development of carbon.txt was funded in part by ICANN and NGI Search grants.
 
 --- back
