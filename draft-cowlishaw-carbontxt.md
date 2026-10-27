@@ -496,8 +496,8 @@ Untrusted content:
 
    Change controller:
 :   IETF
-   Specification document:
 
+   Specification document:
 : this document
 
    Status:
