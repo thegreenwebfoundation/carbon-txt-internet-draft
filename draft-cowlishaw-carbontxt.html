@@ -1272,21 +1272,21 @@ svg {
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
-            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-references" class="internal xref">References</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1">
-                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="auto internal xref">8.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
 </li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2">
-                <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="auto internal xref">8.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref"></a><a href="#name-references" class="internal xref">References</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1">
+                <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="auto internal xref"></a><a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2">
+                <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="auto internal xref"></a><a href="#name-informative-references" class="internal xref">Informative References</a></p>
 </li>
             </ul>
 </li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
-            <p id="section-toc.1-1.9.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
-</li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
-            <p id="section-toc.1-1.10.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+            <p id="section-toc.1-1.10.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -2087,12 +2087,23 @@ services = [
       </h2>
 <p id="section-6-1">Because of the use of URIs and well-known resources, security considerations of <span>[<a href="#RFC3986" class="cite xref">RFC3986</a>]</span> and [RFC8615] apply here, in addition to the considerations outlined below.<a href="#section-6-1" class="pilcrow">¶</a></p>
 <p id="section-6-2">To protect against attacks against their system, implementors of carbon.txt parsing and matching logic should take the following considerations into account:<a href="#section-6-2" class="pilcrow">¶</a></p>
-<p id="section-6-3">Memory management:
-    carbon.txt publishers <span class="bcp14">MUST</span> ensure that their carbon.txt files are less than 32MB in size, and implementers <span class="bcp14">MUST</span> ensure that  at least 32MB of memory is allocated to contain the contents of any carbon.txt file, in order to mitigate against buffer overflow attacks.
-Invalid characters:
-    carbon.txt publishers <span class="bcp14">MUST</span> only use valid UTF-8 characters in their carbon.txt files, and implementers <span class="bcp14">MUST</span> discard any byte sequence which does not correspond to a valid UTF-8 character, and reject the corresponding carbon.txt file as invalid.
-Untrusted content:
-    Implementors should treat the content of a carbon.txt file as untrusted content, as defined by the specification of the application layer used. In the context of HTTP, implementors should follow the Security Considerations section of [RFC9110].<a href="#section-6-3" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-6-3">
+        <dt id="section-6-3.1">Memory management:</dt>
+        <dd style="margin-left: 1.5em" id="section-6-3.2">
+          <p id="section-6-3.2.1">carbon.txt publishers <span class="bcp14">MUST</span> ensure that their carbon.txt files are less than 32MB in size, and implementers <span class="bcp14">MUST</span> ensure that  at least 32MB of memory is allocated to contain the contents of any carbon.txt file, in order to mitigate against buffer overflow attacks.<a href="#section-6-3.2.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-6-3.3">Invalid characters:</dt>
+        <dd style="margin-left: 1.5em" id="section-6-3.4">
+          <p id="section-6-3.4.1">carbon.txt publishers <span class="bcp14">MUST</span> only use valid UTF-8 characters in their carbon.txt files, and implementers <span class="bcp14">MUST</span> discard any byte sequence which does not correspond to a valid UTF-8 character, and reject the corresponding carbon.txt file as invalid.<a href="#section-6-3.4.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-6-3.5">Untrusted content:</dt>
+        <dd style="margin-left: 1.5em" id="section-6-3.6">
+          <p id="section-6-3.6.1">Implementors should treat the content of a carbon.txt file as untrusted content, as defined by the specification of the application layer used. In the context of HTTP, implementors should follow the Security Considerations section of [RFC9110].<a href="#section-6-3.6.1" class="pilcrow">¶</a></p>
+</dd>
+      <dd class="break"></dd>
+</dl>
 </section>
 </div>
 <div id="iana">
@@ -2106,24 +2117,58 @@ Untrusted content:
 <a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-well-known-uri-registration" class="section-name selfRef">Well-Known URI Registration</a>
         </h3>
 <p id="section-7.1-1">This document requests registration of the following URI in the "Well-Known URIs" registry [RFC8615]:<a href="#section-7.1-1" class="pilcrow">¶</a></p>
-<p id="section-7.1-2">URI suffix: carbon.txt
-   Change controller: IETF
-   Specification document: this document
-   Status: active
-   Related information:  none<a href="#section-7.1-2" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-7.1-2">
+          <dt id="section-7.1-2.1">URI suffix:</dt>
+          <dd style="margin-left: 1.5em" id="section-7.1-2.2">
+            <p id="section-7.1-2.2.1">carbon.txt<a href="#section-7.1-2.2.1" class="pilcrow">¶</a></p>
+<p id="section-7.1-2.2.2">Change controller:<a href="#section-7.1-2.2.2" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-7.1-2.3"></dt>
+          <dd style="margin-left: 1.5em" id="section-7.1-2.4">
+            <p id="section-7.1-2.4.1">IETF
+   Specification document:<a href="#section-7.1-2.4.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-7.1-2.5"></dt>
+          <dd style="margin-left: 1.5em" id="section-7.1-2.6">
+            <p id="section-7.1-2.6.1">this document<a href="#section-7.1-2.6.1" class="pilcrow">¶</a></p>
+<p id="section-7.1-2.6.2">Status:<a href="#section-7.1-2.6.2" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-7.1-2.7"></dt>
+          <dd style="margin-left: 1.5em" id="section-7.1-2.8">
+            <p id="section-7.1-2.8.1">active<a href="#section-7.1-2.8.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-7.1-2.9">Related information:</dt>
+          <dd style="margin-left: 1.5em" id="section-7.1-2.10">
+            <p id="section-7.1-2.10.1">none<a href="#section-7.1-2.10.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+</dl>
 </section>
 </div>
+</section>
+</div>
+<div id="acknowledgments">
+<section id="section-8">
+      <h2 id="name-acknowledgments">
+<a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
+      </h2>
+<p id="section-8-1">Many thanks to carbon.txt early adopters and user testing participants Andri Johnson, Owen Rogers, Tim Frick, Siddhesh Wagle, Tin Geber, Célien Camus, TJ Andrews, Frank Lämmer, Cyberfusion and The Ethical Agency, along with many others, whose expertise and feedback helped shape this convention. Thanks also to Andrei Nicolae Besleaga, author of the sustainability-data well-known URI Internet Draft <span>[<a href="#I-D.besleaga-sustainability-wellknown" class="cite xref">I-D.besleaga-sustainability-wellknown</a>]</span>.
+The development of carbon.txt was funded in part by ICANN and NGI Search grants.<a href="#section-8-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-combined-references">
-<section id="section-8">
+<section id="section-9">
       <h2 id="name-references">
-<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-references" class="section-name selfRef">References</a>
+<a href="#name-references" class="section-name selfRef">References</a>
       </h2>
 <div id="sec-normative-references">
-<section id="section-8.1">
+<section id="section-9.1">
         <h3 id="name-normative-references">
-<a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+<a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
 <dt id="RFC2119">[RFC2119]</dt>
@@ -2158,9 +2203,9 @@ Untrusted content:
 </section>
 </div>
 <div id="sec-informative-references">
-<section id="section-8.2">
+<section id="section-9.2">
         <h3 id="name-informative-references">
-<a href="#section-8.2" class="section-number selfRef">8.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+<a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
 <dt id="AiModelCard">[AiModelCard]</dt>
@@ -2216,17 +2261,8 @@ Untrusted content:
 </div>
 </section>
 </div>
-<div id="acknowledgments">
-<section id="appendix-A">
-      <h2 id="name-acknowledgments">
-<a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
-      </h2>
-<p id="appendix-A-1">Many thanks to carbon.txt early adopters and user testing participants Andri Johnson, Owen Rogers, Tim Frick, Siddhesh Wagle, Tin Geber, Célien Camus, TJ Andrews, Frank Lämmer, Cyberfusion and The Ethical Agency, along with many others, whose expertise and feedback helped shape this convention. Thanks also to Andrei Nicolae Besleaga, author of the sustainability-data well-known URI Internet Draft <span>[<a href="#I-D.besleaga-sustainability-wellknown" class="cite xref">I-D.besleaga-sustainability-wellknown</a>]</span>.
-The development of carbon.txt was funded in part by ICANN and NGI Search grants.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
-</section>
-</div>
 <div id="authors-addresses">
-<section id="appendix-B">
+<section id="appendix-A">
       <h2 id="name-authors-addresses">
 <a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
       </h2>
