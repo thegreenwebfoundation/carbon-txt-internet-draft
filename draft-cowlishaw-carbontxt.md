@@ -476,11 +476,13 @@ Because of the use of URIs and well-known resources, security considerations of 
 To protect against attacks against their system, implementors of carbon.txt parsing and matching logic should take the following considerations into account:
 
 Memory management:
-    carbon.txt publishers MUST ensure that their carbon.txt files are less than 32MB in size, and implementers MUST ensure that  at least 32MB of memory is allocated to contain the contents of any carbon.txt file, in order to mitigate against buffer overflow attacks.
+:    carbon.txt publishers MUST ensure that their carbon.txt files are less than 32MB in size, and implementers MUST ensure that  at least 32MB of memory is allocated to contain the contents of any carbon.txt file, in order to mitigate against buffer overflow attacks.
+
 Invalid characters:
-    carbon.txt publishers MUST only use valid UTF-8 characters in their carbon.txt files, and implementers MUST discard any byte sequence which does not correspond to a valid UTF-8 character, and reject the corresponding carbon.txt file as invalid.
+:    carbon.txt publishers MUST only use valid UTF-8 characters in their carbon.txt files, and implementers MUST discard any byte sequence which does not correspond to a valid UTF-8 character, and reject the corresponding carbon.txt file as invalid.
+
 Untrusted content:
-    Implementors should treat the content of a carbon.txt file as untrusted content, as defined by the specification of the application layer used. In the context of HTTP, implementors should follow the Security Considerations section of [RFC9110].
+:    Implementors should treat the content of a carbon.txt file as untrusted content, as defined by the specification of the application layer used. In the context of HTTP, implementors should follow the Security Considerations section of [RFC9110].
 
 
 # IANA Considerations {#iana}
@@ -489,16 +491,26 @@ Untrusted content:
 
    This document requests registration of the following URI in the "Well-Known URIs" registry [RFC8615]:
 
-   URI suffix: carbon.txt
-   Change controller: IETF
-   Specification document: this document
-   Status: active
-   Related information:  none
+   URI suffix:
+:  carbon.txt
 
---- back
+   Change controller:
+:   IETF
+   Specification document:
+
+: this document
+
+   Status:
+:   active
+
+   Related information:
+:   none
+
 
 # Acknowledgments
 {:numbered="false"}
 
 Many thanks to carbon.txt early adopters and user testing participants Andri Johnson, Owen Rogers, Tim Frick, Siddhesh Wagle, Tin Geber, Célien Camus, TJ Andrews, Frank Lämmer, Cyberfusion and The Ethical Agency, along with many others, whose expertise and feedback helped shape this convention. Thanks also to Andrei Nicolae Besleaga, author of the sustainability-data well-known URI Internet Draft {{?I-D.besleaga-sustainability-wellknown}}.
 The development of carbon.txt was funded in part by ICANN and NGI Search grants.
+
+--- back
