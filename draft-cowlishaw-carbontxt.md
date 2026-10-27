@@ -489,21 +489,21 @@ Untrusted content:
 
 ## Well-Known URI Registration
 
-   This document requests registration of the following URI in the "Well-Known URIs" registry [RFC8615]:
+This document requests registration of the following URI in the "Well-Known URIs" registry [RFC8615]:
 
-   URI suffix:
+URI suffix:
 :  carbon.txt
 
-   Change controller:
+Change controller:
 :   IETF
 
-   Specification document:
+Specification document:
 : this document
 
-   Status:
+Status:
 :   active
 
-   Related information:
+Related information:
 :   none
 
 
