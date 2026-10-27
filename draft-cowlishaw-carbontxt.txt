@@ -717,9 +717,9 @@ Table of Contents
 
       Change controller:
 
-      IETF Specification document:
+      IETF
 
-      this document
+   Specification document:  this document
 
       Status:
 
