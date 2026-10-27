@@ -715,15 +715,11 @@ Table of Contents
 
    URI suffix:  carbon.txt
 
-      Change controller:
-
-      IETF
+   Change controller:  IETF
 
    Specification document:  this document
 
-      Status:
-
-      active
+   Status:  active
 
    Related information:  none
 
