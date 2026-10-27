@@ -68,14 +68,23 @@ informative:
     CarbonTxtGithub:
         title: "carbon.txt syntax reference"
         target: https://github.com/thegreenwebfoundation/carbon-txt-validator
-    KyotoProtocol:
-        title: "Kyoto Protocol to the United Nations Framework Convention on Climate Change"
-        target: https://unfccc.int/process-and-meetings/the-kyoto-protocol
-        date: 1997-12-11
-    GHGProtocol:
-        title: "The GHG Protocol Corporate Accounting and Reporting Standard"
-        target: https://ghgprotocol.org/corporate-standard
-
+    CSRD:
+        title: "Corporate Sustainability Reporting"
+        target: https://finance.ec.europa.eu/financial-markets/company-reporting-and-auditing/company-reporting/corporate-sustainability-reporting_en
+    AiModelCard:
+        title: "AI Model Cards"
+        target: https://deepmind.google/models/model-cards/
+    AiModelCardCO2:
+        title: "Displaying Carbon Emissions for your Model"
+        target: https://huggingface.co/docs/hub/main/en/model-cards-co2
+    ISO14001:
+        title: "Environmental management systems — Requirements with guidance for use"
+        author:
+            org: ISO
+        date: 2015
+        seriesinfo:
+            ISO: "14001:2015"
+        target: https://www.iso.org/standard/60857.html
 
 ...
 
@@ -89,7 +98,7 @@ This document specifies the carbon.txt convention, a machine-readable format for
 
 # Introduction {#intro}
 
-Organisations increasingly publish information about the greenhouse gas emissions of their digital operations — Impact reports, energy mix disclosures and guarantees of origin, regulatory filings under frameworks such as the EU Corporate Sustainability Reporting Directive (CSRD), and measurements of CO2 impact;  but this information is scattered across PDFs, web pages, and third-party registries with no standard way for a client to discover it programmatically.
+Organisations increasingly publish information about the environmental impact of their digital operations — Impact reports, energy mix disclosures and guarantees of origin, regulatory filings under frameworks such as the EU Corporate Sustainability Reporting Directive (CSRD), and measurements of CO2 impact;  but this information is scattered across PDFs, web pages, and third-party registries with no standard way for a client to discover it programmatically.
 
 The carbon.txt convention addresses this by providing a single, predictable location on an origin where a machine-readable index of those disclosures can be found. It is analogous to robots.txt {{?RFC9309}} for crawler instructions or security.txt {{?RFC9116}} for security contact information: a small file at a well-known path that tells a client where to look for structured information about the origin.
 
@@ -120,9 +129,11 @@ Owner organization: The organization or other entity ultimately responsible for 
 
 Digital operations: Any processes, systems or infrastructure used by the owner organization related to their use of digital technologies or platforms
 
-Greenhouse gas emissions: - Emissions of any of the greenhouse gases as defined in the Kyoto Protocol {{KyotoProtocol}} caused by the digital operations of the owner organization, over their entire lifecycle, emissions from purchased electricity (GHG Scope 2) {{GHGProtocol}}, and upstream and downstream indirect emissions (GHG Scope 3) {{GHGProtocol}}
+Environmental impact: Any change to the environment, whether adverse or beneficial, resulting wholly or partly from the activities, products, or services of an organization or system. Adapted from {{ISO14001}}. This document uses the term to cover both direct impacts (e.g., energy use and the manufacture of devices) and indirect impacts (e.g., effects arising from how Internet technologies are used). See {{?RFC9547}} for discussion.
 
-Disclosure: A published document or resource that contains either: evidence about direct and indirect environmental impact of the digital operations of the owner organization, or organizational policy around reduction or mitigation of those impacts.
+Disclosure: A published document or resource that contains either: evidence about direct and indirect environmental impacts of the digital operations of the owner organization, or organizational policy around reduction or mitigation of adverse impacts.
+
+Certification scheme: A set of specific commitments or standards around environmental impact or governance, set, and evaluated for compliance by a third-party organization.
 
 Upstream service: A third-party provider of digital technology services used by the owner organization (e.g., hosting, CDN, analytics).
 
@@ -227,7 +238,7 @@ last_updated = 2026-10-26
 
 Type: `[table]`. REQUIRED.
 
-The `org` table holds information about the organisation's sustainability disclosures and the certification schemes it adheres to. It contains the
+The `org` table holds information about the organisation's environmental impact disclosures and the certification schemes it adheres to. It contains the
 following keys:
 
 | Key                     | Type        | Presence |
@@ -239,7 +250,7 @@ following keys:
 
 Type: `[[array]]`. REQUIRED.
 
-An array of tables, each linking to a document that shows the organisation's sustainability data disclosures. Each element has the following keys:
+An array of tables, each linking to a document that shows the organisation's impact disclosures. Each element has the following keys:
 
 | Key                     | Type        | Presence |
 |:------------------------|:------------|:---------|
@@ -258,20 +269,20 @@ An array of tables, each linking to a document that shows the organisation's sus
   : An annual report.
 
   `sustainability-page`
-  : A web page presenting the organisation's sustainability information.
+  : A web page presenting the organisation's sustainability policy.
 
   `certificate`
-  : A certificate.
+  : A certificate - for instance, of conformance to an Ecolabel, or a renewable energy certificate certifying provenance of energy supply.
 
   `csrd-report`
   : A report prepared under the EU Corporate Sustainability Reporting
-    Directive (CSRD).
+    Directive (CSRD) {{CSRD}}.
 
   `ai-model-card`
-  : A model card describing an AI model.
+  : A model card {{AiModelCard}} describing an AI model, which includes co2 emissions information as described in {{AiModelCardCO2}}.
 
   `measurement-data`
-  : A machine-readable document of measurement or estimate data.
+  : A document containing directly measured or estimated impacts data.
 
   `other`
   : Any document not covered by another type.
@@ -436,32 +447,58 @@ services = [
 
 ## Design considerations and rationale.
 
-TODO
-- Inclusion of version number
-- Inclusion of last-updated date
-- Inclusion of disclosures
-- Inclusion of certification schemes
-- Inlucusion of upstreams
+The carbon.txt syntax is designed for simplicity and flexibility - A minimal carbon.txt file requires just a single disclosure, denoted by a document type and URL, along with the version number of the carbon.txt sytax, while the optional syntax allows for more complex or detailed disclosures to be made as required. We outline below the rationale behind each element in the syntax.
 
+### Version number
+
+The inclusion of an explicit version number allows for flexibility in future updates to the syntax, withouth breaking backwards compatibility. For instance, if a future version makes a currently-optional field required, the version field ensures that the correct validation semantics are applied.
+
+### Last-updated date
+
+The last-updated date allows clients to quickly verify if new information has been added since the last time the file was checked, and some indication of whether the linked disclosures are up to date or not, in the case of disclosures with a particular validity period, such as annual reports.
+
+### Disclosures
+
+Each disclosure, at  a minimum, must include a document type, and the URL where the document can be found, ensuring that a minimal valid carbon.txt file requires very little additional information about the disclosure itself. Additional optional descriptive fields (`title` and `description` are provided for convience for downstream users, or to provide carbon.txt publishers with the ability to provide additional context around why a given disclosure has been included. (For instance, in the case of an annual report, a section of which details emissions reduction efforts, the description field can be used to highlight the relevant section, or to give a summary of the relevance of the overall document). The optional `valid_until` field can be used to clearly signal the period of validity of a disclosure (in the case that it is time-limited, such as an annual report or a certificate) to downstream users. The `certification_schemes` property allows for a disclosure to be marked as relevant to a particular certification scheme, described in detail in the following section.
+
+### Certification schemes
+
+carbon.txt allows an organization to declare membership of certification schemes - standards operated and overseen by third parties, such as ecolabels or voluntary standards. These are listed in the `certification_schemes` block, and must, at a minimum, include a URL pointing to a web page representing the certification scheme, operated by the overseeing third party organization, as well as a unique, file-local ID, which can be used to refer to this certification scheme in a disclosure block. In this way, where an organization's environmental impacts are verified by an external certification scheme, the carbon.txt file can make it clear which disclosures are so verified. As with disclosures, `certification_schemes` may also be given an optional title and description, allowing carbon.txt publishers to provide additional information about the relevance of a given scheme.
+
+### Upstreams
+
+The upstream service block allows an organization to optionally specificy the upstream providers of digital services and infrastructure on which they depend, allowing downstream users to transitively discover the carbon.txt disclosures made by these providers. Each upstream provider must include a `domain` representing the provider organisation, and an `service_type` string representing the particular service they provide.
 
 # Security Considerations {#security}
 
-TODO Security
+Because of the use of URIs and well-known resources, security considerations of [RFC3986] and [RFC8615] apply here, in addition to the considerations outlined below.
 
-- HTTP redirects
-- Body size
-- What else?
+To protect against attacks against their system, implementors of carbon.txt parsing and matching logic should take the following considerations into account:
 
-
+Memory management:
+    carbon.txt publishers MUST ensure that their carbon.txt files are less than 32MB in size, and implementers MUST ensure that  at least 32MB of memory is allocated to contain the contents of any carbon.txt file, in order to mitigate against buffer overflow attacks.
+Invalid characters:
+    carbon.txt publishers MUST only use valid UTF-8 characters in their carbon.txt files, and implementers MUST discard any byte sequence which does not correspond to a valid UTF-8 character, and reject the corresponding carbon.txt file as invalid.
+Untrusted content:
+    Implementors should treat the content of a carbon.txt file as untrusted content, as defined by the specification of the application layer used. In the context of HTTP, implementors should follow the Security Considerations section of [RFC9110].
 
 
 # IANA Considerations {#iana}
 
-TODO IANA considerations - well known URI.
+## Well-Known URI Registration
+
+   This document requests registration of the following URI in the "Well-Known URIs" registry [RFC8615]:
+
+   URI suffix: carbon.txt
+   Change controller: IETF
+   Specification document: this document
+   Status: active
+   Related information:  none
 
 --- back
 
 # Acknowledgments
 {:numbered="false"}
 
-TODO acknowledge. - Owen, Tim, Participantsi in user testing. Cyberfusion. Siddhesh, NGI Search, ICANN, Mallory.
+Many thanks to carbon.txt early adopters and user testing participants Andri Johnson, Owen Rogers, Tim Frick, Siddhesh Wagle, Tin Geber, Célien Camus, TJ Andrews, Frank Lämmer, Cyberfusion and The Ethical Agency, along with many others, whose expertise and feedback helped shape this convention. Thanks also to Andrei Nicolae Besleaga, author of the sustainability-data well-known URI Internet Draft {{?I-D.besleaga-sustainability-wellknown}}.
+The development of carbon.txt was funded in part by ICANN and NGI Search grants.
