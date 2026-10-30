@@ -1,0 +1,2344 @@
+<!DOCTYPE html>
+<html lang="en" class="Internet-Draft">
+<head>
+<meta charset="utf-8">
+<meta content="Common,Latin" name="scripts">
+<meta content="initial-scale=1.0" name="viewport">
+<title>carbon.txt: A transparency protocol for public sustainability data</title>
+<meta content="Tim Cowlishaw" name="author">
+<meta content="Chris Adams" name="author">
+<meta content="Hannah Smith" name="author">
+<meta content="Fershad Irani" name="author">
+<meta content="
+       This document specifies the carbon.txt convention, a machine-readable format for publishing links to disclosures concerning the environmental impact of an organization's digital / ICT operations at a predictable location on the web. Carbon.txt is a TOML document that acts as an index: it declares where an origin's impact disclosures (Annual reports, Sustainability policies, Third party certifications, Quantitative measurements or estimations) may be found, and optionally lists upstream service providers whose own disclosures may be relevant to the origin's environmental impact. Carbon.txt does not carry numeric impact metrics or specific claims about impacts itself; it links to documents that do. In addition it defines a discovery mechanism by which certain origins may delegate their carbon.txt implementation  to another. 
+    " name="description">
+<meta content="xml2rfc 3.34.1" name="generator">
+<meta content="sustainability" name="keyword">
+<meta content="transparency" name="keyword">
+<meta content="web" name="keyword">
+<meta content="draft-cowlishaw-carbontxt-latest" name="ietf.draft">
+<!-- Generator version information:
+  xml2rfc 3.34.1
+    Python 3.14.8
+    ConfigArgParse 1.8.0
+    google-i18n-address 3.1.1
+    intervaltree 3.2.1
+    Jinja2 3.1.6
+    lxml 6.1.1
+    natsort 8.4.0
+    platformdirs 4.13.4
+    pycountry 24.6.1
+    PyYAML 6.0.3
+    requests 2.33.1
+    wcwidth 0.9.2
+-->
+<link href="draft-cowlishaw-carbontxt.xml" rel="alternate" type="application/rfc+xml">
+<link href="#copyright" rel="license">
+<style type="text/css">@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Lora SemiBold'), local('Lora-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-semibold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  color-scheme: light dark;
+  --background-color: #fff;
+  --text-color: #222;
+  --title-color: #191919;
+  --link-color: #2a6496;
+  --highlight-color: #f9f9f9;
+  --line-color: #eee;
+  --pilcrow-weak: #ddd;
+  --pilcrow-strong: #bbb;
+  --small-font-size: 14.5px;
+  --font-mono: 'Oxygen Mono', monospace;
+  --font-title: "Sofia Sans Semi Condensed", sans-serif;
+  scrollbar-color: #bbb #eee;
+}
+body {
+  max-width: 600px;
+  margin: 75px auto;
+  padding: 0 5px;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  font: 16px/22px "Lora", serif;
+  scroll-behavior: smooth;
+}
+
+.ears {
+  display: none;
+}
+
+/* headings */
+section {
+  clear: both;
+}
+.section-number {
+  padding-right: 0.5em;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-title);
+  font-weight: 680;
+  margin: 0.8em 0 0.3em;
+  font-size-adjust: 0.5;
+  color: var(--title-color);
+}
+h1 {
+  &#title {
+    font-size: 32px;
+    line-height: 40px;
+    clear: both;
+    margin: 1.5em 0 0.2em;
+  }
+  &#rfcnum {
+    margin: 1.5em 0 0.2em;
+    & + h1#title {
+      margin: 0.2em 0;
+    }
+  }
+}
+
+h1, h2, h3 {
+  font-size: 22px;
+  line-height: 27px;
+}
+h4, h5, h6 {
+  font-size: 20px;
+  line-height: 24px;
+}
+
+/* general structure */
+.author {
+  padding-bottom: 0.3em;
+  vertical-align: top;
+}
+#abstract+p {
+  font-size: 18px;
+  line-height: 24px;
+  & code, & samp, & tt {
+    font-size: 16px;
+    line-height: 0;
+  }
+}
+
+p {
+  padding: 0;
+  margin: 0.5em 0;
+  text-align: left;
+}
+div {
+  margin: 0;
+}
+.alignRight {
+  margin: 1em 0;
+  &.art-text {
+    background-color: var(--highlight-color);
+    border: 1px solid var(--line-color);
+    border-radius: 3px;
+    padding: 0.5em 1em 0;
+    margin-bottom: 0.5em;
+    & pre {
+      padding: 0;
+      width: auto;
+    }
+  }
+  & > *:first-child {
+    border: none;
+    margin: 0;
+    float: right;
+    clear: both;
+  }
+  & > *:nth-child(2) {
+    clear: both;
+    display: block;
+    border: none;
+  }
+}
+svg {
+  display: block;
+  /* font-family isn't space-separated, but =~ will have to do */
+  &[font-family~="monospace" i], & [font-family~="monospace" i] {
+    font-family: var(--font-mono);
+  }
+}
+.alignCenter {
+  margin: 1em 0;
+  &.art-text {
+    background-color: var(--highlight-color);
+    border: 1px solid var(--line-color);
+    border-radius: 3px;
+    padding: 0.5em 1em 0;
+    margin-bottom: 0.5em;
+    & pre {
+      padding: 0;
+      width: auto;
+    }
+  }
+  & > *:first-child {
+    border: none;
+    /* this isn't optimal, but it's an existence proof.  PrinceXML doesn't
+       support flexbox yet.
+    */
+    display: table;
+    margin: 0 auto;
+  }
+}
+
+/* lists */
+ol, ul {
+  padding: 0;
+  margin: 0 0 0.5em 2em;
+  & :is(ol, ul) {
+    margin-left: 1em;
+  }
+}
+li {
+  margin: 0 0 0.25em 0;
+}
+ul.empty, .ulEmpty {
+  list-style-type: none;
+  & li {
+    margin-top: 0.5em;
+  }
+}
+:is(ul, ol).compact, .ulCompact, .olCompact {
+  margin: 0 0 0 2em;
+  & li {
+    margin: 0;
+    & :first-child { margin-top: 0; }
+    & :last-child { margin-bottom: 0; }
+  }
+}
+
+/* definition lists */
+dl {
+  clear: left;
+  --indent: 3ch;
+  /* --indent: attr(indent ch); not supported in any browser, but we can dream */
+  &.olPercent {
+    --indent: 5ch;
+    & > dt {
+      min-width: calc(var(--indent) - 2ch);
+      float: none;
+    }
+  }
+
+  dl > dd > & {
+    margin-top: 0.5em;
+    margin-bottom: 0;
+  }
+
+  &:not(.dlNewline) > dt {
+    float: left;
+    margin-right: 2ch;
+    min-width: 8ch;
+  }
+  & > dd {
+    margin-bottom: .8em;
+    margin-left: var(--indent) !important; /* stupid element overrides */
+    min-height: 2ex;
+  }
+}
+:is(dl.compact, .dlCompact) > dd {
+  margin-bottom: 0;
+  & > :is(:first-child, .break:first-child + *) {
+    margin-top: 0;
+  }
+  & > :is(:last-child) {
+    margin-bottom: 0;
+  }
+}
+:is(dd, span).break {
+  display: none;
+}
+
+/* links */
+a {
+  text-decoration: none;
+  &[href] {
+    color: var(--link-color);
+    &:hover { text-decoration: underline; }
+    &.selfRef {
+      color: var(--text-color);
+      &:hover {
+        text-decoration: none;
+        background-color: var(--highlight-color);
+      }
+    }
+  }
+}
+.iref + a[href].internal {
+  color: var(--text-color);
+}
+a.xref:is(.cite, .auto), :is(#status-of-memo, #copyright) a {
+  white-space: nowrap;
+}
+
+/* Figures */
+tt, code, pre {
+  background-color: var(--highlight-color);
+  font: 14px/22px var(--font-mono);
+}
+tt, code {
+  /* changing the font for inline elements leads to different ascender
+     and descender heights; as we want to retain baseline alignment,
+     remove leading to avoid altering the final height of lines
+     note: this fails if these blocks take an entire line,
+     a different solution would be great */
+  line-height: 0;
+}
+:is(h1, h2, h3, h4, h5, h6) :is(tt, code) {
+  font-size: 84%;
+}
+pre {
+  border: 1px solid var(--line-color);
+  font-size: 13.5px;
+  line-height: 16px;
+  letter-spacing: -0.2px;
+  margin: 5px;
+  padding: 5px;
+}
+img {
+  max-width: 100%;
+}
+figure {
+  margin: 0.5em 0;
+  padding: 0;
+  & blockquote {
+    margin: 0.8em 0.4em 0.4em;
+  }
+}
+figcaption, caption {
+  font-style: italic;
+  margin: 0.5em 1.5em;
+  text-align: left;
+  caption-side: bottom;
+}
+@media screen {
+  /* Auto-collapse boilerplate. */
+  :is(#status-of-memo, #copyright) {
+    & p {
+      margin: -2px 0;
+      max-height: 0;
+      transition: max-height 2s ease, margin 0.5s ease 0.5s;
+      overflow: hidden;
+    }
+    &:hover p,
+    & h2:target ~ p {
+      margin: 0.5em 0;
+      max-height: 500px;
+      overflow: auto;
+    }
+  }
+  pre, svg {
+    display: inline-block;
+    /* In the horizontal direction, sometimes people make over-sized figures.
+       Scrollbars for those is therefore necessary: auto adds them as necessary..
+       In the vertical direction, the line-height can combine with the font
+       asender/descender height to produce scrollbars: hidden avoids that. */
+    overflow: auto hidden;
+  }
+  pre {
+    max-width: 100%;
+    width: calc(100% - 22px - 1em);
+  }
+  svg {
+    max-width: calc(100% - 22px - 1em);
+  }
+  figure pre {
+    display: block;
+    width: calc(100% - 25px);
+  }
+  :is(pre, svg) + .pilcrow {
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding-bottom: 8px;
+  }
+}
+
+/* aside, blockquote */
+aside, blockquote {
+  margin-left: 0;
+  padding: 0 2em;
+  font-style: italic;
+}
+blockquote {
+  margin: 1em 0;
+  border-left: 2px var(--pilcrow-strong) solid;
+}
+cite {
+  display: block;
+  text-align: right;
+  font-style: italic;
+}
+
+/* tables */
+table {
+  width: auto;
+  max-width: 100%;
+  margin: 0 0 1em;
+  border-collapse: collapse;
+  &.right { margin-left: auto; }
+  &.center { margin-left: auto; margin-right: auto; }
+  &.left { margin-right: auto; }
+  & .text-left { text-align: left; }
+  & .text-center { text-align: center; }
+  & .text-right { text-align: right; }
+  & caption {
+    margin: 0;
+    padding: 3px 0 3px 1em;
+  }
+  & p { margin: 0; }
+}
+
+thead, tbody {
+  border: 1px solid var(--line-color);
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 5px 10px;
+}
+th {
+  background-color: var(--line-color);
+}
+:is(tr:nth-child(2n), thead+tbody > tr:nth-child(2n+1)) > td {
+  background-color: var(--background-color);
+}
+:is(tr:nth-child(2n+1), thead+tbody > tr:nth-child(2n)) > td {
+  background-color: var(--highlight-color);
+}
+
+/* pilcrow */
+a.pilcrow {
+  margin-left: 3px;
+  opacity: 0.2;
+  user-select: none;
+  &[href] {
+    color: var(--pilcrow-weak);
+    &:hover { text-decoration: none; }
+  }
+  @media not print {
+    :hover > &, &:focus {
+      opacity: 1;
+    }
+    &[href]:hover {
+      color: var(--pilcrow-strong);
+      background-color: transparent;
+    }
+  }
+  @media print {
+    display: none;
+  }
+}
+
+/* misc */
+hr {
+  border: 0;
+  border-top: 1px solid var(--line-color);
+}
+.bcp14 {
+  font-variant: small-caps;
+  font-weight: 600;
+  font-size: var(--small-font-size);
+}
+.role {
+  font-variant: all-small-caps;
+}
+sub, sup {
+  line-height: 1;
+  font-size: 80%;
+}
+
+/* info block */
+#identifiers {
+  margin: 0;
+  font-size: var(--small-font-size);
+  line-height: 18px;
+  --identifier-width: 15ch;
+  & dt {
+    width: var(--identifier-width);
+    min-width: var(--identifier-width);
+    clear: left;
+    float: left;
+    text-align: right;
+    margin-right: 1ch;
+  }
+  & dd {
+    margin: 0;
+    margin-left: calc(1em + var(--identifier-width)) !important;
+    min-width: 5em;
+  }
+  & .authors {
+    & .author {
+      display: inline-block;
+      margin-right: 1.5em;
+    }
+    & .org {
+      font-style: italic;
+    }
+  }
+}
+
+/* The prepared/rendered info at the very bottom of the page */
+.docInfo {
+  color: #999;
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 2em;
+  & .prepared {
+    float: right;
+  }
+}
+
+/* table of contents */
+#toc {
+  padding: 0.75em 0 2em 0;
+  margin-bottom: 1em;
+
+  & nav {
+    & ul {
+      margin: 0 0.5em 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    & li {
+      line-height: 1.3em;
+      margin: 2px 0;
+      padding-left: 1.2em;
+      text-indent: -1.2em;
+    }
+  }
+  & a.xref {
+    white-space: normal;
+  }
+}
+
+.references {
+  & > dt {
+    text-align: right;
+    font-weight: bold;
+    min-width: 10ch;
+    margin-right: 1.5ch;
+    &:target::before {
+      content: "⇒";
+      margin: 0 10px 0 -25px;
+    }
+  }
+  & > dd {
+    margin-left: 12ch !important;
+    overflow: visible;
+    & .refInstance {
+      margin-bottom: 0.8em;
+    }
+    & .ascii {
+      margin-bottom: 0.25em;
+    }
+  }
+}
+
+#rfc\.index\.index + ul {
+  margin-left: 0;
+}
+
+/* authors */
+address.vcard {
+  font-style: normal;
+  max-width: 20em;
+  margin: 1em auto 1em 0;
+
+  & .nameRole {
+    font-weight: 700;
+    margin-left: 0;
+  }
+  & .label {
+    margin: 0.5em 0;
+  }
+  & .type {
+    display: none;
+  }
+  & .alternative-contact {
+    margin: 0.5em 0 0.25em 0;
+  }
+  & .non-ascii {
+    margin: 0 0 0 2em;
+  }
+  & div.left {
+    text-align: left;
+  }
+  & div.right {
+    text-align: right;
+  }
+}
+
+hr.addr {
+  border-top: 1px dashed;
+  margin: 0;
+  color: #ddd;
+  max-width: calc(100% - 16px);
+}
+@media (min-width: 500px) {
+  #authors-addresses {
+    & > section {
+      column-count: 2;
+      column-gap: 20px;
+    }
+    & > section > h2 {
+      column-span: all;
+    }
+    /* hack for break-inside: avoid-column */
+    & address {
+      display: inline-block;
+      break-inside: avoid-column;
+    }
+  }
+}
+
+/* Comments */
+.rfcEditorRemove {
+  & p:first-of-type {
+    font-style: italic;
+  }
+}
+.cref {
+  background-color: rgba(249, 232, 105, 0.3);
+  padding: 2px 4px;
+}
+.crefSource {
+  font-style: italic;
+}
+
+@media screen {
+  #toc {
+    & nav {
+      font-family: var(--font-title);
+      font-weight: 360;
+      & > ul { margin-bottom: 2em; }
+      & ul {
+        margin: 0 0 0 4px;
+        & :is(p, li) {
+          margin: 2px 0;
+        }
+      }
+    }
+    & a.toplink {
+      float: right;
+    }
+  }
+}
+@media not screen {
+  #toc a.toplink {
+    display: none;
+  }
+}
+
+
+/* TOC layout for smaller screens */
+@media screen and (max-width: 929px) {
+  #toc {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    padding: 1px 0 0 0;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+    opacity: 0.6;
+    & h2 {
+      margin: 0;
+      padding: 2px 0 2px 6px;
+      padding-right: 1em;
+      font-size: 18px;
+      line-height: 24px;
+      min-width: 190px;
+      text-align: right;
+      background-color: #444;
+      color: white;
+      cursor: pointer;
+      &::before { /* css hamburger */
+        float: right;
+        position: relative;
+        width: 1em;
+        height: 1px;
+        left: -164px;
+        margin: 8px 0 0 0;
+        background: white none repeat scroll 0 0;
+        box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+        content: "";
+      }
+    }
+    & nav {
+      display: none;
+      background-color: var(--background-color);
+      padding: 0.5em 1em 1em;
+      overflow: auto;
+      overscroll-behavior: contain;
+      height: calc(100vh - 48px);
+      border-left: 1px solid #ddd;
+    }
+    &.active {
+      opacity: 1;
+      & nav { display: block; }
+    }
+    /* Make the collapsed ToC header render white on gray also when it's a link */
+    & h2 a,
+    & h2 a:is(:link, :focus, :hover),
+    & a.toplink,
+    & a.toplink:hover {
+      color: white;
+      background-color: #444;
+      text-decoration: none;
+    }
+    & a.toplink {
+      margin: 2px 0.5em 0;
+    }
+  }
+}
+
+/* TOC layout for wide screens */
+@media screen and (min-width: 930px) {
+  body {
+    padding-right: 360px;
+    padding-right: calc(min(180px + 20%, 500px));
+  }
+  #toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 480px);
+    width: 312px;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+    & h2 {
+      margin: 0;
+      padding: 0.25em 1em 1em 0;
+    }
+    & nav {
+      display: block;
+      height: calc(90vh - 84px);
+      bottom: 0;
+      padding: 0.5em 0 2em;
+      overflow: auto;
+      overscroll-behavior: contain;
+      scrollbar-width: thin;
+    }
+    & a.toplink {
+      margin: 8px 0.5em 0;
+    }
+  }
+  img { /* future proofing */
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* pagination */
+@media print {
+  body {
+    width: 100%;
+  }
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+  #n-copyright-notice {
+    border-bottom: none;
+  }
+  #toc {
+    page-break-before: always;
+    border-top: none;
+    padding-top: 0;
+  }
+  #n-introduction {
+    page-break-before: always;
+  }
+  figure, pre, .vcard {
+    page-break-inside: avoid;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  :is(h2, h3, h4, h5, h6)+*, dd {
+    page-break-before: avoid;
+  }
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 10pt;
+  }
+  table {
+    border: 1px solid #ddd;
+  }
+  td {
+    border-top: 1px solid #ddd;
+  }
+}
+
+@page :first {
+  padding-top: 0;
+  @top-left {
+    content: normal;
+    border: none;
+  }
+  @top-center {
+    content: normal;
+    border: none;
+  }
+  @top-right {
+    content: normal;
+    border: none;
+  }
+}
+
+@page {
+  size: A4;
+  margin-bottom: 45mm;
+  padding-top: 20px;
+}
+
+/* Dark mode. */
+@media (prefers-color-scheme: dark) {
+:root {
+  --background-color: #121212;
+  --text-color: #f0f0f0;
+  --title-color: #fff;
+  --link-color: #4da4f0;
+  --highlight-color: #282828;
+  --line-color: #444;
+  --pilcrow-weak: #444;
+  --pilcrow-strong: #666;
+  scrollbar-color: #777 #333;
+}
+}
+
+/* SVG Trick: a prefix match works because only black and white are allowed */
+svg {
+  & :is([stroke="black"], [stroke^="#000"]) {
+    stroke: var(--text-color);
+  }
+  & :is([stroke="white"], [stroke^="#fff"]) {
+    stroke: var(--background-color);
+  }
+  & :is([fill="black"], [fill^="#000"], :not([fill])) {
+    fill: var(--text-color);
+  }
+  & :is([fill="white"], [fill^="#fff"]) {
+    fill: var(--background-color);
+  }
+}
+</style>
+
+</head>
+<body class="xml2rfc">
+<table class="ears">
+<thead><tr>
+<td class="left">Internet-Draft</td>
+<td class="center">carbon.txt</td>
+<td class="right">October 2026</td>
+</tr></thead>
+<tfoot><tr>
+<td class="left">Cowlishaw, et al.</td>
+<td class="center">Expires 3 May 2027</td>
+<td class="right">[Page]</td>
+</tr></tfoot>
+</table>
+<div id="external-metadata" class="document-information"></div>
+<div id="internal-metadata" class="document-information">
+<dl id="identifiers">
+<dt class="label-workgroup">Workgroup:</dt>
+<dd class="workgroup">Network Working Group</dd>
+<dt class="label-internet-draft">Internet-Draft:</dt>
+<dd class="internet-draft">draft-cowlishaw-carbontxt-latest</dd>
+<dt class="label-published">Published:</dt>
+<dd class="published">
+<time datetime="2026-10-30" class="published">30 October 2026</time>
+    </dd>
+<dt class="label-intended-status">Intended Status:</dt>
+<dd class="intended-status">Informational</dd>
+<dt class="label-expires">Expires:</dt>
+<dd class="expires"><time datetime="2027-05-03">3 May 2027</time></dd>
+<dt class="label-authors">Authors:</dt>
+<dd class="authors">
+<div class="author">
+      <div class="author-name">T. Cowlishaw</div>
+<div class="org">The Green Web Foundation</div>
+</div>
+<div class="author">
+      <div class="author-name">C. Adams</div>
+<div class="org">The Green Web Foundation</div>
+</div>
+<div class="author">
+      <div class="author-name">H. Smith</div>
+<div class="org">The Green Web Foundation</div>
+</div>
+<div class="author">
+      <div class="author-name">F. Irani</div>
+<div class="org">The Green Web Foundation</div>
+</div>
+</dd>
+</dl>
+</div>
+<h1 id="title">carbon.txt: A transparency protocol for public sustainability data</h1>
+<section id="section-abstract">
+      <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
+<p id="section-abstract-1">This document specifies the carbon.txt convention, a machine-readable format for publishing links to disclosures concerning the environmental impact of an organization's digital / ICT operations at a predictable location on the web. Carbon.txt is a TOML document that acts as an index: it declares where an origin's impact disclosures (Annual reports, Sustainability policies, Third party certifications, Quantitative measurements or estimations) may be found, and optionally lists upstream service providers whose own disclosures may be relevant to the origin's environmental impact. Carbon.txt does not carry numeric impact metrics or specific claims about impacts itself; it links to documents that do. In addition it defines a discovery mechanism by which certain origins may delegate their carbon.txt implementation  to another.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+</section>
+<section class="note rfcEditorRemove" id="section-note.1">
+      <h2 id="name-about-this-document">
+<a href="#name-about-this-document" class="section-name selfRef">About This Document</a>
+      </h2>
+<p id="section-note.1-1">This note is to be removed before publishing as an RFC.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
+<p id="section-note.1-2">
+        The latest revision of this draft can be found at <span><a href="https://thegreenwebfoundation.github.io/carbon-txt-internet-draft/draft-cowlishaw-carbontxt.html">https://thegreenwebfoundation.github.io/carbon-txt-internet-draft/draft-cowlishaw-carbontxt.html</a></span>.
+        Status information for this document may be found at <span><a href="https://datatracker.ietf.org/doc/draft-cowlishaw-carbontxt/">https://datatracker.ietf.org/doc/draft-cowlishaw-carbontxt/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
+<p id="section-note.1-3">Source for this draft and an issue tracker can be found at
+        <span><a href="https://github.com/thegreenwebfoundation/carbon-txt-internet-draft">https://github.com/thegreenwebfoundation/carbon-txt-internet-draft</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
+</section>
+<div id="status-of-memo">
+<section id="section-boilerplate.1">
+        <h2 id="name-status-of-this-memo">
+<a href="#name-status-of-this-memo" class="section-name selfRef">Status of This Memo</a>
+        </h2>
+<p id="section-boilerplate.1-1">
+        This Internet-Draft is submitted in full conformance with the
+        provisions of BCP 78 and BCP 79.<a href="#section-boilerplate.1-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-2">
+        Internet-Drafts are working documents of the Internet Engineering Task
+        Force (IETF). Note that other groups may also distribute working
+        documents as Internet-Drafts. The list of current Internet-Drafts is
+        at <span><a href="https://datatracker.ietf.org/drafts/current/">https://datatracker.ietf.org/drafts/current/</a></span>.<a href="#section-boilerplate.1-2" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-3">
+        Internet-Drafts are draft documents valid for a maximum of six months
+        and may be updated, replaced, or obsoleted by other documents at any
+        time. It is inappropriate to use Internet-Drafts as reference
+        material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-4">
+        This Internet-Draft will expire on 3 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="copyright">
+<section id="section-boilerplate.2">
+        <h2 id="name-copyright-notice">
+<a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
+        </h2>
+<p id="section-boilerplate.2-1">
+            Copyright (c) 2026 IETF Trust and the persons identified as the
+            document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.2-2">
+            This document is subject to BCP 78 and the IETF Trust's Legal
+            Provisions Relating to IETF Documents
+            (<span><a href="https://trustee.ietf.org/license-info">https://trustee.ietf.org/license-info</a></span>) in effect on the date of
+            publication of this document. Please review these documents
+            carefully, as they describe your rights and restrictions with
+            respect to this document. Code Components extracted from this
+            document must include Revised BSD License text as described in
+            Section 4.e of the Trust Legal Provisions and are provided without
+            warranty as described in the Revised BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="toc">
+<section id="section-toc.1">
+        <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
+<a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
+        </h2>
+<nav class="toc"><ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1">
+                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-design-principles" class="internal xref">Design principles:</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.2">
+                <p id="section-toc.1-1.1.2.2.1" class="keepWithNext"><a href="#section-1.2" class="auto internal xref">1.2</a>.  <a href="#name-relationship-to-other-work" class="internal xref">Relationship to other work</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.3">
+                <p id="section-toc.1-1.1.2.3.1" class="keepWithNext"><a href="#section-1.3" class="auto internal xref">1.3</a>.  <a href="#name-compatibility-with-earlier-" class="internal xref">Compatibility with earlier versions.</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-conventions-and-definitions" class="internal xref">Conventions and Definitions</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-discovery-mechanism" class="internal xref">Discovery mechanism</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
+                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-dns-txt-record" class="internal xref">DNS TXT Record</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-well-known-uri" class="internal xref">Well-Known URI RFC8615</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
+                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-carbontxt-file-at-the-domai" class="internal xref">carbon.txt file at the domain root</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4">
+                <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-transport-requirements" class="internal xref">Transport Requirements</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.5">
+                <p id="section-toc.1-1.3.2.5.1"><a href="#section-3.5" class="auto internal xref">3.5</a>.  <a href="#name-design-considerations-and-r" class="internal xref">Design considerations and rationale.</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-file-format" class="internal xref">File format</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-design-considerations-ratio" class="internal xref">Design considerations &amp; rationale</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-schema" class="internal xref">Schema</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1">
+                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-common-value-types" class="internal xref">Common value types</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-top-level-keys" class="internal xref">Top-Level Keys</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2.2.1">
+                    <p id="section-toc.1-1.5.2.2.2.1.1"><a href="#section-5.2.1" class="auto internal xref">5.2.1</a>.  <a href="#name-version" class="internal xref">Version</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2.2.2">
+                    <p id="section-toc.1-1.5.2.2.2.2.1"><a href="#section-5.2.2" class="auto internal xref">5.2.2</a>.  <a href="#name-last-updated-date" class="internal xref">Last updated date</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3">
+                <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-the-org-table" class="internal xref">The <code>org</code> Table</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3.2.1">
+                    <p id="section-toc.1-1.5.2.3.2.1.1"><a href="#section-5.3.1" class="auto internal xref">5.3.1</a>.  <a href="#name-disclosures" class="internal xref">Disclosures</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3.2.2">
+                    <p id="section-toc.1-1.5.2.3.2.2.1"><a href="#section-5.3.2" class="auto internal xref">5.3.2</a>.  <a href="#name-certification-schemes" class="internal xref">Certification Schemes</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4">
+                <p id="section-toc.1-1.5.2.4.1"><a href="#section-5.4" class="auto internal xref">5.4</a>.  <a href="#name-the-upstream-table" class="internal xref">The <code>upstream</code> table</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4.2.1">
+                    <p id="section-toc.1-1.5.2.4.2.1.1"><a href="#section-5.4.1" class="auto internal xref">5.4.1</a>.  <a href="#name-services" class="internal xref">Services</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.5">
+                <p id="section-toc.1-1.5.2.5.1"><a href="#section-5.5" class="auto internal xref">5.5</a>.  <a href="#name-complete-example" class="internal xref">Complete Example</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.6">
+                <p id="section-toc.1-1.5.2.6.1"><a href="#section-5.6" class="auto internal xref">5.6</a>.  <a href="#name-design-considerations-and-ra" class="internal xref">Design considerations and rationale.</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.6.2.1">
+                    <p id="section-toc.1-1.5.2.6.2.1.1"><a href="#section-5.6.1" class="auto internal xref">5.6.1</a>.  <a href="#name-version-number" class="internal xref">Version number</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.6.2.2">
+                    <p id="section-toc.1-1.5.2.6.2.2.1"><a href="#section-5.6.2" class="auto internal xref">5.6.2</a>.  <a href="#name-last-updated-date-2" class="internal xref">Last-updated date</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.6.2.3">
+                    <p id="section-toc.1-1.5.2.6.2.3.1"><a href="#section-5.6.3" class="auto internal xref">5.6.3</a>.  <a href="#name-disclosures-2" class="internal xref">Disclosures</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.6.2.4">
+                    <p id="section-toc.1-1.5.2.6.2.4.1"><a href="#section-5.6.4" class="auto internal xref">5.6.4</a>.  <a href="#name-certification-schemes-2" class="internal xref">Certification schemes</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.6.2.5">
+                    <p id="section-toc.1-1.5.2.6.2.5.1"><a href="#section-5.6.5" class="auto internal xref">5.6.5</a>.  <a href="#name-upstreams" class="internal xref">Upstreams</a></p>
+</li>
+                </ul>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1">
+                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-well-known-uri-registration" class="internal xref">Well-Known URI Registration</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref"></a><a href="#name-references" class="internal xref">References</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1">
+                <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="auto internal xref"></a><a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2">
+                <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="auto internal xref"></a><a href="#name-informative-references" class="internal xref">Informative References</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
+            <p id="section-toc.1-1.10.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+</li>
+        </ul>
+</nav>
+</section>
+</div>
+<div id="intro">
+<section id="section-1">
+      <h2 id="name-introduction">
+<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
+      </h2>
+<p id="section-1-1">Organisations increasingly publish information about the environmental impact of their digital operations — Impact reports, energy mix disclosures and guarantees of origin, regulatory filings under frameworks such as the EU Corporate Sustainability Reporting Directive (CSRD), and measurements of CO2 impact;  but this information is scattered across PDFs, web pages, and third-party registries with no standard way for a client to discover it programmatically.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">The carbon.txt convention addresses this by providing a single, predictable location on an origin where a machine-readable index of those disclosures can be found. It is analogous to robots.txt <span>[<a href="#RFC9309" class="cite xref">RFC9309</a>]</span> for crawler instructions or security.txt <span>[<a href="#RFC9116" class="cite xref">RFC9116</a>]</span> for security contact information: a small file at a well-known path that tells a client where to look for structured information about the origin.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">The convention described in this document is already deployed and implemented by the Green Web Foundation as an HTTP API <span>[<a href="#CarbonTxtValidator" class="cite xref">CarbonTxtValidator</a>]</span>, and python library <span>[<a href="#CarbonTxtPython" class="cite xref">CarbonTxtPython</a>]</span>, and released as open source <span>[<a href="#CarbonTxtGithub" class="cite xref">CarbonTxtGithub</a>]</span> .<a href="#section-1-3" class="pilcrow">¶</a></p>
+<div id="design-principles">
+<section id="section-1.1">
+        <h3 id="name-design-principles">
+<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-design-principles" class="section-name selfRef">Design principles:</a>
+        </h3>
+<ul class="normal">
+<li class="normal" id="section-1.1-1.1">
+            <p id="section-1.1-1.1.1">carbon.txt is an index, not a repository. It links to documents; it does not itself contain any disclosures..<a href="#section-1.1-1.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-1.1-1.2">
+            <p id="section-1.1-1.2.1">It is human-readable (TOML <span>[<a href="#TOML" class="cite xref">TOML</a>]</span> with comments) as well as machine-parsable.<a href="#section-1.1-1.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-1.1-1.3">
+            <p id="section-1.1-1.3.1">It is designed for incremental deployment. A minimal valid file can be as simple as a link to a single disclosure.<a href="#section-1.1-1.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-1.1-1.4">
+            <p id="section-1.1-1.4.1">It does not in itself verify or guarantee the veracity of claims or disclosures, but provides mechanisms for third-party validation.<a href="#section-1.1-1.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+<div id="relationship-to-other-work">
+<section id="section-1.2">
+        <h3 id="name-relationship-to-other-work">
+<a href="#section-1.2" class="section-number selfRef">1.2. </a><a href="#name-relationship-to-other-work" class="section-name selfRef">Relationship to other work</a>
+        </h3>
+<p id="section-1.2-1">This document is complementary to the sustainability-data well-known URI proposal made by <span>[<a href="#I-D.besleaga-sustainability-wellknown" class="cite xref">I-D.besleaga-sustainability-wellknown</a>]</span>. The sustainability-data draft outlines a mechanism for declaring the energy consumption, carbon footprint, and related environmental and sustainability metrics of an origin for different reporting periods, while this proposal explicitly considers the sharing of such metrics to be out of scope, concentrating instead on providing a mechanism for indexing sustainability disclosures (such as a sustainability-data declaration) related to an origin at a predictable location. The two proposals compose cleanly: An implementation of carbon.txt may link to their sustainability-data as a disclosure, and a sustainability-data file may link back to carbon-txt via the disclosure-uri field.<a href="#section-1.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="compatibility-with-earlier-versions">
+<section id="section-1.3">
+        <h3 id="name-compatibility-with-earlier-">
+<a href="#section-1.3" class="section-number selfRef">1.3. </a><a href="#name-compatibility-with-earlier-" class="section-name selfRef">Compatibility with earlier versions.</a>
+        </h3>
+<p id="section-1.3-1">This document describes version 1.0.0-RC1 of the carbon.txt syntax, the first which we have attempted to standardise as an Internet Draft. It builds upon earlier versions of the carbon.txt project <span>[<a href="#CarbonTxt" class="cite xref">CarbonTxt</a>]</span>, but radically simplifies various aspects, in particular the discovery mechanism outlined in section 3. As a result, this version does not maintain strict backwards compatibility with previous versions of carbon.txt.<a href="#section-1.3-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="conventions-and-definitions">
+<section id="section-2">
+      <h2 id="name-conventions-and-definitions">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-conventions-and-definitions" class="section-name selfRef">Conventions and Definitions</a>
+      </h2>
+<p id="section-2-1">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL NOT</span>", "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>",
+"<span class="bcp14">MAY</span>", and "<span class="bcp14">OPTIONAL</span>" in this document are to be interpreted as
+described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they
+appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-2-2">
+        <dt id="section-2-2.1">Origin:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.2">
+          <p id="section-2-2.2.1">As defined in <span>[<a href="#RFC6454" class="cite xref">RFC6454</a>]</span>. A tuple of scheme, host, and port.<a href="#section-2-2.2.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.3">Owner organization:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.4">
+          <p id="section-2-2.4.1">The organization or other entity ultimately responsible for the content or services provided by the Origin.<a href="#section-2-2.4.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.5">Digital operations:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.6">
+          <p id="section-2-2.6.1">Any processes, systems or infrastructure used by the owner organization related to their use of digital technologies or platforms<a href="#section-2-2.6.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.7">Environmental impact:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.8">
+          <p id="section-2-2.8.1">Any change to the environment, whether adverse or beneficial, resulting wholly or partly from the activities, products, or services of an organization or system. Adapted from <span>[<a href="#ISO14001" class="cite xref">ISO14001</a>]</span>. This document uses the term to cover both direct impacts (e.g., energy use and the manufacture of devices) and indirect impacts (e.g., effects arising from how Internet technologies are used). See <span>[<a href="#RFC9547" class="cite xref">RFC9547</a>]</span> for discussion.<a href="#section-2-2.8.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.9">Disclosure:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.10">
+          <p id="section-2-2.10.1">A published document or resource that contains either: evidence about direct and indirect environmental impacts of the digital operations of the owner organization, or organizational policy around reduction or mitigation of adverse impacts.<a href="#section-2-2.10.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.11">Certification scheme:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.12">
+          <p id="section-2-2.12.1">A set of specific commitments or standards around environmental impact or governance, set, and evaluated for compliance by a third-party organization.<a href="#section-2-2.12.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.13">Upstream service:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.14">
+          <p id="section-2-2.14.1">A third-party provider of digital technology services used by the owner organization (e.g., hosting, CDN, analytics).<a href="#section-2-2.14.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.15">carbon.txt file:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.16">
+          <p id="section-2-2.16.1">A TOML <span>[<a href="#TOML" class="cite xref">TOML</a>]</span> document conforming to the schema defined in Section 5 of this specification.<a href="#section-2-2.16.1" class="pilcrow">¶</a></p>
+</dd>
+      <dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="discovery-mechanism">
+<section id="section-3">
+      <h2 id="name-discovery-mechanism">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-discovery-mechanism" class="section-name selfRef">Discovery mechanism</a>
+      </h2>
+<p id="section-3-1">A client <span class="bcp14">MUST</span> attempt to locate a carbon.txt file using the following mechanisms, in order. The client <span class="bcp14">MUST</span> stop at the first location that returns an HTTP 200 response with a parsable TOML body.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<div id="dns-txt-record">
+<section id="section-3.1">
+        <h3 id="name-dns-txt-record">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-dns-txt-record" class="section-name selfRef">DNS TXT Record</a>
+        </h3>
+<p id="section-3.1-1">An origin <span class="bcp14">MAY</span> advertise the location of its carbon.txt file via a DNS TXT record in the format <code>carbon-txt-location=&lt;URL&gt;</code> on the domain, pointing to an HTTPS URL of a carbon.txt file. If this file is present, it <span class="bcp14">MUST</span> return an HTTP 200 response with a parsable TOML body. If the TXT record is present and well-formed, the client <span class="bcp14">MUST</span> attempt to fetch the referenced carbon.txt file at that URL before continuing with the discovery process. The client <span class="bcp14">MUST NOT</span> transitively perform a DNS TXT record lookup on this target domain - if no file exists at the target URL, then the discovery process fails and terminates.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="well-known-uri-rfc8615">
+<section id="section-3.2">
+        <h3 id="name-well-known-uri">
+<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-well-known-uri" class="section-name selfRef">Well-Known URI <span class="cite xref">[RFC8615]</span></a>
+        </h3>
+<p id="section-3.2-1">An origin <span class="bcp14">SHOULD</span> publish a carbon.txt file at: the path <code>/.well-known/carbon.txt</code> relative to the origin root. This section requires an IANA registration request for the "carbon.txt" well-known URI - see <a href="#iana" class="auto internal xref">Section 7</a>. If this file is present, it <span class="bcp14">MUST</span> return an HTTP 200 response with a parsable TOML body.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="carbontxt-file-at-the-domain-root">
+<section id="section-3.3">
+        <h3 id="name-carbontxt-file-at-the-domai">
+<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-carbontxt-file-at-the-domai" class="section-name selfRef">carbon.txt file at the domain root</a>
+        </h3>
+<p id="section-3.3-1">An origin <span class="bcp14">MAY</span> serve its carbon.txt file at the root of its domain, at the path <code>/carbon.txt</code>, relative to the origin root. If the <code>.well-known/carbon.txt</code> file is absent but this file is present, and it returns a HTTP 200 response with a parsable TOML body, it <span class="bcp14">SHOULD</span> be used as the canonical carbon.txt for the origin's owner organization. This path is retained for backwards compatibility with earlier deployments, the Well-Known URI in the preceding section is the preferred location.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="transport-requirements">
+<section id="section-3.4">
+        <h3 id="name-transport-requirements">
+<a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-transport-requirements" class="section-name selfRef">Transport Requirements</a>
+        </h3>
+<p id="section-3.4-1">The carbon.txt file <span class="bcp14">MUST</span> be served over HTTPS. A client <span class="bcp14">MUST NOT</span> follow any HTTP redirects when requesting a carbon.txt file. The response body <span class="bcp14">MUST</span> be served with a Content-Type of application/toml or text/plain.<a href="#section-3.4-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="design-considerations-and-rationale">
+<section id="section-3.5">
+        <h3 id="name-design-considerations-and-r">
+<a href="#section-3.5" class="section-number selfRef">3.5. </a><a href="#name-design-considerations-and-r" class="section-name selfRef">Design considerations and rationale.</a>
+        </h3>
+<p id="section-3.5-1">The primary mechanism for discovering a carbon.txt file is via the Well-Known URI, in line with existing standards <span>[<a href="#RFC8615" class="cite xref">RFC8615</a>]</span> on well-known resource discovery. In parallel, we fall back to the carbon.txt location at the domain root, for reasons of backwards compatibility with our existing installed user base, and for consistency with existing conventions such as robots.txt <span>[<a href="#RFC9309" class="cite xref">RFC9309</a>]</span>and security.txt <span>[<a href="#RFC9116" class="cite xref">RFC9116</a>]</span>. The DNS TXT record alternative is provided to allow organizations which operate more than one domain to maintain a canonical carbon.txt file on a single domain, and to point to it from other domains they control. This approach allows for an explicit, single-step delegation from one domain to another, avoiding transitive lookups of undetermined length. We disallow the following of standard HTTP redirects in order to ensure that only one step of delegation is permitted, and to avoid the case where an origin might fraudulently and transparently redirect to the carbon.txt file of an unrelated organization.<a href="#section-3.5-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="file-format">
+<section id="section-4">
+      <h2 id="name-file-format">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-file-format" class="section-name selfRef">File format</a>
+      </h2>
+<p id="section-4-1">A carbon.txt file <span class="bcp14">MUST</span> be valid TOML as specified in <span>[<a href="#TOML" class="cite xref">TOML</a>]</span>, encoded as UTF-8 text. Comments (lines beginning with #) are permitted and <span class="bcp14">SHOULD</span> be ignored by parsers.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<div id="design-considerations-rationale">
+<section id="section-4.1">
+        <h3 id="name-design-considerations-ratio">
+<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-design-considerations-ratio" class="section-name selfRef">Design considerations &amp; rationale</a>
+        </h3>
+<p id="section-4.1-1">TOML was chosen as a serialization format for its combination of human and machine readability, and its stability and wide adoption. In addition, it allows for commenting, something not supported in eg. JSON files, which aids with human-readability. This spec makes use of a subset of the TOML 1.0.0 specification, concretely the constructs: "table", "array of tables", "inline table", "string", and "local date".<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="schema">
+<section id="section-5">
+      <h2 id="name-schema">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-schema" class="section-name selfRef">Schema</a>
+      </h2>
+<p id="section-5-1">This section defines version 1.0.0-RC1 of the carbon.txt syntax.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-2">The syntax is expressed in terms of TOML <span>[<a href="#TOML" class="cite xref">TOML</a>]</span>. The terms "table", "array of tables", "inline table", "string", and "local date" are used as defined by the TOML specification. In the field descriptions below, the notation <code>[table]</code> denotes a TOML table, <code>[[array]]</code> denotes an array of tables, and <code>[string]</code> denotes an array of strings.<a href="#section-5-2" class="pilcrow">¶</a></p>
+<p id="section-5-3">The document consists of the following top-level keys and tables:<a href="#section-5-3" class="pilcrow">¶</a></p>
+<table class="center" id="table-1">
+        <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
+<thead>
+          <tr>
+            <th class="text-left" rowspan="1" colspan="1">Key</th>
+            <th class="text-left" rowspan="1" colspan="1">Type</th>
+            <th class="text-left" rowspan="1" colspan="1">Presence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">
+              <code>version</code>
+</td>
+            <td class="text-left" rowspan="1" colspan="1">string</td>
+            <td class="text-left" rowspan="1" colspan="1">
+              <span class="bcp14">REQUIRED</span>
+</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">
+              <code>last_updated</code>
+</td>
+            <td class="text-left" rowspan="1" colspan="1">date</td>
+            <td class="text-left" rowspan="1" colspan="1">
+              <span class="bcp14">OPTIONAL</span>
+</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">
+              <code>org</code>
+</td>
+            <td class="text-left" rowspan="1" colspan="1">
+              <code>[table]</code>
+</td>
+            <td class="text-left" rowspan="1" colspan="1">
+              <span class="bcp14">REQUIRED</span>
+</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">
+              <code>upstream</code>
+</td>
+            <td class="text-left" rowspan="1" colspan="1">
+              <code>[table]</code>
+</td>
+            <td class="text-left" rowspan="1" colspan="1">
+              <span class="bcp14">OPTIONAL</span>
+</td>
+          </tr>
+        </tbody>
+      </table>
+<div id="types">
+<section id="section-5.1">
+        <h3 id="name-common-value-types">
+<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-common-value-types" class="section-name selfRef">Common value types</a>
+        </h3>
+<span class="break"></span><dl class="dlParallel" id="section-5.1-1">
+          <dt id="section-5.1-1.1">string:</dt>
+          <dd style="margin-left: 1.5em" id="section-5.1-1.2">
+            <p id="section-5.1-1.2.1">A TOML basic or literal string.<a href="#section-5.1-1.2.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-5.1-1.3">date:</dt>
+          <dd style="margin-left: 1.5em" id="section-5.1-1.4">
+            <p id="section-5.1-1.4.1">Either a TOML local date (for example, <code>2026-12-31</code>), or a string containing a <code>full-date</code> as defined in Section 5.6 of <span>[<a href="#RFC3339" class="cite xref">RFC3339</a>]</span> (for example, <code>"2026-12-31"</code>).<a href="#section-5.1-1.4.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-5.1-1.5">url:</dt>
+          <dd style="margin-left: 1.5em" id="section-5.1-1.6">
+            <p id="section-5.1-1.6.1">A string containing an absolute URI <span>[<a href="#RFC3986" class="cite xref">RFC3986</a>]</span> whose scheme is either <code>http</code> or <code>https</code>; that is, the string <span class="bcp14">MUST</span> begin with "http://" or "https://".<a href="#section-5.1-1.6.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-5.1-1.7">domain:</dt>
+          <dd style="margin-left: 1.5em" id="section-5.1-1.8">
+            <p id="section-5.1-1.8.1">A string containing a DNS domain name. A domain <span class="bcp14">MAY</span> include subdomains (for example, "www."). A domain <span class="bcp14">MUST NOT</span> include a protocol or scheme (such as "http://" or "https://") and <span class="bcp14">MUST NOT</span> include a path (such as "/news/", "/about", or "news-update-2025").<a href="#section-5.1-1.8.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-5.1-1.9">id:</dt>
+          <dd style="margin-left: 1.5em" id="section-5.1-1.10">
+            <p id="section-5.1-1.10.1">A string conforming to the following ABNF <span>[<a href="#RFC5234" class="cite xref">RFC5234</a>]</span>:<a href="#section-5.1-1.10.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+</dl>
+<div class="lang-abnf sourcecode" id="section-5.1-2">
+<pre>
+id = 1*( ALPHA / DIGIT / "-" / "_" )
+</pre><a href="#section-5.1-2" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="top-level-keys">
+<section id="section-5.2">
+        <h3 id="name-top-level-keys">
+<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-top-level-keys" class="section-name selfRef">Top-Level Keys</a>
+        </h3>
+<div id="version">
+<section id="section-5.2.1">
+          <h4 id="name-version">
+<a href="#section-5.2.1" class="section-number selfRef">5.2.1. </a><a href="#name-version" class="section-name selfRef">Version</a>
+          </h4>
+<p id="section-5.2.1-1">Type: string. <span class="bcp14">REQUIRED</span>.<a href="#section-5.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.2.1-2">The carbon.txt syntax version to which the file conforms. For this version
+of the syntax, the value <span class="bcp14">MUST</span> be <code>"1.0.0-RC1"</code>. Future version numbers <span class="bcp14">MUST</span> conform to the <span>[<a href="#SemVer" class="cite xref">SemVer</a>]</span> convention.
+Example:<a href="#section-5.2.1-2" class="pilcrow">¶</a></p>
+<div class="lang-toml sourcecode" id="section-5.2.1-3">
+<pre>
+version = "1.0.0-RC1"
+</pre><a href="#section-5.2.1-3" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="last-updated-date">
+<section id="section-5.2.2">
+          <h4 id="name-last-updated-date">
+<a href="#section-5.2.2" class="section-number selfRef">5.2.2. </a><a href="#name-last-updated-date" class="section-name selfRef">Last updated date</a>
+          </h4>
+<p id="section-5.2.2-1">Type: date. <span class="bcp14">OPTIONAL</span>.<a href="#section-5.2.2-1" class="pilcrow">¶</a></p>
+<p id="section-5.2.2-2">The date on which the file was last updated.<a href="#section-5.2.2-2" class="pilcrow">¶</a></p>
+<p id="section-5.2.2-3">Example:<a href="#section-5.2.2-3" class="pilcrow">¶</a></p>
+<div class="lang-toml sourcecode" id="section-5.2.2-4">
+<pre>
+last_updated = 2026-10-26
+</pre><a href="#section-5.2.2-4" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="the-org-table">
+<section id="section-5.3">
+        <h3 id="name-the-org-table">
+<a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-the-org-table" class="section-name selfRef">The <code>org</code> Table</a>
+        </h3>
+<p id="section-5.3-1">Type: <code>[table]</code>. <span class="bcp14">REQUIRED</span>.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
+<p id="section-5.3-2">The <code>org</code> table holds information about the organization's environmental impact disclosures and the certification schemes it adheres to. It contains the
+following keys:<a href="#section-5.3-2" class="pilcrow">¶</a></p>
+<table class="center" id="table-2">
+          <caption><a href="#table-2" class="selfRef">Table 2</a></caption>
+<thead>
+            <tr>
+              <th class="text-left" rowspan="1" colspan="1">Key</th>
+              <th class="text-left" rowspan="1" colspan="1">Type</th>
+              <th class="text-left" rowspan="1" colspan="1">Presence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">
+                <code>disclosures</code>
+</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <code>[[array]]</code>
+</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span class="bcp14">REQUIRED</span>
+</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">
+                <code>certification_schemes</code>
+</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <code>[[array]]</code>
+</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span class="bcp14">OPTIONAL</span>
+</td>
+            </tr>
+          </tbody>
+        </table>
+<div id="disclosures">
+<section id="section-5.3.1">
+          <h4 id="name-disclosures">
+<a href="#section-5.3.1" class="section-number selfRef">5.3.1. </a><a href="#name-disclosures" class="section-name selfRef">Disclosures</a>
+          </h4>
+<p id="section-5.3.1-1">Type: <code>[[array]]</code>. <span class="bcp14">REQUIRED</span>.<a href="#section-5.3.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.3.1-2">An array of tables, each linking to a document that shows the organization's impact disclosures. Each element has the following keys:<a href="#section-5.3.1-2" class="pilcrow">¶</a></p>
+<table class="center" id="table-3">
+            <caption><a href="#table-3" class="selfRef">Table 3</a></caption>
+<thead>
+              <tr>
+                <th class="text-left" rowspan="1" colspan="1">Key</th>
+                <th class="text-left" rowspan="1" colspan="1">Type</th>
+                <th class="text-left" rowspan="1" colspan="1">Presence</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <code>doc_type</code>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">string</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span class="bcp14">REQUIRED</span>
+</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <code>url</code>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">url</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span class="bcp14">REQUIRED</span>
+</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <code>title</code>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">string</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span class="bcp14">OPTIONAL</span>
+</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <code>description</code>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">string</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span class="bcp14">OPTIONAL</span>
+</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <code>valid_until</code>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">date</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span class="bcp14">OPTIONAL</span>
+</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <code>certification_schemes</code>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <code>[string]</code>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span class="bcp14">OPTIONAL</span>
+</td>
+              </tr>
+            </tbody>
+          </table>
+<span class="break"></span><dl class="dlParallel" id="section-5.3.1-4">
+            <dt id="section-5.3.1-4.1">
+<code>doc_type</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-5.3.1-4.2">
+              <p id="section-5.3.1-4.2.1">A string identifying the type of document being linked to. The value <span class="bcp14">MUST</span> be one of the following:<a href="#section-5.3.1-4.2.1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-5.3.1-4.2.2">
+                <dt id="section-5.3.1-4.2.2.1"><code>annual-report</code></dt>
+                <dd style="margin-left: 1.5em" id="section-5.3.1-4.2.2.2">
+                  <p id="section-5.3.1-4.2.2.2.1">An annual report.<a href="#section-5.3.1-4.2.2.2.1" class="pilcrow">¶</a></p>
+</dd>
+                <dd class="break"></dd>
+<dt id="section-5.3.1-4.2.2.3"><code>sustainability-page</code></dt>
+                <dd style="margin-left: 1.5em" id="section-5.3.1-4.2.2.4">
+                  <p id="section-5.3.1-4.2.2.4.1">A web page presenting the organization's sustainability policy.<a href="#section-5.3.1-4.2.2.4.1" class="pilcrow">¶</a></p>
+</dd>
+                <dd class="break"></dd>
+<dt id="section-5.3.1-4.2.2.5"><code>certificate</code></dt>
+                <dd style="margin-left: 1.5em" id="section-5.3.1-4.2.2.6">
+                  <p id="section-5.3.1-4.2.2.6.1">A certificate - for instance, of conformance to an Ecolabel, or a renewable energy certificate certifying provenance of energy supply.<a href="#section-5.3.1-4.2.2.6.1" class="pilcrow">¶</a></p>
+</dd>
+                <dd class="break"></dd>
+<dt id="section-5.3.1-4.2.2.7"><code>csrd-report</code></dt>
+                <dd style="margin-left: 1.5em" id="section-5.3.1-4.2.2.8">
+                  <p id="section-5.3.1-4.2.2.8.1">A report prepared under the EU Corporate Sustainability Reporting
+Directive (CSRD) <span>[<a href="#CSRD" class="cite xref">CSRD</a>]</span>.<a href="#section-5.3.1-4.2.2.8.1" class="pilcrow">¶</a></p>
+</dd>
+                <dd class="break"></dd>
+<dt id="section-5.3.1-4.2.2.9"><code>ai-model-card</code></dt>
+                <dd style="margin-left: 1.5em" id="section-5.3.1-4.2.2.10">
+                  <p id="section-5.3.1-4.2.2.10.1">A model card <span>[<a href="#AiModelCard" class="cite xref">AiModelCard</a>]</span> describing an AI model, which includes co2 emissions information as described in <span>[<a href="#AiModelCardCO2" class="cite xref">AiModelCardCO2</a>]</span>.<a href="#section-5.3.1-4.2.2.10.1" class="pilcrow">¶</a></p>
+</dd>
+                <dd class="break"></dd>
+<dt id="section-5.3.1-4.2.2.11"><code>measurement-data</code></dt>
+                <dd style="margin-left: 1.5em" id="section-5.3.1-4.2.2.12">
+                  <p id="section-5.3.1-4.2.2.12.1">A document containing directly measured or estimated impacts data.<a href="#section-5.3.1-4.2.2.12.1" class="pilcrow">¶</a></p>
+</dd>
+                <dd class="break"></dd>
+<dt id="section-5.3.1-4.2.2.13"><code>other</code></dt>
+                <dd style="margin-left: 1.5em" id="section-5.3.1-4.2.2.14">
+                  <p id="section-5.3.1-4.2.2.14.1">Any document not covered by another type.<a href="#section-5.3.1-4.2.2.14.1" class="pilcrow">¶</a></p>
+</dd>
+              <dd class="break"></dd>
+</dl>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-5.3.1-4.3">
+<code>url</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-5.3.1-4.4">
+              <p id="section-5.3.1-4.4.1">The URL of the document being linked to.<a href="#section-5.3.1-4.4.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-5.3.1-4.5">
+<code>title</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-5.3.1-4.6">
+              <p id="section-5.3.1-4.6.1">A meaningful title describing the disclosure, for example "Corporate sustainability report 2026".<a href="#section-5.3.1-4.6.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-5.3.1-4.7">
+<code>description</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-5.3.1-4.8">
+              <p id="section-5.3.1-4.8.1">A brief summary of the disclosure, or any additional information needed to understand it.<a href="#section-5.3.1-4.8.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-5.3.1-4.9">
+<code>valid_until</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-5.3.1-4.10">
+              <p id="section-5.3.1-4.10.1">The last date on which the disclosure is valid, if it is time-limited (for example, an annual report or a renewable energy certificate).<a href="#section-5.3.1-4.10.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-5.3.1-4.11">
+<code>certification_schemes</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-5.3.1-4.12">
+              <p id="section-5.3.1-4.12.1">An array of one or more <code>id</code> values, each of which <span class="bcp14">MUST</span> match the <code>id</code> of an element of <code>org.certification_schemes</code> (<a href="#certification-schemes" class="auto internal xref">Section 5.3.2</a>)
+in the same file. It identifies the certification schemes to which the disclosure relates.<a href="#section-5.3.1-4.12.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+</dl>
+<p id="section-5.3.1-5">Example:<a href="#section-5.3.1-5" class="pilcrow">¶</a></p>
+<div class="lang-toml sourcecode" id="section-5.3.1-6">
+<pre>
+[org]
+
+disclosures = [
+  { doc_type = "sustainability-page",
+    url = "https://mycompany.com/sustainability",
+    certification_schemes = ["blauer-engel"],
+    description = "This company's sustainability policy." },
+  { doc_type = "annual-report",
+    url = "https://mycompany.com/carbon-emissions-2026.pdf",
+    valid_until = 2026-12-31,
+    title = "Emissions Report 2026" },
+  { doc_type = "measurement-data",
+    url = "https://mycompany.com/dist.json",
+    title = "Quarterly emissions figures",
+    description = "Estimated carbon impact data for this company's digital operations, in DIST format" }
+]
+</pre><a href="#section-5.3.1-6" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="certification-schemes">
+<section id="section-5.3.2">
+          <h4 id="name-certification-schemes">
+<a href="#section-5.3.2" class="section-number selfRef">5.3.2. </a><a href="#name-certification-schemes" class="section-name selfRef">Certification Schemes</a>
+          </h4>
+<p id="section-5.3.2-1">Type: <code>[[array]]</code>. <span class="bcp14">OPTIONAL</span>.<a href="#section-5.3.2-1" class="pilcrow">¶</a></p>
+<p id="section-5.3.2-2">An array of tables, each linking to a certification scheme (such as a voluntary standard or ecolabel) to which the organization adheres. Each
+element has the following keys:<a href="#section-5.3.2-2" class="pilcrow">¶</a></p>
+<table class="center" id="table-4">
+            <caption><a href="#table-4" class="selfRef">Table 4</a></caption>
+<thead>
+              <tr>
+                <th class="text-left" rowspan="1" colspan="1">Key</th>
+                <th class="text-left" rowspan="1" colspan="1">Type</th>
+                <th class="text-left" rowspan="1" colspan="1">Presence</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <code>id</code>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">id</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span class="bcp14">REQUIRED</span>
+</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <code>url</code>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">url</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span class="bcp14">REQUIRED</span>
+</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <code>title</code>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">string</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span class="bcp14">OPTIONAL</span>
+</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <code>description</code>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">string</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span class="bcp14">OPTIONAL</span>
+</td>
+              </tr>
+            </tbody>
+          </table>
+<span class="break"></span><dl class="dlParallel" id="section-5.3.2-4">
+            <dt id="section-5.3.2-4.1">
+<code>id</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-5.3.2-4.2">
+              <p id="section-5.3.2-4.2.1">An identifier used to refer to this certification scheme from elsewhere in the same file, in particular from the <code>certification_schemes</code> key of a disclosure (<a href="#disclosures" class="auto internal xref">Section 5.3.1</a>). The value <span class="bcp14">MUST</span> conform to the <code>id</code> production in <a href="#types" class="auto internal xref">Section 5.1</a> and <span class="bcp14">MUST</span> be unique among the <code>id</code> values of all certification schemes in the file.<a href="#section-5.3.2-4.2.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-5.3.2-4.3">
+<code>url</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-5.3.2-4.4">
+              <p id="section-5.3.2-4.4.1">The URL of the certification scheme.<a href="#section-5.3.2-4.4.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-5.3.2-4.5">
+<code>title</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-5.3.2-4.6">
+              <p id="section-5.3.2-4.6.1">A meaningful title describing the certification scheme, for example "B-corporation", "Blauer Engel", or "SCI for Web".<a href="#section-5.3.2-4.6.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-5.3.2-4.7">
+<code>description</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-5.3.2-4.8">
+              <p id="section-5.3.2-4.8.1">Any additional information useful for understanding the certification, such as a brief description of the commitments it represents or the guarantees it makes.<a href="#section-5.3.2-4.8.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+</dl>
+<p id="section-5.3.2-5">Example:<a href="#section-5.3.2-5" class="pilcrow">¶</a></p>
+<div class="lang-toml sourcecode" id="section-5.3.2-6">
+<pre>
+[org]
+
+certification_schemes = [
+  { id = "blauer-engel",
+    url = "https://www.blauer-engel.de/en/productworld/software",
+    title = "Blauer Engel Resource and Energy-Efficient Software Products",
+    description = "The aim of the environmental label for resource and energy-efficient software products is to reduce the total energy consumed by information and communication technology and improve resource efficiency." }
+]
+</pre><a href="#section-5.3.2-6" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="the-upstream-table">
+<section id="section-5.4">
+        <h3 id="name-the-upstream-table">
+<a href="#section-5.4" class="section-number selfRef">5.4. </a><a href="#name-the-upstream-table" class="section-name selfRef">The <code>upstream</code> table</a>
+        </h3>
+<p id="section-5.4-1">Type: <code>[table]</code>. <span class="bcp14">OPTIONAL</span>.<a href="#section-5.4-1" class="pilcrow">¶</a></p>
+<p id="section-5.4-2">The <code>upstream</code> table holds information linking the organization to the
+upstream providers it uses. It contains the following key:<a href="#section-5.4-2" class="pilcrow">¶</a></p>
+<table class="center" id="table-5">
+          <caption><a href="#table-5" class="selfRef">Table 5</a></caption>
+<thead>
+            <tr>
+              <th class="text-left" rowspan="1" colspan="1">Key</th>
+              <th class="text-left" rowspan="1" colspan="1">Type</th>
+              <th class="text-left" rowspan="1" colspan="1">Presence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">
+                <code>services</code>
+</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <code>[[array]]</code>
+</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span class="bcp14">OPTIONAL</span>
+</td>
+            </tr>
+          </tbody>
+        </table>
+<div id="services">
+<section id="section-5.4.1">
+          <h4 id="name-services">
+<a href="#section-5.4.1" class="section-number selfRef">5.4.1. </a><a href="#name-services" class="section-name selfRef">Services</a>
+          </h4>
+<p id="section-5.4.1-1">Type: <code>[[array]]</code>. <span class="bcp14">OPTIONAL</span>.<a href="#section-5.4.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.4.1-2">An array of tables, each describing an upstream provider used by the
+organization. Each element has the following keys:<a href="#section-5.4.1-2" class="pilcrow">¶</a></p>
+<table class="center" id="table-6">
+            <caption><a href="#table-6" class="selfRef">Table 6</a></caption>
+<thead>
+              <tr>
+                <th class="text-left" rowspan="1" colspan="1">Key</th>
+                <th class="text-left" rowspan="1" colspan="1">Type</th>
+                <th class="text-left" rowspan="1" colspan="1">Presence</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <code>domain</code>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">domain</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span class="bcp14">OPTIONAL</span>
+</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <code>service_type</code>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">string or <code>[string]</code>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span class="bcp14">OPTIONAL</span>
+</td>
+              </tr>
+            </tbody>
+          </table>
+<span class="break"></span><dl class="dlParallel" id="section-5.4.1-4">
+            <dt id="section-5.4.1-4.1">
+<code>domain</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-5.4.1-4.2">
+              <p id="section-5.4.1-4.2.1">The domain of the organization providing the upstream service.<a href="#section-5.4.1-4.2.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-5.4.1-4.3">
+<code>service_type</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-5.4.1-4.4">
+              <p id="section-5.4.1-4.4.1">A slug representing the service provided by the upstream provider, or an
+array of such slugs where the provider supplies more than one type of
+service.<a href="#section-5.4.1-4.4.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+</dl>
+<p id="section-5.4.1-5">Example:<a href="#section-5.4.1-5" class="pilcrow">¶</a></p>
+<div class="lang-toml sourcecode" id="section-5.4.1-6">
+<pre>
+[upstream]
+services = [
+  { domain = "cloud.google.com", service_type = "shared-hosting" },
+  { domain = "aws.amazon.com" }
+]
+</pre><a href="#section-5.4.1-6" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="complete-example">
+<section id="section-5.5">
+        <h3 id="name-complete-example">
+<a href="#section-5.5" class="section-number selfRef">5.5. </a><a href="#name-complete-example" class="section-name selfRef">Complete Example</a>
+        </h3>
+<div class="lang-toml sourcecode" id="section-5.5-1">
+<pre>
+version = "1.0.0-RC1"
+last_updated = 2026-10-26
+
+[org]
+
+certification_schemes = [
+  { id = "blauer-engel",
+    url = "https://www.blauer-engel.de/en/productworld/software",
+    title = "Blauer Engel Resource and Energy-Efficient Software Products",
+    description = "The aim of the environmental label for resource and energy-efficient software products is to reduce the total energy consumed by information and communication technology and improve resource efficiency." }
+]
+
+disclosures = [
+  { doc_type = "sustainability-page",
+    url = "https://mycompany.com/sustainability",
+    certification_schemes = ["blauer-engel"],
+    description = "This company's sustainability policy." },
+  { doc_type = "annual-report",
+    url = "https://mycompany.com/carbon-emissions-2026.pdf",
+    valid_until = 2026-12-31,
+    title = "Emissions Report 2026" },
+  { doc_type = "measurement-data",
+    url = "https://mycompany.com/dist.json",
+    title = "Quarterly emissions figures",
+    description = "Estimated carbon impact data for this company's digital operations, in DIST format" }
+]
+
+[upstream]
+services = [
+  { domain = "cloud.google.com", service_type = "shared-hosting" },
+  { domain = "aws.amazon.com" }
+]
+
+</pre><a href="#section-5.5-1" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="design-considerations-and-rationale-1">
+<section id="section-5.6">
+        <h3 id="name-design-considerations-and-ra">
+<a href="#section-5.6" class="section-number selfRef">5.6. </a><a href="#name-design-considerations-and-ra" class="section-name selfRef">Design considerations and rationale.</a>
+        </h3>
+<p id="section-5.6-1">The carbon.txt syntax is designed for simplicity and flexibility - A minimal carbon.txt file requires just a single disclosure, denoted by a document type and URL, along with the version number of the carbon.txt syntax, while the optional syntax allows for more complex or detailed disclosures to be made as required. We outline below the rationale behind each element in the syntax.<a href="#section-5.6-1" class="pilcrow">¶</a></p>
+<div id="version-number">
+<section id="section-5.6.1">
+          <h4 id="name-version-number">
+<a href="#section-5.6.1" class="section-number selfRef">5.6.1. </a><a href="#name-version-number" class="section-name selfRef">Version number</a>
+          </h4>
+<p id="section-5.6.1-1">The inclusion of an explicit version number allows for flexibility in future updates to the syntax, without breaking backwards compatibility. For instance, if a future version makes a currently-optional field required, the version field ensures that the correct validation semantics are applied.<a href="#section-5.6.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="last-updated-date-1">
+<section id="section-5.6.2">
+          <h4 id="name-last-updated-date-2">
+<a href="#section-5.6.2" class="section-number selfRef">5.6.2. </a><a href="#name-last-updated-date-2" class="section-name selfRef">Last-updated date</a>
+          </h4>
+<p id="section-5.6.2-1">The last-updated date allows clients to quickly verify if new information has been added since the last time the file was checked, and some indication of whether the linked disclosures are up to date or not, in the case of disclosures with a particular validity period, such as annual reports.<a href="#section-5.6.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="disclosures-1">
+<section id="section-5.6.3">
+          <h4 id="name-disclosures-2">
+<a href="#section-5.6.3" class="section-number selfRef">5.6.3. </a><a href="#name-disclosures-2" class="section-name selfRef">Disclosures</a>
+          </h4>
+<p id="section-5.6.3-1">Each disclosure, at  a minimum, must include a document type, and the URL where the document can be found, ensuring that a minimal valid carbon.txt file requires very little additional information about the disclosure itself. Additional optional descriptive fields (<code>title</code> and <code>description</code> are provided for convenience for downstream users, or to provide carbon.txt publishers with the ability to provide additional context around why a given disclosure has been included. (For instance, in the case of an annual report, a section of which details emissions reduction efforts, the description field can be used to highlight the relevant section, or to give a summary of the relevance of the overall document). The optional <code>valid_until</code> field can be used to clearly signal the period of validity of a disclosure (in the case that it is time-limited, such as an annual report or a certificate) to downstream users. The <code>certification_schemes</code> property allows for a disclosure to be marked as relevant to a particular certification scheme, described in detail in the following section.<a href="#section-5.6.3-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="certification-schemes-rationale">
+<section id="section-5.6.4">
+          <h4 id="name-certification-schemes-2">
+<a href="#section-5.6.4" class="section-number selfRef">5.6.4. </a><a href="#name-certification-schemes-2" class="section-name selfRef">Certification schemes</a>
+          </h4>
+<p id="section-5.6.4-1">carbon.txt allows an organization to declare membership of certification schemes - standards operated and overseen by third parties, such as ecolabels or voluntary standards. These are listed in the <code>certification_schemes</code> block, and must, at a minimum, include a URL pointing to a web page representing the certification scheme, operated by the overseeing third party organization, as well as a unique, file-local ID, which can be used to refer to this certification scheme in a disclosure block. In this way, where an organization's environmental impacts are verified by an external certification scheme, the carbon.txt file can make it clear which disclosures are so verified. As with disclosures, <code>certification_schemes</code> may also be given an optional title and description, allowing carbon.txt publishers to provide additional information about the relevance of a given scheme.<a href="#section-5.6.4-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="upstreams">
+<section id="section-5.6.5">
+          <h4 id="name-upstreams">
+<a href="#section-5.6.5" class="section-number selfRef">5.6.5. </a><a href="#name-upstreams" class="section-name selfRef">Upstreams</a>
+          </h4>
+<p id="section-5.6.5-1">The upstream service block allows an organization to optionally specify the upstream providers of digital services and infrastructure on which they depend, allowing downstream users to transitively discover the carbon.txt disclosures made by these providers. Each upstream provider must include a <code>domain</code> representing the provider organization, and an <code>service_type</code> string representing the particular service they provide.<a href="#section-5.6.5-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="security">
+<section id="section-6">
+      <h2 id="name-security-considerations">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+      </h2>
+<p id="section-6-1">Because of the use of URIs and well-known resources, security considerations of <span>[<a href="#RFC3986" class="cite xref">RFC3986</a>]</span> and <span>[<a href="#RFC8615" class="cite xref">RFC8615</a>]</span> apply here, in addition to the considerations outlined below.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-2">To protect against attacks against their system, implementers of carbon.txt parsing and matching logic should take the following considerations into account:<a href="#section-6-2" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-6-3">
+        <dt id="section-6-3.1">Memory management:</dt>
+        <dd style="margin-left: 1.5em" id="section-6-3.2">
+          <p id="section-6-3.2.1">carbon.txt publishers <span class="bcp14">MUST</span> ensure that their carbon.txt files are less than 32MB in size, and implementers <span class="bcp14">MUST</span> ensure that  at least 32MB of memory is allocated to contain the contents of any carbon.txt file, in order to mitigate against buffer overflow attacks.<a href="#section-6-3.2.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-6-3.3">Invalid characters:</dt>
+        <dd style="margin-left: 1.5em" id="section-6-3.4">
+          <p id="section-6-3.4.1">carbon.txt publishers <span class="bcp14">MUST</span> only use valid UTF-8 characters in their carbon.txt files, and implementers <span class="bcp14">MUST</span> discard any byte sequence which does not correspond to a valid UTF-8 character, and reject the corresponding carbon.txt file as invalid.<a href="#section-6-3.4.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-6-3.5">Untrusted content:</dt>
+        <dd style="margin-left: 1.5em" id="section-6-3.6">
+          <p id="section-6-3.6.1">Implementers should treat the content of a carbon.txt file as untrusted content, as defined by the specification of the application layer used. In the context of HTTP, implementers should follow the Security Considerations section of <span>[<a href="#RFC9110" class="cite xref">RFC9110</a>]</span>.<a href="#section-6-3.6.1" class="pilcrow">¶</a></p>
+</dd>
+      <dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="iana">
+<section id="section-7">
+      <h2 id="name-iana-considerations">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+      </h2>
+<div id="well-known-uri-registration">
+<section id="section-7.1">
+        <h3 id="name-well-known-uri-registration">
+<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-well-known-uri-registration" class="section-name selfRef">Well-Known URI Registration</a>
+        </h3>
+<p id="section-7.1-1">This document requests registration of the following URI in the "Well-Known URIs" registry <span>[<a href="#RFC8615" class="cite xref">RFC8615</a>]</span>:<a href="#section-7.1-1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-7.1-2">
+          <dt id="section-7.1-2.1">URI suffix:</dt>
+          <dd style="margin-left: 1.5em" id="section-7.1-2.2">
+            <p id="section-7.1-2.2.1">carbon.txt<a href="#section-7.1-2.2.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-7.1-2.3">Change controller:</dt>
+          <dd style="margin-left: 1.5em" id="section-7.1-2.4">
+            <p id="section-7.1-2.4.1">IETF<a href="#section-7.1-2.4.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-7.1-2.5">Specification document:</dt>
+          <dd style="margin-left: 1.5em" id="section-7.1-2.6">
+            <p id="section-7.1-2.6.1">this document<a href="#section-7.1-2.6.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-7.1-2.7">Status:</dt>
+          <dd style="margin-left: 1.5em" id="section-7.1-2.8">
+            <p id="section-7.1-2.8.1">active<a href="#section-7.1-2.8.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-7.1-2.9">Related information:</dt>
+          <dd style="margin-left: 1.5em" id="section-7.1-2.10">
+            <p id="section-7.1-2.10.1">none<a href="#section-7.1-2.10.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+</dl>
+</section>
+</div>
+</section>
+</div>
+<div id="acknowledgments">
+<section id="section-8">
+      <h2 id="name-acknowledgments">
+<a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
+      </h2>
+<p id="section-8-1">Many thanks to carbon.txt early adopters and user testing participants Andri Johnson, Owen Rogers, Tim Frick, Siddhesh Wagle, Tin Geber, Célien Camus, TJ Andrews, Frank Lämmer, Cyberfusion and The Ethical Agency, along with many others, whose expertise and feedback helped shape this convention. Thanks also to Andrei Nicolae Besleaga, author of the sustainability-data well-known URI Internet Draft <span>[<a href="#I-D.besleaga-sustainability-wellknown" class="cite xref">I-D.besleaga-sustainability-wellknown</a>]</span>.<a href="#section-8-1" class="pilcrow">¶</a></p>
+<p id="section-8-2">The development of carbon.txt was funded in part by ICANN and NGI Search grants.<a href="#section-8-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sec-combined-references">
+<section id="section-9">
+      <h2 id="name-references">
+<a href="#name-references" class="section-name selfRef">References</a>
+      </h2>
+<div id="sec-normative-references">
+<section id="section-9.1">
+        <h3 id="name-normative-references">
+<a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+        </h3>
+<dl class="references">
+<dt id="RFC2119">[RFC2119]</dt>
+        <dd>
+<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC3339">[RFC3339]</dt>
+        <dd>
+<span class="refAuthor">Klyne, G.</span> and <span class="refAuthor">C. Newman</span>, <span class="refTitle">"Date and Time on the Internet: Timestamps"</span>, <span class="seriesInfo">RFC 3339</span>, <span class="seriesInfo">DOI 10.17487/RFC3339</span>, <time datetime="2002-07" class="refDate">July 2002</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3339">https://www.rfc-editor.org/rfc/rfc3339</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC3986">[RFC3986]</dt>
+        <dd>
+<span class="refAuthor">Berners-Lee, T.</span>, <span class="refAuthor">Fielding, R.</span>, and <span class="refAuthor">L. Masinter</span>, <span class="refTitle">"Uniform Resource Identifier (URI): Generic Syntax"</span>, <span class="seriesInfo">STD 66</span>, <span class="seriesInfo">RFC 3986</span>, <span class="seriesInfo">DOI 10.17487/RFC3986</span>, <time datetime="2005-01" class="refDate">January 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3986">https://www.rfc-editor.org/rfc/rfc3986</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5234">[RFC5234]</dt>
+        <dd>
+<span class="refAuthor">Crocker, D., Ed.</span> and <span class="refAuthor">P. Overell</span>, <span class="refTitle">"Augmented BNF for Syntax Specifications: ABNF"</span>, <span class="seriesInfo">STD 68</span>, <span class="seriesInfo">RFC 5234</span>, <span class="seriesInfo">DOI 10.17487/RFC5234</span>, <time datetime="2008-01" class="refDate">January 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5234">https://www.rfc-editor.org/rfc/rfc5234</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6454">[RFC6454]</dt>
+        <dd>
+<span class="refAuthor">Barth, A.</span>, <span class="refTitle">"The Web Origin Concept"</span>, <span class="seriesInfo">RFC 6454</span>, <span class="seriesInfo">DOI 10.17487/RFC6454</span>, <time datetime="2011-12" class="refDate">December 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6454">https://www.rfc-editor.org/rfc/rfc6454</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8174">[RFC8174]</dt>
+        <dd>
+<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8615">[RFC8615]</dt>
+        <dd>
+<span class="refAuthor">Nottingham, M.</span>, <span class="refTitle">"Well-Known Uniform Resource Identifiers (URIs)"</span>, <span class="seriesInfo">RFC 8615</span>, <span class="seriesInfo">DOI 10.17487/RFC8615</span>, <time datetime="2019-05" class="refDate">May 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8615">https://www.rfc-editor.org/rfc/rfc8615</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9110">[RFC9110]</dt>
+        <dd>
+<span class="refAuthor">Fielding, R., Ed.</span>, <span class="refAuthor">Nottingham, M., Ed.</span>, and <span class="refAuthor">J. Reschke, Ed.</span>, <span class="refTitle">"HTTP Semantics"</span>, <span class="seriesInfo">STD 97</span>, <span class="seriesInfo">RFC 9110</span>, <span class="seriesInfo">DOI 10.17487/RFC9110</span>, <time datetime="2022-06" class="refDate">June 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9110">https://www.rfc-editor.org/rfc/rfc9110</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="SemVer">[SemVer]</dt>
+        <dd>
+<span class="refTitle">"Semantic Versioning 2.0.0 (text from June 19, 2020)"</span>, <span>n.d.</span>, <span>&lt;<a href="https://github.com/semver/semver/blob/8b2e8eec394948632957639dfa99fc7ec6286911/semver.md">https://github.com/semver/semver/blob/8b2e8eec394948632957639dfa99fc7ec6286911/semver.md</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="TOML">[TOML]</dt>
+      <dd>
+<span class="refAuthor">Preston-Werner, T.</span> and <span class="refAuthor">P. Gedam</span>, <span class="refTitle">"TOML: Tom's Obvious, Minimal Language, Version 1.0.0"</span>, <time datetime="2021-11-01" class="refDate">1 November 2021</time>, <span>&lt;<a href="https://toml.io/en/v1.0.0">https://toml.io/en/v1.0.0</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="sec-informative-references">
+<section id="section-9.2">
+        <h3 id="name-informative-references">
+<a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+        </h3>
+<dl class="references">
+<dt id="AiModelCard">[AiModelCard]</dt>
+        <dd>
+<span class="refTitle">"AI Model Cards"</span>, <span>n.d.</span>, <span>&lt;<a href="https://deepmind.google/models/model-cards/">https://deepmind.google/models/model-cards/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="AiModelCardCO2">[AiModelCardCO2]</dt>
+        <dd>
+<span class="refTitle">"Displaying Carbon Emissions for your Model"</span>, <span>n.d.</span>, <span>&lt;<a href="https://huggingface.co/docs/hub/main/en/model-cards-co2">https://huggingface.co/docs/hub/main/en/model-cards-co2</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="CarbonTxt">[CarbonTxt]</dt>
+        <dd>
+<span class="refTitle">"carbon.txt syntax reference"</span>, <span>n.d.</span>, <span>&lt;<a href="https://carbontxt.org/syntax">https://carbontxt.org/syntax</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="CarbonTxtGithub">[CarbonTxtGithub]</dt>
+        <dd>
+<span class="refTitle">"carbon.txt Github repository"</span>, <span>n.d.</span>, <span>&lt;<a href="https://github.com/thegreenwebfoundation/carbon-txt-validator">https://github.com/thegreenwebfoundation/carbon-txt-validator</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="CarbonTxtPython">[CarbonTxtPython]</dt>
+        <dd>
+<span class="refTitle">"carbon.txt python package"</span>, <span>n.d.</span>, <span>&lt;<a href="https://pypi.org/project/carbon-txt/">https://pypi.org/project/carbon-txt/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="CarbonTxtValidator">[CarbonTxtValidator]</dt>
+        <dd>
+<span class="refTitle">"carbon.txt validator API"</span>, <span>n.d.</span>, <span>&lt;<a href="https://carbon-txt-api.greenweb.org/api/docs">https://carbon-txt-api.greenweb.org/api/docs</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="CSRD">[CSRD]</dt>
+        <dd>
+<span class="refTitle">"Corporate Sustainability Reporting"</span>, <span>n.d.</span>, <span>&lt;<a href="https://finance.ec.europa.eu/financial-markets/company-reporting-and-auditing/company-reporting/corporate-sustainability-reporting_en">https://finance.ec.europa.eu/financial-markets/company-reporting-and-auditing/company-reporting/corporate-sustainability-reporting_en</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.besleaga-sustainability-wellknown">[I-D.besleaga-sustainability-wellknown]</dt>
+        <dd>
+<span class="refAuthor">Besleaga, A. N.</span>, <span class="refTitle">"The 'sustainability-data' Well-Known URI"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-besleaga-sustainability-wellknown-12</span>, <time datetime="2026-10-28" class="refDate">28 October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-besleaga-sustainability-wellknown-12">https://datatracker.ietf.org/doc/html/draft-besleaga-sustainability-wellknown-12</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="ISO14001">[ISO14001]</dt>
+        <dd>
+<span class="refAuthor">ISO</span>, <span class="refTitle">"Environmental management systems — Requirements with guidance for use"</span>, <span class="seriesInfo">ISO 14001:2015</span>, <time datetime="2015" class="refDate">2015</time>, <span>&lt;<a href="https://www.iso.org/standard/60857.html">https://www.iso.org/standard/60857.html</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9116">[RFC9116]</dt>
+        <dd>
+<span class="refAuthor">Foudil, E.</span> and <span class="refAuthor">Y. Shafranovich</span>, <span class="refTitle">"A File Format to Aid in Security Vulnerability Disclosure"</span>, <span class="seriesInfo">RFC 9116</span>, <span class="seriesInfo">DOI 10.17487/RFC9116</span>, <time datetime="2022-04" class="refDate">April 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9116">https://www.rfc-editor.org/rfc/rfc9116</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9309">[RFC9309]</dt>
+        <dd>
+<span class="refAuthor">Koster, M.</span>, <span class="refAuthor">Illyes, G.</span>, <span class="refAuthor">Zeller, H.</span>, and <span class="refAuthor">L. Sassman</span>, <span class="refTitle">"Robots Exclusion Protocol"</span>, <span class="seriesInfo">RFC 9309</span>, <span class="seriesInfo">DOI 10.17487/RFC9309</span>, <time datetime="2022-09" class="refDate">September 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9309">https://www.rfc-editor.org/rfc/rfc9309</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9547">[RFC9547]</dt>
+      <dd>
+<span class="refAuthor">Arkko, J.</span>, <span class="refAuthor">Perkins, C. S.</span>, and <span class="refAuthor">S. Krishnan</span>, <span class="refTitle">"Report from the IAB Workshop on Environmental Impact of Internet Applications and Systems, 2022"</span>, <span class="seriesInfo">RFC 9547</span>, <span class="seriesInfo">DOI 10.17487/RFC9547</span>, <time datetime="2024-02" class="refDate">February 2024</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9547">https://www.rfc-editor.org/rfc/rfc9547</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</div>
+</section>
+</div>
+<div id="authors-addresses">
+<section id="appendix-A">
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
+      </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Tim Cowlishaw</span></div>
+<div dir="auto" class="left"><span class="org">The Green Web Foundation</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:tim@greenweb.org" class="email">tim@greenweb.org</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Chris Adams</span></div>
+<div dir="auto" class="left"><span class="org">The Green Web Foundation</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:chris@greenweb.org" class="email">chris@greenweb.org</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Hannah Smith</span></div>
+<div dir="auto" class="left"><span class="org">The Green Web Foundation</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:hannah@greenweb.org" class="email">hannah@greenweb.org</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Fershad Irani</span></div>
+<div dir="auto" class="left"><span class="org">The Green Web Foundation</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:fershad@greenweb.org" class="email">fershad@greenweb.org</a>
+</div>
+</address>
+</section>
+</div>
+<script>const toc = document.getElementById("toc");
+toc.querySelector("h2").addEventListener("click", e => {
+  toc.classList.toggle("active");
+});
+toc.querySelector("nav").addEventListener("click", e => {
+  toc.classList.remove("active");
+});
+</script>
+</body>
+</html>
