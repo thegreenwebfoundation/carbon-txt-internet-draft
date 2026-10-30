@@ -66,7 +66,7 @@ informative:
         title: "carbon.txt python package"
         target: https://pypi.org/project/carbon-txt/
     CarbonTxtGithub:
-        title: "carbon.txt syntax reference"
+        title: "carbon.txt Github repository"
         target: https://github.com/thegreenwebfoundation/carbon-txt-validator
     CSRD:
         title: "Corporate Sustainability Reporting"
@@ -113,7 +113,7 @@ The convention described in this document is already deployed and implemented by
 
 ## Relationship to other work
 
-This document is complementary to the sustainability-data well-known URI proposal made by {{?I-D.besleaga-sustainability-wellknown}}. The sustainability-data draft outlines a mechanism for declaring the energy consumption, carbon footprint, and related environmental and sustainability metrics of an origin for different reporting periods, while this proposal explicitly considers the sharing of such metrics to be out of scope, concentrating instead on providing a mechanism for indexing sustainability disclosures (such we a sustainability-data declaration) related to an origin at a predictable location. The two proposals compose cleanly: An implementation of carbon.txt may link to their sustainability-data as a disclosure, and a sustainability-data file may link back to carbon-txt via the disclosure-uri field.
+This document is complementary to the sustainability-data well-known URI proposal made by {{?I-D.besleaga-sustainability-wellknown}}. The sustainability-data draft outlines a mechanism for declaring the energy consumption, carbon footprint, and related environmental and sustainability metrics of an origin for different reporting periods, while this proposal explicitly considers the sharing of such metrics to be out of scope, concentrating instead on providing a mechanism for indexing sustainability disclosures (such as a sustainability-data declaration) related to an origin at a predictable location. The two proposals compose cleanly: An implementation of carbon.txt may link to their sustainability-data as a disclosure, and a sustainability-data file may link back to carbon-txt via the disclosure-uri field.
 
 ## Compatibility with earlier versions.
 
@@ -124,7 +124,7 @@ This document describes version 1.0.0-RC1 of the carbon.txt syntax, the first wh
 {::boilerplate bcp14-tagged}
 
 Origin:
-:  As defined in [RFC6454]. A tuple of scheme, host, and port.
+:  As defined in {{!RFC6454}}. A tuple of scheme, host, and port.
 
 Owner organization:
 :  The organization or other entity ultimately responsible for the content or services provided by the Origin.
@@ -155,13 +155,13 @@ A client MUST attempt to locate a carbon.txt file using the following mechanisms
 
 An origin MAY advertise the location of its carbon.txt file via a DNS TXT record in the format `carbon-txt-location=<URL>` on the domain, pointing to an HTTPS URL of a carbon.txt file. If this file is present, it MUST return an HTTP 200 response with a parsable TOML body. If the TXT record is present and well-formed, the client MUST attempt to fetch the referenced carbon.txt file at that URL before continuing with the discovery process. The client MUST NOT transitively perform a DNS TXT record lookup on this target domain - if no file exists at the target URL, then the discovery process fails and terminates.
 
-## Well-Known URI [RFC8615]
+## Well-Known URI {{!RFC8615}}
 
 An origin SHOULD publish a carbon.txt file at: the path `/.well-known/carbon.txt` relative to the origin root. NOTE: This section requires an IANA registration request for the "carbon.txt" well-known URI. See {{iana}}. If this file is present, it MUST return an HTTP 200 response with a parsable TOML body.
 
 ## carbon.txt file at the domain root
 
-An origin MAY serve its carbon.txt file at the root of its domain, at the path `/carbon.txt`, relative to the origin root. If this file is present, and it returns a HTTP 200 response with a parsable TOML body, it SHOULD be used as the canonical carbon.txt for the origin's owner organization. This path is retained for backwards compatibility with earlier deployments, the Well-Known URI in the following section is the preferred location.
+An origin MAY serve its carbon.txt file at the root of its domain, at the path `/carbon.txt`, relative to the origin root. If this file is present, and it returns a HTTP 200 response with a parsable TOML body, it SHOULD be used as the canonical carbon.txt for the origin's owner organization. This path is retained for backwards compatibility with earlier deployments, the Well-Known URI in the preceding section is the preferred location.
 
 ## Transport Requirements
 
@@ -222,7 +222,7 @@ id = 1*( ALPHA / DIGIT / "-" / "_" )
 Type: string. REQUIRED.
 
 The carbon.txt syntax version to which the file conforms. For this version
-of the syntax, the value MUST be `"1.0.0-RC1"`.
+of the syntax, the value MUST be `"1.0.0-RC1"`. Future version numbers MUST conform to the {{SemVer}} convention.
 Example:
 
 ~~~ toml
@@ -267,7 +267,6 @@ An array of tables, each linking to a document that shows the organization's imp
 | `title`                 | string      | OPTIONAL |
 | `description`           | string      | OPTIONAL |
 | `valid_until`           | date        | OPTIONAL |
-| `domain`                | domain      | OPTIONAL |
 | `certification_schemes` | `[string]`  | OPTIONAL |
 
 `doc_type`:
@@ -323,9 +322,9 @@ disclosures = [
     certification_schemes = ["blauer-engel"],
     description = "This company's sustainability policy." },
   { doc_type = "annual-report",
-    url = "https://mycompany.com/carbon-emissions-2025.pdf",
-    valid_until = 2025-12-31,
-    title = "Emissions Report 2025" },
+    url = "https://mycompany.com/carbon-emissions-2026.pdf",
+    valid_until = 2026-12-31,
+    title = "Emissions Report 2026" },
   { doc_type = "measurement-data",
     url = "https://mycompany.com/dist.json",
     title = "Quarterly emissions figures",
@@ -436,9 +435,9 @@ disclosures = [
     certification_schemes = ["blauer-engel"],
     description = "This company's sustainability policy." },
   { doc_type = "annual-report",
-    url = "https://mycompany.com/carbon-emissions-2025.pdf",
-    valid_until = 2025-12-31,
-    title = "Emissions Report 2025" },
+    url = "https://mycompany.com/carbon-emissions-2026.pdf",
+    valid_until = 2026-12-31,
+    title = "Emissions Report 2026" },
   { doc_type = "measurement-data",
     url = "https://mycompany.com/dist.json",
     title = "Quarterly emissions figures",
@@ -479,7 +478,7 @@ The upstream service block allows an organization to optionally specify the upst
 
 # Security Considerations {#security}
 
-Because of the use of URIs and well-known resources, security considerations of [RFC3986] and [RFC8615] apply here, in addition to the considerations outlined below.
+Because of the use of URIs and well-known resources, security considerations of {{!RFC3986}} and {{!RFC8615}} apply here, in addition to the considerations outlined below.
 
 To protect against attacks against their system, implementers of carbon.txt parsing and matching logic should take the following considerations into account:
 
@@ -490,14 +489,14 @@ Invalid characters:
 :    carbon.txt publishers MUST only use valid UTF-8 characters in their carbon.txt files, and implementers MUST discard any byte sequence which does not correspond to a valid UTF-8 character, and reject the corresponding carbon.txt file as invalid.
 
 Untrusted content:
-:    Implementers should treat the content of a carbon.txt file as untrusted content, as defined by the specification of the application layer used. In the context of HTTP, implementers should follow the Security Considerations section of [RFC9110].
+:    Implementers should treat the content of a carbon.txt file as untrusted content, as defined by the specification of the application layer used. In the context of HTTP, implementers should follow the Security Considerations section of {{!RFC9110}}.
 
 
 # IANA Considerations {#iana}
 
 ## Well-Known URI Registration
 
-This document requests registration of the following URI in the "Well-Known URIs" registry [RFC8615]:
+This document requests registration of the following URI in the "Well-Known URIs" registry {{!RFC8615}}:
 
 URI suffix:
 :  carbon.txt
