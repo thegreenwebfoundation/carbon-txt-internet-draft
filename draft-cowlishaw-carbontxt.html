@@ -1411,7 +1411,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
         <h3 id="name-well-known-uri">
 <a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-well-known-uri" class="section-name selfRef">Well-Known URI <span class="cite xref">[RFC8615]</span></a>
         </h3>
-<p id="section-3.2-1">An origin <span class="bcp14">SHOULD</span> publish a carbon.txt file at: the path <code>/.well-known/carbon.txt</code> relative to the origin root. NOTE: This section requires an IANA registration request for the "carbon.txt" well-known URI. See <a href="#iana" class="auto internal xref">Section 7</a>. If this file is present, it <span class="bcp14">MUST</span> return an HTTP 200 response with a parsable TOML body.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.2-1">An origin <span class="bcp14">SHOULD</span> publish a carbon.txt file at: the path <code>/.well-known/carbon.txt</code> relative to the origin root. This section requires an IANA registration request for the "carbon.txt" well-known URI - see <a href="#iana" class="auto internal xref">Section 7</a>. If this file is present, it <span class="bcp14">MUST</span> return an HTTP 200 response with a parsable TOML body.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="carbontxt-file-at-the-domain-root">
@@ -1419,7 +1419,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
         <h3 id="name-carbontxt-file-at-the-domai">
 <a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-carbontxt-file-at-the-domai" class="section-name selfRef">carbon.txt file at the domain root</a>
         </h3>
-<p id="section-3.3-1">An origin <span class="bcp14">MAY</span> serve its carbon.txt file at the root of its domain, at the path <code>/carbon.txt</code>, relative to the origin root. If this file is present, and it returns a HTTP 200 response with a parsable TOML body, it <span class="bcp14">SHOULD</span> be used as the canonical carbon.txt for the origin's owner organization. This path is retained for backwards compatibility with earlier deployments, the Well-Known URI in the preceding section is the preferred location.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.3-1">An origin <span class="bcp14">MAY</span> serve its carbon.txt file at the root of its domain, at the path <code>/carbon.txt</code>, relative to the origin root. If the <code>.well-known/carbon.txt</code> file is absent but this file is present, and it returns a HTTP 200 response with a parsable TOML body, it <span class="bcp14">SHOULD</span> be used as the canonical carbon.txt for the origin's owner organization. This path is retained for backwards compatibility with earlier deployments, the Well-Known URI in the preceding section is the preferred location.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="transport-requirements">
@@ -1427,7 +1427,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
         <h3 id="name-transport-requirements">
 <a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-transport-requirements" class="section-name selfRef">Transport Requirements</a>
         </h3>
-<p id="section-3.4-1">The carbon.txt file <span class="bcp14">MUST</span> be served over HTTPS. A client <span class="bcp14">MUST NOT</span> follow any HTTP redirects when requesting a carbon.txt file. The response body <span class="bcp14">MUST</span> be served with a Content-Type of application/toml or text/plain..<a href="#section-3.4-1" class="pilcrow">¶</a></p>
+<p id="section-3.4-1">The carbon.txt file <span class="bcp14">MUST</span> be served over HTTPS. A client <span class="bcp14">MUST NOT</span> follow any HTTP redirects when requesting a carbon.txt file. The response body <span class="bcp14">MUST</span> be served with a Content-Type of application/toml or text/plain.<a href="#section-3.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="design-considerations-and-rationale">
@@ -1795,7 +1795,6 @@ in the same file. It identifies the certification schemes to which the disclosur
 disclosures = [
   { doc_type = "sustainability-page",
     url = "https://mycompany.com/sustainability",
-    domain = "mycompany.com",
     certification_schemes = ["blauer-engel"],
     description = "This company's sustainability policy." },
   { doc_type = "annual-report",
@@ -2032,7 +2031,6 @@ certification_schemes = [
 disclosures = [
   { doc_type = "sustainability-page",
     url = "https://mycompany.com/sustainability",
-    domain = "mycompany.com",
     certification_schemes = ["blauer-engel"],
     description = "This company's sustainability policy." },
   { doc_type = "annual-report",
