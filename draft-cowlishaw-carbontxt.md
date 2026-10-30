@@ -157,15 +157,15 @@ An origin MAY advertise the location of its carbon.txt file via a DNS TXT record
 
 ## Well-Known URI {{!RFC8615}}
 
-An origin SHOULD publish a carbon.txt file at: the path `/.well-known/carbon.txt` relative to the origin root. NOTE: This section requires an IANA registration request for the "carbon.txt" well-known URI. See {{iana}}. If this file is present, it MUST return an HTTP 200 response with a parsable TOML body.
+An origin SHOULD publish a carbon.txt file at: the path `/.well-known/carbon.txt` relative to the origin root. This section requires an IANA registration request for the "carbon.txt" well-known URI - see {{iana}}. If this file is present, it MUST return an HTTP 200 response with a parsable TOML body.
 
 ## carbon.txt file at the domain root
 
-An origin MAY serve its carbon.txt file at the root of its domain, at the path `/carbon.txt`, relative to the origin root. If this file is present, and it returns a HTTP 200 response with a parsable TOML body, it SHOULD be used as the canonical carbon.txt for the origin's owner organization. This path is retained for backwards compatibility with earlier deployments, the Well-Known URI in the preceding section is the preferred location.
+An origin MAY serve its carbon.txt file at the root of its domain, at the path `/carbon.txt`, relative to the origin root. If the `.well-known/carbon.txt` file is absent but this file is present, and it returns a HTTP 200 response with a parsable TOML body, it SHOULD be used as the canonical carbon.txt for the origin's owner organization. This path is retained for backwards compatibility with earlier deployments, the Well-Known URI in the preceding section is the preferred location.
 
 ## Transport Requirements
 
-The carbon.txt file MUST be served over HTTPS. A client MUST NOT follow any HTTP redirects when requesting a carbon.txt file. The response body MUST be served with a Content-Type of application/toml or text/plain..
+The carbon.txt file MUST be served over HTTPS. A client MUST NOT follow any HTTP redirects when requesting a carbon.txt file. The response body MUST be served with a Content-Type of application/toml or text/plain.
 
 ## Design considerations and rationale.
 
@@ -318,7 +318,6 @@ Example:
 disclosures = [
   { doc_type = "sustainability-page",
     url = "https://mycompany.com/sustainability",
-    domain = "mycompany.com",
     certification_schemes = ["blauer-engel"],
     description = "This company's sustainability policy." },
   { doc_type = "annual-report",
@@ -431,7 +430,6 @@ certification_schemes = [
 disclosures = [
   { doc_type = "sustainability-page",
     url = "https://mycompany.com/sustainability",
-    domain = "mycompany.com",
     certification_schemes = ["blauer-engel"],
     description = "This company's sustainability policy." },
   { doc_type = "annual-report",
