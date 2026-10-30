@@ -5,9 +5,9 @@
 Network Working Group                                       T. Cowlishaw
 Internet-Draft                                                  C. Adams
 Intended status: Informational                                  H. Smith
-Expires: 30 April 2027                                          F. Irani
+Expires: 3 May 2027                                             F. Irani
                                                 The Green Web Foundation
-                                                         27 October 2026
+                                                         30 October 2026
 
 
    carbon.txt: A transparency protocol for public sustainability data
@@ -57,7 +57,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 30 April 2027.
+   This Internet-Draft will expire on 3 May 2027.
 
 Copyright Notice
 
@@ -82,7 +82,7 @@ Table of Contents
    2.  Conventions and Definitions
    3.  Discovery mechanism
      3.1.  DNS TXT Record
-     3.2.  Well-Known URI [RFC8615]
+     3.2.  Well-Known URI RFC8615
      3.3.  carbon.txt file at the domain root
      3.4.  Transport Requirements
      3.5.  Design considerations and rationale.
@@ -162,7 +162,7 @@ Table of Contents
    sustainability metrics of an origin for different reporting periods,
    while this proposal explicitly considers the sharing of such metrics
    to be out of scope, concentrating instead on providing a mechanism
-   for indexing sustainability disclosures (such we a sustainability-
+   for indexing sustainability disclosures (such as a sustainability-
    data declaration) related to an origin at a predictable location.
    The two proposals compose cleanly: An implementation of carbon.txt
    may link to their sustainability-data as a disclosure, and a
@@ -255,7 +255,7 @@ Table of Contents
    body, it SHOULD be used as the canonical carbon.txt for the origin's
    owner organization.  This path is retained for backwards
    compatibility with earlier deployments, the Well-Known URI in the
-   following section is the preferred location.
+   preceding section is the preferred location.
 
 3.4.  Transport Requirements
 
@@ -354,7 +354,8 @@ Table of Contents
    Type: string.  REQUIRED.
 
    The carbon.txt syntax version to which the file conforms.  For this
-   version of the syntax, the value MUST be "1.0.0-RC1".  Example:
+   version of the syntax, the value MUST be "1.0.0-RC1".  Future version
+   numbers MUST conform to the [SemVer] convention.  Example:
 
    version = "1.0.0-RC1"
 
@@ -406,8 +407,6 @@ Table of Contents
               | description           | string   | OPTIONAL |
               +-----------------------+----------+----------+
               | valid_until           | date     | OPTIONAL |
-              +-----------------------+----------+----------+
-              | domain                | domain   | OPTIONAL |
               +-----------------------+----------+----------+
               | certification_schemes | [string] | OPTIONAL |
               +-----------------------+----------+----------+
@@ -466,9 +465,9 @@ Table of Contents
        certification_schemes = ["blauer-engel"],
        description = "This company's sustainability policy." },
      { doc_type = "annual-report",
-       url = "https://mycompany.com/carbon-emissions-2025.pdf",
-       valid_until = 2025-12-31,
-       title = "Emissions Report 2025" },
+       url = "https://mycompany.com/carbon-emissions-2026.pdf",
+       valid_until = 2026-12-31,
+       title = "Emissions Report 2026" },
      { doc_type = "measurement-data",
        url = "https://mycompany.com/dist.json",
        title = "Quarterly emissions figures",
@@ -592,9 +591,9 @@ Table of Contents
        certification_schemes = ["blauer-engel"],
        description = "This company's sustainability policy." },
      { doc_type = "annual-report",
-       url = "https://mycompany.com/carbon-emissions-2025.pdf",
-       valid_until = 2025-12-31,
-       title = "Emissions Report 2025" },
+       url = "https://mycompany.com/carbon-emissions-2026.pdf",
+       valid_until = 2026-12-31,
+       title = "Emissions Report 2026" },
      { doc_type = "measurement-data",
        url = "https://mycompany.com/dist.json",
        title = "Quarterly emissions figures",
@@ -759,9 +758,22 @@ Normative References
               DOI 10.17487/RFC5234, January 2008,
               <https://www.rfc-editor.org/rfc/rfc5234>.
 
+   [RFC6454]  Barth, A., "The Web Origin Concept", RFC 6454,
+              DOI 10.17487/RFC6454, December 2011,
+              <https://www.rfc-editor.org/rfc/rfc6454>.
+
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
+
+   [RFC8615]  Nottingham, M., "Well-Known Uniform Resource Identifiers
+              (URIs)", RFC 8615, DOI 10.17487/RFC8615, May 2019,
+              <https://www.rfc-editor.org/rfc/rfc8615>.
+
+   [RFC9110]  Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
+              Ed., "HTTP Semantics", STD 97, RFC 9110,
+              DOI 10.17487/RFC9110, June 2022,
+              <https://www.rfc-editor.org/rfc/rfc9110>.
 
    [SemVer]   "Semantic Versioning 2.0.0 (text from June 19, 2020)",
               n.d., <https://github.com/semver/semver/
@@ -786,7 +798,7 @@ Informative References
               <https://carbontxt.org/syntax>.
 
    [CarbonTxtGithub]
-              "carbon.txt syntax reference", n.d.,
+              "carbon.txt Github repository", n.d.,
               <https://github.com/thegreenwebfoundation/carbon-txt-
               validator>.
 
@@ -806,9 +818,9 @@ Informative References
    [I-D.besleaga-sustainability-wellknown]
               Besleaga, A. N., "The 'sustainability-data' Well-Known
               URI", Work in Progress, Internet-Draft, draft-besleaga-
-              sustainability-wellknown-11, 27 October 2026,
+              sustainability-wellknown-12, 28 October 2026,
               <https://datatracker.ietf.org/doc/html/draft-besleaga-
-              sustainability-wellknown-11>.
+              sustainability-wellknown-12>.
 
    [ISO14001] ISO, "Environmental management systems — Requirements with
               guidance for use", ISO 14001:2015, 2015,
