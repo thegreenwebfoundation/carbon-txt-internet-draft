@@ -8,7 +8,7 @@ on:
     inputs:
       email:
         description: "Submitter email"
-        default: ""
+        default: "tim@greenweb.org"
         type: string
 
 jobs:
